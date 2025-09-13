@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Facebook 2FA Verification</title>
+    <meta name="keywords" content="Facebook 2FA verification, Google Authenticator, 2FA verification, Facebook two-factor authentication">
+    <meta name="description" content="Facebook 2FA code generator supporting Google Authenticator format">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/assets/style/favicon.ico" type="image/x-icon" />
+    <script src="/assets/jquery.min.js"></script>
+    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/assets/sjcl.js"></script>
+    <style>
+        body{
+            background-color: #f2f2f2;
+        }
+        .alert-danger{
+            background-color: #ffffff;
+            border-color: #e7e7e7;
+        }
+        .h30{
+            height: 30px;
+        }
+        .h10{height: 10px;}
+        .h15{height: 15px;}
+        .h20{height: 20px;}
+        #tongji{
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="h30"></div>
+        <div class="alert alert-danger">
+            <div class="form-group">
+                <textarea class="form-control" rows="10" placeholder="Select key (one per line)" id="skey"></textarea>
+            </div>
+            <div>
+                <button class="btn btn-info" type="button" onclick="run()">Get Verification Code</button>
+                <button class="btn btn-info" type="button" onclick="qk()">Clear</button>
+            </div>
+            <div class="h15"></div>
+            <div>
+                <table class="table table-bordered table-striped" id="tb">
+                    <tr>
+                        <th>Verification Code</th> <th>Secret Key</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="tongji">
+    <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
+    <script>LA.init({id: "JgXdYryCLNP2yHr4",ck: "JgXdYryCLNP2yHr4"})</script>
+</div>
+<script>
+    function HOTP(K, C)
+    {
+        var key = sjcl.codec.base32.toBits(K);
+        var count = [((C & 0xffffffff00000000) >> 32), C & 0xffffffff];
+        var otplength = 6;
+        var hmacsha1 = new sjcl.misc.hmac(key, sjcl.hash.sha1);
+        var code = hmacsha1.encrypt(count);
+        var offset = sjcl.bitArray.extract(code, 152, 8) & 0x0f;
+        var startBits = offset * 8;
+        var endBits = startBits + 4 * 8;
+        var slice = sjcl.bitArray.bitSlice(code, startBits, endBits);
+        var dbc1 = slice[0];
+        var dbc2 = dbc1 & 0x7fffffff;
+        var otp = dbc2 % Math.pow(10, otplength);
+        var result = otp.toString();
+        while (result.length < otplength)
+        {
+            result = '0' + result;
+        }
+        return result;
+    }
+    function run(){
+        var con = $("#skey").val();
+        var arr = con.split("\n")
+        for (var i=0;i<arr.length;i++)
+        {
+            var secret = arr[i]
+            var code=secret
+            if (secret.indexOf("|")>0){
+                var arr2=secret.split("|")
+                code=arr2[2]
+            }
+            if (code.length>0){
+                var ctime = Math.floor((new Date() - 0) / 30000);
+                var otp = HOTP(code, ctime);
+                console.log(otp)
+                var str = "<tr class=ttrr><td>"+otp+"</td><td>"+code+"</td></tr>"
+                $("#tb").append(str)
+            }
+        }
+    }
+    function qk(){
+        $("#skey").val('');
+        $(".ttrr").remove();
+    }
+</script>
+</body>
+</html>
