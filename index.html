@@ -14,11 +14,26 @@
     <style>
         body{
             background-color: #212529;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
+        
+        .footer-text {
+            text-align: center;
+            padding: 20px 0;
+            color: #adb5bd;
+            font-size: 14px;
+            margin-top: auto;
+        }
+        
         .alert-danger{
             background-color: #343a40;
             border-color: #9c9c9c;
         }
+        
         .h30{
             height: 30px;
         }
@@ -55,10 +70,16 @@
         </div>
     </div>
 </div>
+
+<div class="footer-text">
+    © 2025 2FA Code Generator | TENGLENG TEAM ❤️
+</div>
+
 <div id="tongji">
     <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
     <script>LA.init({id: "JgXdYryCLNP2yHr4",ck: "JgXdYryCLNP2yHr4"})</script>
 </div>
+
 <script>
     function HOTP(K, C)
     {
