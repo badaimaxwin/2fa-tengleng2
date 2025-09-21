@@ -1,71 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>2FA - Two Factor Authenticator</title>
-    <meta name="keywords" content="2FA, Google Authenticator, Two Factor Authentication">
-    <meta name="description" content="Buat kode rahasia autentikasi dua faktor (2FA) dengan mudah menggunakan 2FA Generator. Setiap secret key yang dihasilkan bersifat unik dan dapat digunakan untuk mengamankan akun Anda dengan lapisan verifikasi tambahan.">
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-    <link href="/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="icon" href="https://i.postimg.cc/brQ4kr65/favicon.png" type="image/x-icon">
-    <script src="/assets/jquery.min.js"></script>
-    <script src="/assets/bootstrap/js/bootstrap.min.js"></script>
+    <meta name="keywords" content="2FA, Google Authenticator, Two Factor Authentication" />
+    <meta name="description" content="Buat kode rahasia autentikasi dua faktor (2FA) dengan mudah menggunakan 2FA Generator. Setiap secret key yang dihasilkan bersifat unik dan dapat digunakan untuk mengamankan akun Anda dengan lapisan verifikasi tambahan." />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" href="https://i.postimg.cc/brQ4kr65/favicon.png" type="image/x-icon" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/assets/sjcl.js"></script>
     <style>
-        body{
-            background-color: #212529;
-            color: #e0e0e0;
-            font-family: Arial, sans-serif;
+        /* Body and font */
+        body {
+            background-color: #F0F8FF; /* Alice Blue */
+            color: #212529; /* Dark text */
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
-        
+
+        /* Container spacing */
+        .container {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            flex-grow: 1;
+        }
+
+        /* Header container */
+        .header-container {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .header-container img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .header-container h1 {
+            font-weight: 700;
+            color: #007BFF;
+            font-size: 2.5rem;
+            margin-bottom: 5px;
+        }
+
+        .header-container p {
+            color: #495057;
+            font-size: 1.1rem;
+        }
+
+        /* Alert box with soft blue background */
+        .alert-danger {
+            background-color: #E9F7FE; /* Light blue */
+            border-color: #007BFF; /* Blue border */
+            color: #007BFF;
+        }
+
+        /* Buttons */
+        .btn-info {
+            background-color: #007BFF;
+            border-color: #007BFF;
+            color: white;
+            font-weight: 600;
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-info:hover, .btn-info:focus {
+            background-color: #0056b3;
+            border-color: #004085;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.6);
+            color: white;
+        }
+
+        /* Copy button smaller and consistent */
+        .copy-btn {
+            margin-left: 10px;
+            padding: 3px 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        /* Table styling */
+        table {
+            background-color: white;
+            color: #212529;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        thead th {
+            background-color: #007BFF;
+            color: white;
+            font-weight: 600;
+            border: none;
+        }
+
+        tbody tr:nth-child(odd) {
+            background-color: #E9F7FE;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #FFFFFF;
+        }
+
+        tbody td {
+            vertical-align: middle;
+        }
+
+        /* Textarea styling */
+        textarea#skey {
+            border-radius: 6px;
+            border: 1px solid #ced4da;
+            padding: 10px;
+            font-size: 1rem;
+            resize: vertical;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea#skey:focus {
+            border-color: #007BFF;
+            box-shadow: 0 0 5px rgba(0,123,255,0.5);
+            outline: none;
+        }
+
+        /* Footer */
         .footer-text {
             text-align: center;
             padding: 20px 0;
-            color: #adb5bd;
+            color: #6c757d;
             font-size: 14px;
             margin-top: auto;
+            background-color: #f8f9fa;
+            border-top: 1px solid #dee2e6;
         }
-        
-        .alert-danger{
-            background-color: #343a40;
-            border-color: #9c9c9c;
-        }
-        
-        .h30{
-            height: 30px;
-        }
-        .h10{height: 10px;}
-        .h15{height: 15px;}
-        .h20{height: 20px;}
-        #tongji{
-            width: 1px;
-            height: 1px;
-            overflow: hidden;
+
+        /* Floating alert style */
+        #copy-alert {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #28A745; /* Green success */
+            color: white;
+            padding: 12px 24px;
+            border-radius: 6px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            z-index: 1050;
+            display: none;
+            font-weight: 600;
+            font-size: 14px;
+            user-select: none;
         }
     </style>
+    <!-- Google Fonts Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
 </head>
 <body>
 <div class="container">
-    <div class="row">
-        <div class="h30"></div>
-        <div class="alert alert-danger">
-            <div class="form-group">
-                <textarea class="form-control" rows="10" placeholder="Select key (one per line)" id="skey"></textarea>
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+
+            <!-- Header dengan logo dan kalimat -->
+            <div class="header-container">
+                <img src="https://i.postimg.cc/brQ4kr65/favicon.png" alt="2FA Logo" />
+                <h1>2FA Code Generator</h1>
+                <p>Buat kode autentikasi dua faktor dengan mudah dan cepat</p>
             </div>
-            <div>
-                <button class="btn btn-info" type="button" onclick="run()">Get Verification Code</button>
-                <button class="btn btn-info" type="button" onclick="qk()">Clear</button>
-            </div>
-            <div class="h15"></div>
-            <div>
-                <table class="table table-bordered table-striped" id="tb">
-                    <tr>
-                        <th>Verification Code</th> <th>Secret Key</th>
-                    </tr>
-                </table>
+
+            <div class="alert alert-danger">
+                <div class="form-group">
+                    <textarea class="form-control" rows="10" placeholder="Select key (one per line)" id="skey"></textarea>
+                </div>
+                <div class="d-flex justify-content-start">
+                    <button class="btn btn-info mr-2" type="button" onclick="run()">Get Verification Code</button>
+                    <button class="btn btn-info" type="button" onclick="qk()">Clear</button>
+                </div>
+                <div class="mt-4">
+                    <table class="table table-bordered table-striped" id="tb">
+                        <thead>
+                            <tr>
+                                <th>Verification Code</th>
+                                <th>Secret Key</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Kode 2FA akan muncul di sini -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -79,6 +206,9 @@
     <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js"></script>
     <script>LA.init({id: "JgXdYryCLNP2yHr4",ck: "JgXdYryCLNP2yHr4"})</script>
 </div>
+
+<!-- Floating alert container -->
+<div id="copy-alert"></div>
 
 <script>
     function HOTP(K, C)
@@ -104,27 +234,58 @@
     }
     function run(){
         var con = $("#skey").val();
-        var arr = con.split("\n")
+        var arr = con.split("\n");
         for (var i=0;i<arr.length;i++)
         {
-            var secret = arr[i]
-            var code=secret
+            var secret = arr[i].trim();
+            if (!secret) continue;
+            var code=secret;
             if (secret.indexOf("|")>0){
-                var arr2=secret.split("|")
-                code=arr2[2]
+                var arr2=secret.split("|");
+                code=arr2[2];
             }
             if (code.length>0){
                 var ctime = Math.floor((new Date() - 0) / 30000);
                 var otp = HOTP(code, ctime);
-                console.log(otp)
-                var str = "<tr class=ttrr><td>"+otp+"</td><td>"+code+"</td></tr>"
-                $("#tb").append(str)
+                var str = "<tr class='ttrr'><td>" + otp + " <button class='btn btn-sm btn-primary copy-btn' data-code='" + otp + "'>Copy</button></td><td>" + code + "</td></tr>";
+                
+                // Tambahkan baris baru di atas tbody
+                $("#tb tbody").prepend(str);
+
+                // Jika jumlah baris > 10, hapus baris paling bawah
+                var rows = $("#tb tbody tr");
+                if (rows.length > 10) {
+                    rows.last().remove();
+                }
             }
         }
     }
     function qk(){
         $("#skey").val('');
         $(".ttrr").remove();
+    }
+
+    // Event delegation untuk tombol copy dengan floating alert
+    $(document).on('click', '.copy-btn', function() {
+        var code = $(this).data('code');
+        navigator.clipboard.writeText(code).then(function() {
+            showCopyAlert('Kode 2FA berhasil disalin: ' + code);
+        }, function(err) {
+            showCopyAlert('Gagal menyalin kode: ' + err, true);
+        });
+    });
+
+    function showCopyAlert(message, isError = false) {
+        var alertBox = $('#copy-alert');
+        alertBox.text(message);
+        alertBox.css('background-color', isError ? '#dc3545' : '#28a745'); // merah jika error, hijau jika sukses
+        alertBox.stop(true, true).fadeIn(300);
+
+        clearTimeout(alertBox.data('timeoutId'));
+        var timeoutId = setTimeout(function() {
+            alertBox.fadeOut(300);
+        }, 3000); // hilang setelah 3 detik
+        alertBox.data('timeoutId', timeoutId);
     }
 </script>
 </body>
