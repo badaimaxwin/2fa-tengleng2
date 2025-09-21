@@ -6797,4 +6797,20 @@ button.close {
     display: none !important;
   }
 }
+
+#copy-alert {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745; /* hijau */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    z-index: 1050;
+    display: none;
+    font-weight: bold;
+    font-size: 14px;
+}
+
 /*# sourceMappingURL=bootstrap.css.map */
