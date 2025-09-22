@@ -1,3 +1,5 @@
 User-agent: *
+
 Allow: /
-Sitemap: https://2fa-tengleng.vercel.app/sitemap.xml
+
+Sitemap: https://2fa-tengleng.com/sitemap.xml
