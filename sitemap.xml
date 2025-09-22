@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
   <url>
-    <loc>https://2fa-tengleng.vercel.app/</loc>
-    <lastmod>2025-09-23</lastmod>  <!-- Update ke hari ini jika ada perubahan -->
-    <changefreq>daily</changefreq>
+
+    <loc>https://2fa-tengleng.com/</loc>
+
+    <lastmod>2025-09-23</lastmod>
+
     <priority>1.0</priority>
+
   </url>
+
+
 </urlset>
