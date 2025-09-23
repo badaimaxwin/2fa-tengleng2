@@ -1,16 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8" />
-    <title>2FA - Two Factor Authenticator</title>
-    <meta name="keywords" content="2FA, Google Authenticator, Two Factor Authentication" />
-    <meta name="description" content="Buat kode rahasia autentikasi dua faktor (2FA) dengan mudah menggunakan 2FA Generator. Setiap secret key yang dihasilkan bersifat unik dan dapat digunakan untuk mengamankan akun Anda dengan lapisan verifikasi tambahan." />
+    <title id="page-title">Generator Kode 2FA - Aman & Cepat | Tengleng Team</title>
+    <meta name="description" id="meta-description" content="Hasilkan kode 2FA dengan cepat dan aman menggunakan alat berbasis browser dari Tengleng. Lindungi akun Anda sekarang!">
+    <meta name="keywords" id="meta-keywords" content="Generator 2FA, autentikasi dua faktor, kode 2FA, TOTP, keamanan akun, kunci rahasia, aplikasi 2FA, Tengleng">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <link rel="icon" href="https://i.postimg.cc/brQ4kr65/favicon.png" type="image/png" />
+    <meta property="og:title" id="og-title" content="Generator Kode 2FA Tengleng - Keamanan Akun yang Mudah">
+    <meta property="og:description" id="og-description" content="Buat kode autentikasi dua faktor dengan alat Tengleng yang ramah pengguna. Mulai amankan akun Anda hari ini!">
+    <meta property="og:image" content="https://i.postimg.cc/brQ4kr65/favicon.png">
+    <meta property="og:url" content="https://2fa-tengleng.com/">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" id="twitter-title" content="Generator Kode 2FA Tengleng - Cepat dan Aman">
+    <meta name="twitter:description" id="twitter-description" content="Gunakan Generator 2FA Tengleng untuk kode autentikasi yang aman dan mudah di browser Anda.">
+    <meta name="twitter:image" content="https://i.postimg.cc/brQ4kr65/favicon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
     <link rel="canonical" href="https://2fa-tengleng.com/">
+    <script type="application/ld+json" id="schema-json">
+    {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Generator Kode 2FA Tengleng",
+        "operatingSystem": "Web",
+        "applicationCategory": "SecurityApplication",
+        "description": "Aplikasi web untuk menghasilkan kode autentikasi dua faktor (2FA) dengan aman dan cepat.",
+        "url": "https://2fa-tengleng.com/",
+        "inLanguage": "id-ID",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "100"
+        }
+    }
+    </script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -23,7 +49,7 @@
             --glass-bg: rgba(255, 255, 255, 0.1);
             --glass-border: rgba(255, 255, 255, 0.2);
             --text-primary: rgba(255, 255, 255, 1);
-            --text-secondary: rgba(255, 255, 255, 0.8);
+            --text-secondary: rgba(255, 255, 255, 0.9);
             --text-muted: rgba(255, 255, 255, 0.7);
             --card-bg: rgba(255, 255, 255, 0.1);
             --input-bg: rgba(255, 255, 255, 0.2);
@@ -37,33 +63,32 @@
         
         /* Dark Theme Variables */
         [data-theme="light"] {
-			--bg-gradient: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 100%);
-			--glass-bg: rgba(255, 255, 255, 0.8);
-			--glass-border: rgba(0, 0, 0, 0.1);
-			--text-primary: rgba(0, 0, 0, 0.9);
-			--text-secondary: rgba(0, 0, 0, 0.7);
-			--text-muted: rgba(0, 0, 0, 0.6);
-			--card-bg: rgba(255, 255, 255, 0.9);
-			--input-bg: rgba(255, 255, 255, 0.8);
-			--input-border: rgba(0, 0, 0, 0.2);
-			--input-focus: rgba(59, 130, 246, 0.5);
-			--button-gradient: linear-gradient(45deg, #3b82f6, #8b5cf6);
-			--table-row-bg: rgba(0, 0, 0, 0.02);
-			--table-row-hover: rgba(0, 0, 0, 0.05);
-			--table-border: rgba(0, 0, 0, 0.1);
-
-			.text-outline-soft {
-				-webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.6);
-				text-shadow: 
-					0 0 4px rgba(0, 0, 0, 0.3),
-					-1px -1px 2px rgba(255, 255, 255, 0.8);
-			}
-		}
+            --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+            --glass-bg: rgba(255, 255, 255, 0.9);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --text-primary: rgba(0, 0, 0, 0.9);
+            --text-secondary: rgba(0, 0, 0, 0.8);
+            --text-muted: rgba(0, 0, 0, 0.6);
+            --card-bg: rgba(255, 255, 255, 1);
+            --input-bg: rgba(255, 255, 255, 0.8);
+            --input-border: rgba(0, 0, 0, 0.2);
+            --input-focus: rgba(59, 130, 246, 0.5);
+            --button-gradient: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            --table-row-bg: rgba(0, 0, 0, 0.02);
+            --table-row-hover: rgba(0, 0, 0, 0.05);
+            --table-border: rgba(0, 0, 0, 0.1);
+            .text-outline-soft {
+                -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.6);
+                text-shadow: 
+                    0 0 4px rgba(0, 0, 0, 0.3),
+                    -1px -1px 2px rgba(255, 255, 255, 0.8);
+            }
+        }
         
         .glass-effect {
             background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid var(--glass-border);
         }
         
@@ -72,21 +97,21 @@
         }
         
         .card-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
         .card-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: translateY(-4px);
+            box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.3);
         }
         
         .pulse-border {
-            animation: pulse-border 2s infinite;
+            animation: pulse-border 1.5s infinite;
         }
         
         @keyframes pulse-border {
-            0%, 100% { border-color: rgb(37, 99, 235); }
-            50% { border-color: rgb(79, 70, 229); }
+            0%, 100% { border-color: rgb(59, 130, 246); }
+            50% { border-color: rgb(139, 92, 246); }
         }
         
         .modern-button {
@@ -94,6 +119,10 @@
             border: none;
             position: relative;
             overflow: hidden;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
         }
         
         .modern-button::before {
@@ -103,19 +132,24 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s;
         }
         
         .modern-button:hover::before {
             left: 100%;
         }
         
+        .modern-button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+        
         /* Theme Switch Styles */
         .theme-switch {
             position: relative;
-            width: 60px;
-            height: 30px;
+            width: 64px;
+            height: 32px;
             background: var(--glass-bg);
             border-radius: 25px;
             border: 2px solid var(--glass-border);
@@ -133,8 +167,8 @@
             position: absolute;
             top: 2px;
             left: 2px;
-            width: 22px;
-            height: 22px;
+            width: 24px;
+            height: 24px;
             background: var(--button-gradient);
             border-radius: 50%;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -145,52 +179,77 @@
         }
         
         [data-theme="light"] .theme-switch-handle {
-            transform: translateX(28px);
+            transform: translateX(30px);
         }
         
         .theme-switch-icon {
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             color: white;
             transition: all 0.3s ease;
         }
         
-        /* Custom text colors for theme switching */
-        .text-theme-primary {
+        .language-switch {
+            display: flex;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 6px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            width: 56px;
+            height: 24px;
+        }
+        
+        .language-btn {
+            flex: 1;
+            padding: 0;
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .language-btn:hover {
+            background: var(--glass-border);
             color: var(--text-primary);
         }
         
-        .text-theme-secondary {
-            color: var(--text-secondary);
+        .language-btn.active {
+            background: var(--button-gradient);
+            color: white;
+            font-weight: 700;
         }
         
-        .text-theme-muted {
-            color: var(--text-muted);
+        .language-btn:first-child {
+            border-right: 1px solid var(--glass-border);
+            border-radius: 4px 0 0 4px;
         }
         
-        .bg-theme-card {
-            background: var(--card-bg);
+        .language-btn:last-child {
+            border-radius: 0 4px 4px 0;
         }
         
-        .bg-theme-input {
-            background: var(--input-bg);
-        }
+        /* Custom text colors */
+        .text-theme-primary { color: var(--text-primary); }
+        .text-theme-secondary { color: var(--text-secondary); }
+        .text-theme-muted { color: var(--text-muted); }
+        .bg-theme-card { background: var(--card-bg); }
+        .bg-theme-input { background: var(--input-bg); }
+        .border-theme-input { border-color: var(--input-border); }
+        .focus\:border-theme-input:focus { border-color: var(--input-focus); }
         
-        .border-theme-input {
-            border-color: var(--input-border);
-        }
-        
-        .focus\:border-theme-input:focus {
-            border-color: var(--input-focus);
-        }
-        
-        /* Custom outline color for textarea */
         textarea:focus {
             outline: none !important;
-            box-shadow: 0 0 0 2px var(--input-focus) !important;
+            box-shadow: 0 0 0 3px var(--input-focus) !important;
         }
         
-        /* Remove default black border/outline */
         textarea {
             outline: none;
             border: 1px solid var(--input-border) !important;
@@ -200,29 +259,12 @@
             border: 1px solid var(--input-focus) !important;
         }
         
-        .bg-theme-table-row {
-            background: var(--table-row-bg);
-        }
+        .bg-theme-table-row { background: var(--table-row-bg); }
+        .hover\:bg-theme-table-row:hover { background: var(--table-row-hover); }
+        .border-theme-table { border-color: var(--table-border); }
         
-        .hover\:bg-theme-table-row:hover {
-            background: var(--table-row-hover);
-        }
+        .caret-theme-primary { caret-color: var(--text-primary); }
         
-        .border-theme-table {
-            border-color: var(--table-border);
-        }
-        
-        /* Smooth transitions for theme change */
-        * {
-            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-        }
-        
-        /* Custom caret color for textarea */
-        .caret-theme-primary {
-            caret-color: var(--text-primary);
-        }
-        
-        /* Selection color for better visibility */
         ::selection {
             background-color: rgba(59, 130, 246, 0.3);
             color: var(--text-primary);
@@ -232,23 +274,183 @@
             background-color: rgba(59, 130, 246, 0.3);
             color: var(--text-primary);
         }
-		
-		.text-outline-soft {
-			-webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.6);
-			text-shadow: 
-			0 0 4px rgba(255, 255, 255, 0.4),
-			1px 1px 2px rgba(0, 0, 0, 0.2);
-		}
+        
+        .text-outline-soft {
+            -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.6);
+            text-shadow: 
+                0 0 4px rgba(255, 255, 255, 0.4),
+                1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+        
+        @media (max-width: 640px) {
+            #tb th:nth-child(2),
+            #tb td:nth-child(2) {
+                display: none !important;
+            }
+            
+            #tb th:first-child,
+            #tb td:first-child {
+                width: 100% !important;
+                text-align: left !important;
+            }
+            
+            #tb th:first-child .flex {
+                justify-content: flex-start !important;
+            }
+            
+            #placeholder-row td {
+                width: 100% !important;
+                text-align: center !important;
+                padding: 32px 16px !important;
+            }
+            
+            #placeholder-row td > div {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+                text-align: center !important;
+                width: 100% !important;
+                margin: 0 auto !important;
+            }
+            
+            #placeholder-row p {
+                text-align: center !important;
+                width: 100% !important;
+                margin: 0 auto !important;
+                display: block !important;
+            }
+            
+            .fixed.top-6.right-6 { top: 12px; right: 12px; }
+            .fixed.top-6.left-6 { top: 12px; left: 12px; }
+            
+            .sm\:hidden .flex-col {
+                align-items: flex-start !important;
+                text-align: left !important;
+            }
+            
+            .modern-button, #clearBtn {
+                padding: 12px 24px;
+                font-size: 16px;
+            }
+        }
+        
+        #tb thead tr {
+            background: linear-gradient(to right, rgba(59, 130, 246, 0.6), rgba(147, 51, 234, 0.6)) !important;
+        }
+        
+        #tb th {
+            background: transparent !important;
+            position: relative;
+        }
+        
+        #tb th .flex {
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            min-height: 48px;
+        }
+        
+        .modern-button, #clearBtn {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        
+        #tb {
+            table-layout: fixed;
+            width: 100%;
+        }
+        
+        #tb th:first-child, #tb td:first-child { width: 30%; text-align: left; }
+        #tb th:nth-child(2), #tb td:nth-child(2) { width: 70%; text-align: left; word-wrap: break-word; word-break: break-all; }
+        
+        #tb th:first-child .flex { justify-content: flex-start; }
+        #tb th:nth-child(2) .flex { justify-content: flex-start; }
+        
+        #tb td:nth-child(2) {
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.4;
+            padding: 10px 14px;
+            vertical-align: middle;
+            background: var(--glass-bg);
+            border-radius: 8px;
+            color: var(--text-primary);
+        }
+        
+        #tb td:nth-child(2) .text-theme-muted {
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+        }
+        
+        /* Countdown Styles */
+        .otp-container {
+            position: relative;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--input-border);
+            transition: all 0.3s ease;
+            width: 100%;
+            max-width: 200px; /* Make it square-like */
+        }
+
+        .otp-container::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            background: linear-gradient(90deg, #3b82f6, #ffffff, #3b82f6, transparent) border-box;
+            mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            mask-composite: exclude;
+            animation: countdown-border 30s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes countdown-border {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 400% 50%;
+            }
+        }
+
+        .otp-code {
+            font-size: 24px; /* Reduced for compact square */
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(to right, #3b82f6, #ffffff);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .countdown-text {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-align: center;
+            aria-live: "polite";
+            margin-top: 8px;
+        }
     </style>
 </head>
 <body class="min-h-screen gradient-bg flex flex-col" data-theme="dark">
-    <!-- Theme Switch Button - Fixed Position -->
+    <!-- Theme Switch -->
     <div class="fixed top-6 left-6 z-50">
-        <div class="flex items-center gap-3 bg-theme-card backdrop-blur-sm rounded-full px-4 py-2 border border-theme-input shadow-lg">
+        <div class="flex items-center gap-2 bg-theme-card backdrop-blur-sm rounded-full px-3 py-1.5 border border-theme-input shadow-md">
             <svg class="w-4 h-4 text-theme-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
             </svg>
-            <div class="theme-switch" onclick="toggleTheme()">
+            <div class="theme-switch" onclick="toggleTheme()" id="theme-switch" aria-label="">
                 <div class="theme-switch-handle">
                     <svg class="theme-switch-icon moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
@@ -263,150 +465,430 @@
             </svg>
         </div>
     </div>
+    
+    <!-- Language Switch -->
+    <div class="fixed top-6 right-6 z-50">
+        <div class="language-switch">
+            <button class="language-btn" onclick="setLanguage('en')" id="btn-en" aria-label=""></button>
+            <button class="language-btn active" onclick="setLanguage('id')" id="btn-id" aria-label=""></button>
+        </div>
+    </div>
 
-    <div class="container mx-auto px-4 py-10 flex-grow max-w-4xl">
-        <div class="glass-effect rounded-2xl shadow-2xl overflow-hidden card-hover border border-theme-input">
+    <main class="container mx-auto px-4 py-12 flex-grow max-w-5xl">
+        <div class="glass-effect rounded-3xl shadow-2xl overflow-hidden card-hover border border-theme-input">
             <!-- Header -->
-			<div class="text-center py-8 md:py-10 px-4 md:px-6 relative">
-				<div class="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-purple-400/10"></div>
-				<div class="relative z-10">
-					<div class="w-20 h-20 md:w-24 md:h-24 mx-auto mb-4 md:mb-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
-						<img 
-							src="https://i.postimg.cc/brQ4kr65/favicon.png"
-							alt="2FA Logo showing a security shield with two-factor authentication symbol"
-							class="w-10 h-10 md:w-12 md:h-12 object-contain"
-						/>
-					</div>
-					<h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent mb-2 md:mb-3 text-outline-soft">2FA Code Generator</h1>
-					<p class="text-theme-secondary text-lg md:text-xl font-medium mb-2 md:mb-4">Generate secure two-factor authentication codes instantly</p>
-					<div class="mt-2 md:mt-4 inline-block px-4 py-2 bg-theme-card rounded-full backdrop-blur-sm border border-theme-input">
-						<span class="text-theme-muted text-sm font-medium">✨ Modern • Secure • Fast</span>
-					</div>
-				</div>
-			</div>
+            <div class="text-center py-8 md:py-10 px-6 md:px-8 relative">
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20"></div>
+                <div class="relative z-10">
+                    <div class="w-20 h-20 md:w-24 md:h-24 mx-auto mb-4 bg-gradient-to-r from-blue-600 to-purple-700 rounded-full flex items-center justify-center shadow-xl">
+                        <img 
+                            src="https://i.postimg.cc/brQ4kr65/favicon.png"
+                            alt=""
+                            id="logo-alt"
+                            loading="lazy"
+                            class="w-10 h-10 md:w-12 md:h-12 object-contain"
+                        />
+                    </div>
+                    <h1 class="text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-700 bg-clip-text text-transparent mb-3 text-outline-soft" id="main-title">Generator Kode 2FA</h1>
+                    <p class="text-theme-secondary text-lg md:text-xl font-medium mb-4" id="main-subtitle">Buat kode autentikasi dua faktor dengan mudah dan cepat</p>
+                    <div class="mt-3 inline-block px-4 py-1.5 bg-theme-card rounded-full backdrop-blur-sm border border-theme-input">
+                        <span class="text-theme-muted text-sm font-medium" id="main-badge">✨ Modern • Aman • Cepat</span>
+                    </div>
+                    <p class="text-theme-secondary text-base md:text-lg leading-relaxed mt-4" id="header-description">
+                        Gunakan alat kami untuk menghasilkan kode 2FA langsung di browser Anda dengan antarmuka yang ramah dan proses yang aman.
+                    </p>
+                </div>
+            </div>
 
             <!-- Main Content -->
-            <div class="bg-theme-card backdrop-blur-sm border border-theme-input p-8 mx-6 mb-6 rounded-xl">
-                <div class="mb-4">
+            <div class="bg-theme-card backdrop-blur-sm border border-theme-input p-8 mx-8 mb-8 rounded-2xl" aria-live="polite">
+                <section class="mb-6">
+                    <h2 class="text-2xl font-semibold text-theme-primary mb-3" id="input-section-title">Masukkan Kunci Rahasia</h2>
                     <textarea
                         id="skey"
-                        class="w-full p-6 bg-theme-input backdrop-blur-sm border border-theme-input focus:border-theme-input focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 resize-vertical text-theme-primary placeholder-theme-muted pulse-border text-lg rounded-xl caret-theme-primary"
+                        class="w-full p-5 bg-theme-input backdrop-blur-sm border border-theme-input focus:border-theme-input focus:ring-2 focus:ring-blue-500/30 transition-all duration-300 resize-vertical text-theme-primary placeholder-theme-muted pulse-border text-lg rounded-xl caret-theme-primary"
                         rows="6"
-                        placeholder="Enter your secret keys (one per line)..."
+                        placeholder=""
+                        id="input-placeholder"
+                        aria-label=""
+                        id="input-aria-label"
                     ></textarea>
-                </div>
+                </section>
                 
                 <div class="flex flex-col sm:flex-row gap-4 mb-8">
                     <button
                         id="generateBtn"
-                        class="modern-button text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:shadow-2xl hover:scale-105 flex items-center justify-center gap-3"
+                        class="modern-button text-white font-semibold text-base transition-all duration-300 hover:shadow-xl flex items-center justify-center gap-3"
                         onclick="run()"
+                        aria-label=""
+                        id="generate-aria-label"
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-3.586l6.257-6.257A6 6 0 0121 9z"></path>
                         </svg>
-                        Generate Codes
+                        <span id="generate-text">Hasilkan Kode</span>
                     </button>
                     <button
                         id="clearBtn"
-                        class="bg-theme-input hover:bg-theme-card text-theme-primary px-6 py-4 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg backdrop-blur-sm border border-theme-input"
+                        class="bg-theme-input hover:bg-theme-card text-theme-primary px-5 py-3 rounded-xl font-semibold text-base transition-all duration-300 hover:shadow-lg backdrop-blur-sm border border-theme-input flex items-center justify-center gap-3"
                         onclick="qk()"
+                        aria-label=""
+                        id="clear-aria-label"
                     >
-                        Clear All
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                        </svg>
+                        <span id="clear-text">Hapus Semua</span>
                     </button>
                 </div>
 
                 <!-- Results Table -->
-                <div class="bg-theme-card backdrop-blur-sm rounded-xl shadow-xl overflow-hidden border border-theme-input">
+                <section class="bg-theme-card backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-theme-input">
+                    <h2 class="sr-only" id="table-title">Hasil Kode 2FA</h2>
                     <table class="w-full" id="tb">
                         <thead>
-                            <tr class="bg-gradient-to-r from-blue-500/50 to-purple-600/50 text-white backdrop-blur-sm">
-                                <th class="px-4 py-3 text-left font-bold text-base">
-                                    <div class="flex items-center gap-2">
-                                        <svg class="w-5 h-5 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <tr class="bg-gradient-to-r from-blue-600/60 to-purple-700/60 text-white backdrop-blur-sm">
+                                <th class="px-6 py-4 text-left font-bold text-lg">
+                                    <div class="flex items-center gap-3 justify-start">
+                                        <svg class="w-6 h-6 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                         </svg>
-                                        Code
+                                        <span id="header-code">Kode</span>
                                     </div>
                                 </th>
-                                <th class="px-4 py-3 text-left font-bold text-base hidden sm:table-cell">
-                                    <div class="flex items-center gap-2">
-                                        <svg class="w-5 h-5 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <th class="px-6 py-4 text-left font-bold text-lg hidden sm:table-cell">
+                                    <div class="flex items-center gap-3 justify-start">
+                                        <svg class="w-6 h-6 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-3.586l6.257-6.257A6 6 0 0121 9z"></path>
                                         </svg>
-                                        Secret Key
-                                    </div>
-                                </th>
-                                <th class="px-4 py-3 text-left font-bold text-base hidden md:table-cell">
-                                    <div class="flex items-center gap-2">
-                                        <svg class="w-5 h-5 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        Generated
+                                        <span id="header-secret">Kunci Rahasia</span>
                                     </div>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td colspan="3" class="px-4 py-8 text-center text-theme-muted">
-                                    <div class="flex flex-col items-center gap-4">
-                                        <div class="w-16 h-16 bg-theme-input rounded-full flex items-center justify-center">
-                                            <svg class="w-8 h-8 text-theme-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <tr id="placeholder-row">
+                                <td colspan="2" class="px-6 py-10 text-center text-theme-muted">
+                                    <div class="flex flex-col items-center justify-center gap-5 w-full">
+                                        <div class="w-20 h-20 bg-theme-input rounded-full flex items-center justify-center">
+                                            <svg class="w-10 h-10 text-theme-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                                             </svg>
                                         </div>
-                                        <p class="text-lg font-medium text-theme-secondary">Your 2FA codes will appear here</p>
-                                        <p class="text-sm text-theme-muted">Enter your secret keys and click Generate</p>
+                                        <div class="text-center w-full">
+                                            <p class="text-xl font-semibold text-theme-secondary text-center" id="empty-title">Kode 2FA Anda akan muncul di sini</p>
+                                            <p class="text-base text-theme-muted text-center" id="empty-subtitle">Masukkan kunci rahasia dan klik Hasilkan Kode</p>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
-                </div>
+                </section>
 
                 <!-- Information Notes -->
-                <div class="mt-8 space-y-4">
-                    <div class="bg-blue-500/20 backdrop-blur-sm border border-blue-400/30 rounded-xl p-4 flex items-start gap-3">
-                        <div class="w-6 h-6 bg-blue-500/30 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg class="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <section class="mt-10 space-y-5">
+                    <div class="bg-blue-500/20 backdrop-blur-sm border border-blue-400/30 rounded-xl p-5 flex items-start gap-4">
+                        <div class="w-8 h-8 bg-blue-500/30 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-5 h-5 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                             </svg>
                         </div>
-                        <div class="text-theme-secondary text-sm leading-relaxed">
-                            <span class="font-semibold text-blue-300">ℹ️ Informasi:</span> Kode verifikasi akan diperbarui otomatis setiap 30 detik. Pastikan secret key Anda valid dan berasal dari sumber terpercaya.
+                        <div class="text-theme-secondary text-base leading-relaxed">
+                            <span class="font-semibold text-blue-300" id="info-title">ℹ️ Informasi:</span> <span id="info-text">Kode verifikasi akan diperbarui otomatis setiap 30 detik. Pastikan secret key Anda valid dan berasal dari sumber terpercaya.</span>
                         </div>
                     </div>
 
-                    <div class="bg-yellow-500/20 backdrop-blur-sm border border-yellow-400/30 rounded-xl p-4 flex items-start gap-3">
-                        <div class="w-6 h-6 bg-yellow-500/30 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <svg class="w-4 h-4 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="bg-yellow-500/20 backdrop-blur-sm border border-yellow-400/30 rounded-xl p-5 flex items-start gap-4">
+                        <div class="w-8 h-8 bg-yellow-500/30 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-5 h-5 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.99-.833-2.76 0L3.054 16.5C2.284 18.167 3.246 20 4.786 20z"></path>
                             </svg>
                         </div>
-                        <div class="text-theme-secondary text-sm leading-relaxed">
-                            <span class="font-semibold text-yellow-300">⚠️ Keamanan:</span> Jangan bagikan secret key atau kode verifikasi kepada siapa pun. Aplikasi ini berjalan sepenuhnya di browser Anda untuk keamanan maksimal.
+                        <div class="text-theme-secondary text-base leading-relaxed">
+                            <span class="font-semibold text-yellow-300" id="security-title">⚠️ Keamanan:</span> <span id="security-text">Jangan bagikan secret key atau kode verifikasi kepada siapa pun. Aplikasi ini berjalan sepenuhnya di browser Anda untuk keamanan maksimal.</span>
                         </div>
                     </div>
-                </div>
+                </section>
+
+                <!-- Additional Content -->
+                <section class="mt-10">
+                    <h2 class="text-2xl font-semibold text-theme-primary" id="about-2fa-title">Apa itu Autentikasi Dua Faktor (2FA)?</h2>
+                    <p class="text-theme-secondary text-base leading-relaxed mt-2" id="about-2fa-description">
+                        Autentikasi dua faktor (2FA) adalah cara untuk menambah keamanan akun Anda dengan meminta kode verifikasi selain kata sandi. Generator 2FA Tengleng membantu Anda membuat kode ini dengan mudah dan aman langsung di browser.
+                    </p>
+                    <h3 class="text-xl font-semibold text-theme-primary mt-6" id="features-title">Keunggulan Generator 2FA Tengleng</h3>
+                    <ul class="text-theme-secondary text-base leading-relaxed mt-2 list-disc list-inside" id="features-list">
+                        <li>Proses cepat dan aman di browser Anda</li>
+                        <li>Mendukung beberapa kunci rahasia</li>
+                        <li>Antarmuka yang ramah pengguna</li>
+                    </ul>
+                    <p class="text-theme-secondary text-base leading-relaxed mt-4" id="learn-more">
+                        <a href="https://support.google.com/accounts/answer/1066447" rel="nofollow" class="text-blue-400 hover:underline" id="learn-more-link">Pelajari lebih lanjut tentang 2FA</a>
+                    </p>
+                </section>
             </div>
         </div>
-    </div>
+    </main>
 
     <!-- Footer -->
-    <footer class="bg-black/20 backdrop-blur-sm border-t border-theme-input py-6">
-        <div class="text-center text-theme-secondary text-sm">
-            <p class="font-medium">© 2025 2FA Code Generator</p>
-            <p class="mt-1">Built with ❤️ by <span class="font-semibold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">TENGLENG TEAM</span></p>
+    <footer class="bg-black/20 backdrop-blur-sm border-t border-theme-input py-8">
+        <div class="text-center text-theme-secondary text-base">
+            <p class="font-medium" id="footer-copyright">© 2025 Generator Kode 2FA</p>
+            <p class="mt-2" id="footer-credit">Dibuat dengan ❤️ oleh <span class="font-semibold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">TENGLENG TEAM</span></p>
+            <p class="mt-2">
+                <a href="/panduan-2fa" class="text-blue-400 hover:underline" id="guide-link">Panduan 2FA</a> | 
+                <a href="/tentang-kami" class="text-blue-400 hover:underline" id="about-link">Tentang Kami</a>
+            </p>
         </div>
     </footer>
 
     <!-- Floating Alert -->
-    <div id="copy-alert" class="fixed top-20 right-5 px-6 py-3 rounded-md shadow-lg text-white font-semibold z-40 transition-all duration-300 bg-green-500 opacity-0 transform translate-y-2 pointer-events-none">
+    <div id="copy-alert" class="fixed top-24 right-6 px-8 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-300 bg-green-500 opacity-0 transform translate-y-2 pointer-events-none">
     </div>
 
     <script>
-        // Theme Management
+        let currentLanguage = localStorage.getItem('language') || 'id';
+        
+        const translations = {
+            en: {
+                pageTitle: "2FA Code Generator - Secure & Fast | Tengleng Team",
+                metaDescription: "Create 2FA codes quickly and securely with Tengleng's browser-based tool. Protect your accounts today!",
+                metaKeywords: "2FA Generator, two-factor authentication, 2FA code, TOTP, account security, secret key, 2FA app, Tengleng",
+                ogTitle: "Tengleng 2FA Code Generator - Easy Account Security",
+                ogDescription: "Generate two-factor authentication codes with Tengleng's user-friendly tool. Secure your accounts today!",
+                twitterTitle: "Tengleng 2FA Code Generator - Fast and Secure",
+                twitterDescription: "Use Tengleng 2FA Generator for secure and easy authentication codes in your browser.",
+                schemaName: "Tengleng 2FA Code Generator",
+                schemaDescription: "Web app for generating two-factor authentication (2FA) codes securely and quickly right in your browser.",
+                schemaLanguage: "en-US",
+                logoAlt: "Tengleng 2FA Code Generator logo for two-factor authentication",
+                title: "2FA Code Generator",
+                subtitle: "Create two-factor authentication codes quickly and securely",
+                badge: "✨ Modern • Secure • Fast",
+                headerDescription: "Use our tool to generate 2FA codes right in your browser with a simple interface and reliable security.",
+                about2faTitle: "What is Two-Factor Authentication (2FA)?",
+                about2faDescription: "Two-factor authentication (2FA) adds an extra layer of security to your accounts by requiring a verification code along with your password. Tengleng 2FA Generator makes it easy to create these codes right in your browser.",
+                featuresTitle: "Features of Tengleng 2FA Generator",
+                featuresList: [
+                    "Fast and secure processing in your browser",
+                    "Supports multiple secret keys",
+                    "User-friendly interface"
+                ],
+                learnMoreLink: "Learn more about 2FA",
+                inputSectionTitle: "Enter Secret Key",
+                inputPlaceholder: "Enter your secret key...",
+                inputAriaLabel: "Enter secret key to generate 2FA codes",
+                generateButton: "Generate Codes",
+                generateAriaLabel: "Generate two-factor authentication codes",
+                clearButton: "Clear All",
+                clearAriaLabel: "Clear all secret keys and codes",
+                tableTitle: "2FA Code Results",
+                codeHeader: "Code",
+                secretHeader: "Secret Key",
+                timeLabel: "Time: {time}",
+                countdownText: "{seconds} seconds left",
+                emptyTitle: "Your 2FA codes will appear here",
+                emptySubtitle: "Enter your secret key and click Generate",
+                copyButton: "Copy",
+                copySuccess: "2FA code copied: {code}",
+                copyError: "Failed to copy code: {error}",
+                showMore: "Show More",
+                infoTitle: "ℹ️ Info:",
+                infoText: "Verification codes will be automatically updated every 30 seconds. Make sure your secret key is valid and from a trusted source.",
+                securityTitle: "⚠️ Security:",
+                securityText: "Never share your secret key or verification code with anyone. This application runs entirely in your browser for maximum security.",
+                footerCopyright: "© 2025 2FA Code Generator",
+                footerCredit: "Built with ❤️ by",
+                guideLink: "2FA Guide",
+                aboutLink: "About Us",
+                themeSwitchAria: "Toggle light or dark theme",
+                languageEnAria: "Switch to English",
+                languageIdAria: "Switch to Indonesian"
+            },
+            id: {
+                pageTitle: "Generator Kode 2FA - Aman & Cepat | Tengleng Team",
+                metaDescription: "Hasilkan kode 2FA dengan cepat dan aman menggunakan alat berbasis browser dari Tengleng. Lindungi akun Anda sekarang!",
+                metaKeywords: "Generator 2FA, autentikasi dua faktor, kode 2FA, TOTP, keamanan akun, kunci rahasia, aplikasi 2FA, Tengleng",
+                ogTitle: "Generator Kode 2FA Tengleng - Keamanan Akun yang Mudah",
+                ogDescription: "Buat kode autentikasi dua faktor dengan alat Tengleng yang ramah pengguna. Mulai amankan akun Anda hari ini!",
+                twitterTitle: "Generator Kode 2FA Tengleng - Cepat dan Aman",
+                twitterDescription: "Gunakan Generator 2FA Tengleng untuk kode autentikasi yang aman dan mudah di browser Anda.",
+                schemaName: "Generator Kode 2FA Tengleng",
+                schemaDescription: "Aplikasi web untuk menghasilkan kode autentikasi dua faktor (2FA) dengan aman dan cepat.",
+                schemaLanguage: "id-ID",
+                logoAlt: "Logo Generator Kode 2FA Tengleng untuk autentikasi dua faktor",
+                title: "Generator Kode 2FA",
+                subtitle: "Buat kode autentikasi dua faktor dengan mudah dan cepat",
+                badge: "✨ Modern • Aman • Cepat",
+                headerDescription: "Gunakan alat kami untuk menghasilkan kode 2FA langsung di browser Anda dengan antarmuka yang ramah dan proses yang aman.",
+                about2faTitle: "Apa itu Autentikasi Dua Faktor (2FA)?",
+                about2faDescription: "Autentikasi dua faktor (2FA) adalah cara untuk menambah keamanan akun Anda dengan meminta kode verifikasi selain kata sandi. Generator 2FA Tengleng membantu Anda membuat kode ini dengan mudah dan aman langsung di browser.",
+                featuresTitle: "Keunggulan Generator 2FA Tengleng",
+                featuresList: [
+                    "Proses cepat dan aman di browser Anda",
+                    "Mendukung beberapa kunci rahasia",
+                    "Antarmuka yang ramah pengguna"
+                ],
+                learnMoreLink: "Pelajari lebih lanjut tentang 2FA",
+                inputSectionTitle: "Masukkan Kunci Rahasia",
+                inputPlaceholder: "Masukkan kunci rahasia Anda...",
+                inputAriaLabel: "Masukkan kunci rahasia untuk menghasilkan kode 2FA",
+                generateButton: "Hasilkan Kode",
+                generateAriaLabel: "Hasilkan kode autentikasi dua faktor",
+                clearButton: "Hapus Semua",
+                clearAriaLabel: "Hapus semua kunci rahasia dan kode",
+                tableTitle: "Hasil Kode 2FA",
+                codeHeader: "Kode",
+                secretHeader: "Kunci Rahasia",
+                timeLabel: "Waktu: {time}",
+                countdownText: "Tersisa {seconds} detik",
+                emptyTitle: "Kode 2FA Anda akan muncul di sini",
+                emptySubtitle: "Masukkan kunci rahasia dan klik Hasilkan Kode",
+                copyButton: "Salin",
+                copySuccess: "Kode 2FA berhasil disalin: {code}",
+                copyError: "Gagal menyalin kode: {error}",
+                showMore: "Lihat Lebih Banyak",
+                infoTitle: "ℹ️ Informasi:",
+                infoText: "Kode verifikasi akan diperbarui otomatis setiap 30 detik. Pastikan secret key Anda valid dan berasal dari sumber terpercaya.",
+                securityTitle: "⚠️ Keamanan:",
+                securityText: "Jangan bagikan secret key atau kode verifikasi kepada siapa pun. Aplikasi ini berjalan sepenuhnya di browser Anda untuk keamanan maksimal.",
+                footerCopyright: "© 2025 Generator Kode 2FA",
+                footerCredit: "Dibuat dengan ❤️ oleh",
+                guideLink: "Panduan 2FA",
+                aboutLink: "Tentang Kami",
+                themeSwitchAria: "Ganti tema terang atau gelap",
+                languageEnAria: "Ganti ke bahasa Inggris",
+                languageIdAria: "Ganti ke bahasa Indonesia"
+            }
+        };
+
+        function t(key, params = {}) {
+            let text = translations[currentLanguage][key] || translations.en[key] || key;
+            if (Array.isArray(text)) {
+                return text.map(item => {
+                    Object.keys(params).forEach(param => {
+                        item = item.replace(`{${param}}`, params[param]);
+                    });
+                    return item;
+                });
+            }
+            Object.keys(params).forEach(param => {
+                text = text.replace(`{${param}}`, params[param]);
+            });
+            return text;
+        }
+
+        function updatePageTexts() {
+            document.getElementById('page-title').textContent = t('pageTitle');
+            document.getElementById('meta-description').setAttribute('content', t('metaDescription'));
+            document.getElementById('meta-keywords').setAttribute('content', t('metaKeywords'));
+            document.getElementById('og-title').setAttribute('content', t('ogTitle'));
+            document.getElementById('og-description').setAttribute('content', t('ogDescription'));
+            document.getElementById('twitter-title').setAttribute('content', t('twitterTitle'));
+            document.getElementById('twitter-description').setAttribute('content', t('twitterDescription'));
+            const schemaScript = document.getElementById('schema-json');
+            schemaScript.textContent = JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "SoftwareApplication",
+                "name": t('schemaName'),
+                "operatingSystem": "Web",
+                "applicationCategory": "SecurityApplication",
+                "description": t('schemaDescription'),
+                "url": "https://2fa-tengleng.com/",
+                "inLanguage": t('schemaLanguage'),
+                "aggregateRating": {
+                    "@type": "AggregateRating",
+                    "ratingValue": "4.8",
+                    "reviewCount": "100"
+                }
+            }, null, 2);
+
+            document.getElementById('logo-alt').setAttribute('alt', t('logoAlt'));
+            document.getElementById('main-title').textContent = t('title');
+            document.getElementById('main-subtitle').textContent = t('subtitle');
+            document.getElementById('main-badge').textContent = t('badge');
+            document.getElementById('header-description').textContent = t('headerDescription');
+            document.getElementById('input-section-title').textContent = t('inputSectionTitle');
+            document.getElementById('skey').setAttribute('placeholder', t('inputPlaceholder'));
+            document.getElementById('skey').setAttribute('aria-label', t('inputAriaLabel'));
+            document.getElementById('generate-text').textContent = t('generateButton');
+            document.getElementById('generateBtn').setAttribute('aria-label', t('generateAriaLabel'));
+            document.getElementById('clear-text').textContent = t('clearButton');
+            document.getElementById('clearBtn').setAttribute('aria-label', t('clearAriaLabel'));
+            document.getElementById('table-title').textContent = t('tableTitle');
+            document.getElementById('header-code').textContent = t('codeHeader');
+            document.getElementById('header-secret').textContent = t('secretHeader');
+            document.getElementById('empty-title').textContent = t('emptyTitle');
+            document.getElementById('empty-subtitle').textContent = t('emptySubtitle');
+            document.getElementById('info-title').textContent = t('infoTitle');
+            document.getElementById('info-text').textContent = t('infoText');
+            document.getElementById('security-title').textContent = t('securityTitle');
+            document.getElementById('security-text').textContent = t('securityText');
+            document.getElementById('about-2fa-title').textContent = t('about2faTitle');
+            document.getElementById('about-2fa-description').textContent = t('about2faDescription');
+            document.getElementById('features-title').textContent = t('featuresTitle');
+            const featuresList = document.getElementById('features-list');
+            featuresList.innerHTML = t('featuresList').map(item => `<li>${item}</li>`).join('');
+            document.getElementById('learn-more-link').textContent = t('learnMoreLink');
+            document.getElementById('footer-copyright').textContent = t('footerCopyright');
+            document.getElementById('footer-credit').innerHTML = `${t('footerCredit')} <span class="font-semibold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">TENGLENG TEAM</span>`;
+            document.getElementById('guide-link').textContent = t('guideLink');
+            document.getElementById('about-link').textContent = t('aboutLink');
+            document.getElementById('theme-switch').setAttribute('aria-label', t('themeSwitchAria'));
+            document.getElementById('btn-en').setAttribute('aria-label', t('languageEnAria'));
+            document.getElementById('btn-id').setAttribute('aria-label', t('languageIdAria'));
+
+            // Update dynamically generated content (e.g., copy buttons)
+            document.querySelectorAll('.copy-btn').forEach(btn => {
+                btn.innerHTML = `
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                    </svg>
+                    ${t('copyButton')}
+                `;
+                const code = btn.getAttribute('data-code');
+                if (code) {
+                    btn.setAttribute('aria-label', `${t('copyButton')} 2FA code ${code}`);
+                }
+            });
+
+            const showMoreBtn = document.getElementById('show-more-btn');
+            if (showMoreBtn) {
+                const count = showMoreBtn.textContent.match(/\((\d+)\)/)?.[1] || '0';
+                showMoreBtn.textContent = `${t('showMore')} (${count})`;
+                showMoreBtn.setAttribute('aria-label', `${t('showMore')} ${count} more 2FA codes`);
+            }
+
+            // Update countdown text
+            document.querySelectorAll('.countdown-text').forEach(text => {
+                const seconds = text.textContent.match(/\d+/)?.[0] || '30';
+                text.textContent = t('countdownText', { seconds });
+            });
+        }
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            localStorage.setItem('language', currentLanguage);
+            document.documentElement.lang = lang;
+            updateLanguageButtons();
+            updatePageTexts();
+        }
+
+        function updateLanguageButtons() {
+            const enBtn = document.getElementById('btn-en');
+            const idBtn = document.getElementById('btn-id');
+            enBtn.classList.remove('active');
+            idBtn.classList.remove('active');
+            if (currentLanguage === 'id') {
+                idBtn.classList.add('active');
+            } else {
+                enBtn.classList.add('active');
+            }
+            enBtn.textContent = 'EN';
+            idBtn.textContent = 'ID';
+        }
+
         function initializeTheme() {
             const savedTheme = localStorage.getItem('theme') || 'dark';
             document.body.setAttribute('data-theme', savedTheme);
@@ -416,7 +898,6 @@
         function toggleTheme() {
             const currentTheme = document.body.getAttribute('data-theme');
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
             document.body.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             updateThemeIcons(newTheme);
@@ -425,7 +906,6 @@
         function updateThemeIcons(theme) {
             const moonIcon = document.querySelector('.moon-icon');
             const sunIcon = document.querySelector('.sun-icon');
-            
             if (theme === 'light') {
                 moonIcon.style.display = 'none';
                 sunIcon.style.display = 'block';
@@ -435,64 +915,69 @@
             }
         }
 
-        // Initialize theme on page load
-        document.addEventListener('DOMContentLoaded', initializeTheme);
+        let timers = []; // To store timer intervals for each OTP
 
-        // Base32 decode function
+        function startCountdown(row, secret, otpId) {
+            const otpElement = row.querySelector('#' + otpId);
+            const countdownText = row.querySelector('.countdown-text');
+            let timeLeft = 30 - (Math.floor(Date.now() / 1000) % 30);
+
+            const interval = setInterval(() => {
+                timeLeft--;
+                countdownText.textContent = t('countdownText', { seconds: timeLeft });
+                if (timeLeft <= 0) {
+                    timeLeft = 30;
+                    const ctime = Math.floor((new Date() - 0) / 30000);
+                    const newOtp = HOTP(secret, ctime);
+                    otpElement.textContent = newOtp;
+                    const copyBtn = row.querySelector('.copy-btn');
+                    copyBtn.setAttribute('data-code', newOtp);
+                    copyBtn.setAttribute('aria-label', `${t('copyButton')} 2FA code ${newOtp}`);
+                }
+            }, 1000);
+
+            timers.push(interval);
+        }
+
         function base32Decode(encoded) {
             const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
             let bits = '';
             let output = [];
-            
             encoded = encoded.toUpperCase().replace(/=+$/, '');
-            
             for (let i = 0; i < encoded.length; i++) {
                 const val = alphabet.indexOf(encoded[i]);
                 if (val === -1) continue;
                 bits += val.toString(2).padStart(5, '0');
             }
-            
             for (let i = 0; i + 8 <= bits.length; i += 8) {
                 output.push(parseInt(bits.substring(i, i + 8), 2));
             }
-            
             return new Uint8Array(output);
         }
 
-        // HOTP implementation using CryptoJS - FIXED
         function HOTP(K, C) {
             try {
                 const key = base32Decode(K);
                 const counterBuffer = new ArrayBuffer(8);
                 const counterView = new DataView(counterBuffer);
                 counterView.setUint32(4, C, false);
-                
-                // Convert key to WordArray for CryptoJS
                 const keyWords = CryptoJS.lib.WordArray.create(key);
-                
-                // Convert counter to WordArray for CryptoJS
                 const counterArray = new Uint8Array(counterBuffer);
                 const counterWords = CryptoJS.lib.WordArray.create(counterArray);
-                
-                // Generate HMAC-SHA1
                 const hmac = CryptoJS.HmacSHA1(counterWords, keyWords);
-                
-                // Convert result to bytes array
                 const hmacBytes = [];
                 for (let i = 0; i < hmac.words.length; i++) {
                     const word = hmac.words[i];
                     hmacBytes.push((word >>> 24) & 0xff);
-                    hmacBytes.push((word >>> 16) & 0xff); 
+                    hmacBytes.push((word >>> 16) & 0xff);
                     hmacBytes.push((word >>> 8) & 0xff);
                     hmacBytes.push(word & 0xff);
                 }
-                
                 const offset = hmacBytes[19] & 0x0f;
                 const code = ((hmacBytes[offset] & 0x7f) << 24) |
                             ((hmacBytes[offset + 1] & 0xff) << 16) |
                             ((hmacBytes[offset + 2] & 0xff) << 8) |
                             (hmacBytes[offset + 3] & 0xff);
-                
                 const otp = (code % 1000000).toString().padStart(6, '0');
                 return otp;
             } catch (error) {
@@ -501,7 +986,6 @@
             }
         }
 
-        // Format date time as DD-MM-YYYY HH:mm
         function formatDateTime(date) {
             const day = String(date.getDate()).padStart(2, '0');
             const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -514,60 +998,65 @@
         function run() {
             const con = document.getElementById("skey").value;
             const arr = con.split("\n");
-            
             for (let i = 0; i < arr.length; i++) {
                 const secret = arr[i].trim();
                 if (!secret) continue;
-                
                 let code = secret;
                 if (secret.indexOf("|") > 0) {
                     const arr2 = secret.split("|");
                     code = arr2[2] || arr2[1] || arr2[0];
                 }
-                
                 if (code.length > 0) {
                     const ctime = Math.floor((new Date() - 0) / 30000);
                     const otp = HOTP(code, ctime);
                     const waktuGenerate = formatDateTime(new Date());
-                    
+                    const otpId = 'otp-' + Date.now() + Math.random().toString(36).substring(7);
                     const str = `
                         <tr class='ttrr bg-theme-table-row hover:bg-theme-table-row transition-all duration-300 border-b border-theme-table'>
-                            <td class='px-4 py-3 align-top'>
-                                <div class='flex flex-col gap-2'>
-                                    <span class='font-mono text-2xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent'>${otp}</span>
-                                    <button class='modern-button text-white px-3 py-1 rounded-lg text-xs font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105 copy-btn flex items-center gap-1 self-start' data-code='${otp}'>
-                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                                        </svg>
-                                        Copy
-                                    </button>
+                            <td class='px-6 py-4 align-top'>
+                                <div class='flex flex-col gap-3'>
+                                    <div class="otp-container">
+                                        <span class='font-mono font-bold otp-code' id="${otpId}">${otp}</span>
+                                        <button class='modern-button text-white px-3 py-1 rounded-lg text-sm font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105 copy-btn flex items-center gap-2' data-code='${otp}' aria-label='${t('copyButton')} 2FA code ${otp}'>
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                            </svg>
+                                            ${t('copyButton')}
+                                        </button>
+                                    </div>
+                                    <p class="countdown-text" aria-live="polite">${t('countdownText', { seconds: 30 })}</p>
                                 </div>
-                                <div class='sm:hidden mt-3 pt-3 border-t border-theme-table'>
-                                    <div class='text-xs text-theme-muted mb-1'>Secret: <span class='font-mono text-theme-secondary'>${code.substring(0, 20)}${code.length > 20 ? '...' : ''}</span></div>
-                                    <div class='text-xs text-theme-muted'>Time: <span class='text-theme-secondary'>${waktuGenerate}</span></div>
+                                <div class='sm:hidden mt-4 pt-4 border-t border-theme-table'>
+                                    <div class='text-sm text-theme-muted mb-1'>${t('secretHeader')}: <span class='font-mono text-theme-secondary'>${code.substring(0, 20)}${code.length > 20 ? '...' : ''}</span></div>
+                                    <div class='text-sm text-theme-muted'>${t('timeLabel', { time: waktuGenerate })}</div>
                                 </div>
                             </td>
-                            <td class='px-4 py-3 font-mono text-sm text-theme-secondary break-all hidden sm:table-cell align-middle'>${code}</td>
-                            <td class='px-4 py-3 text-sm text-theme-muted hidden md:table-cell align-middle'>${waktuGenerate}</td>
+                            <td class='px-6 py-4 font-mono text-base text-theme-secondary break-all hidden sm:table-cell align-middle'>
+                                <div class="flex justify-between items-center">
+                                    <span class="flex-1">${code}</span>
+                                    <span class="text-sm text-theme-muted ml-4 flex-shrink-0">${t('timeLabel', { time: waktuGenerate })}</span>
+                                </div>
+                            </td>
                         </tr>
                     `;
-                    
-                    // Remove placeholder row if it exists
-                    const placeholderRow = document.querySelector('#tb tbody tr td[colspan="3"]');
+                    const placeholderRow = document.getElementById('placeholder-row');
                     if (placeholderRow) {
-                        placeholderRow.parentElement.remove();
+                        placeholderRow.remove();
                     }
-                    
-                    // Add new row at the beginning
                     document.querySelector("#tb tbody").insertAdjacentHTML('afterbegin', str);
-
-                    // Keep only 10 rows maximum
+                    const row = document.querySelector("#tb tbody .ttrr:first-child");
+                    startCountdown(row, code, otpId);
                     const rows = document.querySelectorAll("#tb tbody .ttrr");
                     if (rows.length > 10) {
-                        rows[rows.length - 1].remove();
+                        const lastRow = rows[rows.length - 1];
+                        const lastRowOtpId = lastRow.querySelector('[id^="otp-"]').id;
+                        const lastRowIndex = timers.findIndex(timer => timer.otpId === lastRowOtpId);
+                        if (lastRowIndex !== -1) {
+                            clearInterval(timers[lastRowIndex]);
+                            timers.splice(lastRowIndex, 1);
+                        }
+                        lastRow.remove();
                     }
-                    
-                    // Update table visibility
                     updateTableVisibility();
                 }
             }
@@ -576,9 +1065,7 @@
         function updateTableVisibility() {
             const rows = document.querySelectorAll("#tb tbody .ttrr");
             const existingShowMoreRow = document.getElementById("show-more-row");
-            
             if (rows.length > 3) {
-                // Hide rows after the 3rd one
                 rows.forEach((row, index) => {
                     if (index >= 3) {
                         row.style.display = 'none';
@@ -588,33 +1075,28 @@
                         row.classList.remove('hidden-row');
                     }
                 });
-                
-                // Show "Show More" button if it doesn't exist
                 if (!existingShowMoreRow) {
                     const showMoreRow = document.createElement('tr');
                     showMoreRow.id = 'show-more-row';
                     showMoreRow.innerHTML = `
-                        <td colspan="3" class="px-4 py-4 text-center">
-                            <button id="show-more-btn" class="bg-theme-input hover:bg-theme-card text-theme-primary px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 backdrop-blur-sm border border-theme-input hover:scale-105">
-                                Tampilkan Lainnya (${rows.length - 3})
+                        <td colspan="2" class="px-6 py-5 text-center">
+                            <button id="show-more-btn" class="bg-theme-input hover:bg-theme-card text-theme-primary px-5 py-2.5 rounded-xl text-base font-semibold transition-all duration-300 backdrop-blur-sm border border-theme-input hover:scale-105" aria-label="${t('showMore')}">
+                                ${t('showMore')} (${rows.length - 3})
                             </button>
                         </td>
                     `;
                     document.querySelector("#tb tbody").appendChild(showMoreRow);
                 } else {
-                    // Update button count if it already exists
                     const btn = document.getElementById("show-more-btn");
                     if (btn) {
-                        btn.textContent = `Tampilkan Lainnya (${rows.length - 3})`;
+                        btn.textContent = `${t('showMore')} (${rows.length - 3})`;
+                        btn.setAttribute('aria-label', `${t('showMore')} ${rows.length - 3} more 2FA codes`);
                     }
                 }
             } else {
-                // Remove show more button if 3 or fewer rows
                 if (existingShowMoreRow) {
                     existingShowMoreRow.remove();
                 }
-                
-                // Show all rows if 3 or fewer
                 rows.forEach(row => {
                     row.style.display = 'table-row';
                     row.classList.remove('hidden-row');
@@ -625,46 +1107,44 @@
         function qk() {
             document.getElementById("skey").value = '';
             document.querySelectorAll(".ttrr").forEach(row => row.remove());
-            
-            // Remove show more button
             const showMoreRow = document.getElementById("show-more-row");
             if (showMoreRow) {
                 showMoreRow.remove();
             }
-            
-            // Add placeholder row back
+            timers.forEach(clearInterval);
+            timers = [];
             document.querySelector("#tb tbody").innerHTML = `
-                <tr>
-                    <td colspan="3" class="px-4 py-8 text-center text-theme-muted">
-                        <div class="flex flex-col items-center gap-4">
-                            <div class="w-16 h-16 bg-theme-input rounded-full flex items-center justify-center">
-                                <svg class="w-8 h-8 text-theme-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <tr id="placeholder-row">
+                    <td colspan="2" class="px-6 py-10 text-center text-theme-muted">
+                        <div class="flex flex-col items-center justify-center gap-5 w-full">
+                            <div class="w-20 h-20 bg-theme-input rounded-full flex items-center justify-center">
+                                <svg class="w-10 h-10 text-theme-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                                 </svg>
                             </div>
-                            <p class="text-lg font-medium text-theme-secondary">Your 2FA codes will appear here</p>
-                            <p class="text-sm text-theme-muted">Enter your secret keys and click Generate</p>
+                            <div class="text-center w-full">
+                                <p class="text-xl font-semibold text-theme-secondary text-center" id="empty-title">${t('emptyTitle')}</p>
+                                <p class="text-base text-theme-muted text-center" id="empty-subtitle">${t('emptySubtitle')}</p>
+                            </div>
                         </div>
                     </td>
                 </tr>
             `;
+            updatePageTexts();
         }
 
-        // Copy to clipboard functionality and show more button
         document.addEventListener('click', function(e) {
-            // Handle copy button clicks
             const copyBtn = e.target.closest('.copy-btn');
             if (copyBtn) {
                 e.preventDefault();
                 const code = copyBtn.getAttribute('data-code');
                 if (navigator.clipboard && window.isSecureContext) {
                     navigator.clipboard.writeText(code).then(function() {
-                        showCopyAlert(`Kode 2FA berhasil disalin: ${code}`);
+                        showCopyAlert(t('copySuccess', {code: code}));
                     }, function(err) {
-                        showCopyAlert(`Gagal menyalin kode: ${err}`, true);
+                        showCopyAlert(t('copyError', {error: err}), true);
                     });
                 } else {
-                    // Fallback for non-HTTPS environments
                     const textArea = document.createElement('textarea');
                     textArea.value = code;
                     textArea.style.position = 'fixed';
@@ -673,15 +1153,13 @@
                     textArea.select();
                     try {
                         document.execCommand('copy');
-                        showCopyAlert(`Kode 2FA berhasil disalin: ${code}`);
+                        showCopyAlert(t('copySuccess', {code: code}));
                     } catch (err) {
-                        showCopyAlert(`Gagal menyalin kode: ${err}`, true);
+                        showCopyAlert(t('copyError', {error: err}), true);
                     }
                     document.body.removeChild(textArea);
                 }
             }
-            
-            // Handle show more button clicks
             if (e.target.id === 'show-more-btn' || e.target.closest('#show-more-btn')) {
                 e.preventDefault();
                 const hiddenRows = document.querySelectorAll("#tb tbody .hidden-row");
@@ -689,8 +1167,6 @@
                     row.style.display = 'table-row';
                     row.classList.remove('hidden-row');
                 });
-                
-                // Remove show more button after showing all rows
                 const showMoreRow = document.getElementById("show-more-row");
                 if (showMoreRow) {
                     showMoreRow.remove();
@@ -702,22 +1178,32 @@
             const alertBox = document.getElementById('copy-alert');
             alertBox.innerHTML = `
                 <div class="flex items-center gap-3">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${isError ? 'M6 18L18 6M6 6l12 12' : 'M5 13l4 4L19 7'}"></path>
                     </svg>
                     <span>${message}</span>
                 </div>
             `;
-            alertBox.className = `fixed top-20 right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border ${
+            alertBox.className = `fixed top-24 right-6 px-8 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border ${
                 isError ? 'bg-red-500/90 border-red-400/50' : 'bg-green-500/90 border-green-400/50'
             } opacity-100 transform translate-y-0 scale-100`;
-            
             setTimeout(() => {
-                alertBox.className = `fixed top-20 right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border ${
+                alertBox.className = `fixed top-24 right-6 px-8 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border ${
                     isError ? 'bg-red-500/90 border-red-400/50' : 'bg-green-500/90 border-green-400/50'
                 } opacity-0 transform translate-y-2 scale-95 pointer-events-none`;
             }, 3000);
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTheme();
+            updateLanguageButtons();
+            updatePageTexts();
+            // Clear timers on page unload to prevent memory leaks
+            window.addEventListener('beforeunload', () => {
+                timers.forEach(clearInterval);
+                timers = [];
+            });
+        });
     </script>
 </body>
 </html>
