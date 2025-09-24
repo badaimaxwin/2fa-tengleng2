@@ -343,9 +343,14 @@ function createRow(entry, initialCode, waktuGenerate) {
     fgCircle.style.strokeDashoffset = '0';
     svg.appendChild(bgCircle);
     svg.appendChild(fgCircle);
-    const countdownText = createCell('span', 'otp-countdown-text text-theme-muted', '');
+    const countdownText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+    countdownText.setAttribute('class', 'otp-countdown-text');
+    countdownText.setAttribute('x', '18');
+    countdownText.setAttribute('y', '22');
+    countdownText.setAttribute('text-anchor', 'middle');
+    countdownText.textContent = '';
     countdownWrap.appendChild(svg);
-    countdownWrap.appendChild(countdownText);
+    svg.appendChild(countdownText);
 
     codeHeader.appendChild(codeSpan);
     const copyBtn = createCell('button', 'copy-button text-theme-primary px-3 py-1 text-xs font-bold copy-btn flex items-center gap-1');
@@ -477,7 +482,7 @@ function updateCountdownDisplays() {
         }
         if (e.countdownText) {
             const secs = Math.ceil(remainingMs / 1000);
-            e.countdownText.textContent = `${secs}s`;
+            e.countdownText.textContent = `${secs}`;
         }
     }
 }

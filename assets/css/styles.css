@@ -554,8 +554,9 @@ footer {
     transition: stroke-dashoffset 0.25s linear;
 }
 .otp-countdown-text {
-    font-size: 0.75rem;
-    line-height: 1rem;
+    font-size: 10px;
+    dominant-baseline: middle;
+    fill: #cbd5e1; /* slate-300 */
 }
 
 /* Logo styling with enhanced shadows */
