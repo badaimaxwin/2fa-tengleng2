@@ -14,24 +14,76 @@
         body {
             font-family: 'Poppins', sans-serif;
             transition: all 0.3s ease;
+            background: var(--bg-color);
+            color: var(--text-primary);
         }
         
-        /* Dark Theme Variables - Ocean Deep */
+        /* Neumorphism Background */
+        .neumorphism-bg {
+            background: var(--bg-color);
+        }
+        
+        /* Neumorphism Card */
+        .neumorphism-card {
+            background: var(--surface-color);
+            border-radius: 20px;
+            box-shadow: 
+                8px 8px 16px var(--shadow-dark),
+                -8px -8px 16px var(--shadow-light);
+            border: none;
+        }
+        
+        /* Neumorphism Button */
+        .neumorphism-button {
+            background: var(--surface-color);
+            border: none;
+            border-radius: 15px;
+            box-shadow: 
+                6px 6px 12px var(--shadow-dark),
+                -6px -6px 12px var(--shadow-light);
+            transition: all 0.3s ease;
+        }
+        
+        .neumorphism-button:hover {
+            box-shadow: 
+                4px 4px 8px var(--shadow-dark),
+                -4px -4px 8px var(--shadow-light);
+        }
+        
+        .neumorphism-button:active {
+            box-shadow: 
+                inset 4px 4px 8px var(--shadow-dark),
+                inset -4px -4px 8px var(--shadow-light);
+        }
+        
+        /* Neumorphism Input */
+        .neumorphism-input {
+            background: var(--surface-color);
+            border: none;
+            border-radius: 15px;
+            box-shadow: 
+                inset 6px 6px 12px var(--shadow-dark),
+                inset -6px -6px 12px var(--shadow-light);
+        }
+        
+        .neumorphism-input:focus {
+            box-shadow: 
+                inset 4px 4px 8px var(--shadow-dark),
+                inset -4px -4px 8px var(--shadow-light),
+                0 0 0 2px var(--accent-color);
+        }
+        
+        /* Neumorphism Dark Theme */
         :root {
-            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-            --glass-bg: rgba(255, 255, 255, 0.1);
-            --glass-border: rgba(255, 255, 255, 0.2);
-            --text-primary: rgba(255, 255, 255, 1);
-            --text-secondary: rgba(255, 255, 255, 0.8);
-            --text-muted: rgba(255, 255, 255, 0.7);
-            --card-bg: rgba(255, 255, 255, 0.1);
-            --input-bg: rgba(255, 255, 255, 0.2);
-            --input-border: rgba(255, 255, 255, 0.3);
-            --input-focus: rgba(14, 165, 233, 0.6);
-            --button-gradient: linear-gradient(45deg, #0ea5e9, #06b6d4, #3b82f6);
-            --table-row-bg: rgba(255, 255, 255, 0.05);
-            --table-row-hover: rgba(14, 165, 233, 0.1);
-            --table-border: rgba(255, 255, 255, 0.1);
+            --bg-color: #1a1a1a;
+            --surface-color: #2d2d2d;
+            --text-primary: #ffffff;
+            --text-secondary: #b3b3b3;
+            --text-muted: #808080;
+            --accent-color: #6366f1;
+            --accent-hover: #4f46e5;
+            --shadow-light: #404040;
+            --shadow-dark: #0a0a0a;
         }
         
         /* Dark Theme Variables */
@@ -184,10 +236,10 @@
         }
     </style>
 </head>
-<body class="min-h-screen gradient-bg flex flex-col" data-theme="dark">
+<body class="min-h-screen neumorphism-bg flex flex-col" data-theme="dark">
     <!-- Theme Switch Button - Fixed Position -->
     <div class="fixed top-6 left-6 z-50">
-        <div class="flex items-center gap-3 bg-theme-card backdrop-blur-sm rounded-full px-4 py-2 border border-theme-input shadow-lg">
+        <div class="flex items-center gap-3 neumorphism-card px-4 py-2">
             <svg class="w-4 h-4 text-theme-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
             </svg>
@@ -209,7 +261,7 @@
 
     <!-- Language Switch Button - Fixed Position -->
     <div class="fixed top-6 right-6 z-50">
-        <div class="bg-theme-card backdrop-blur-sm rounded-full px-4 py-2 border border-theme-input shadow-lg">
+        <div class="neumorphism-card px-4 py-2">
             <button id="language-switch" onclick="toggleLanguage()" class="flex items-center gap-2 text-theme-primary font-semibold text-sm transition-all duration-300 hover:scale-105">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
@@ -222,7 +274,7 @@
     </div>
 
     <div class="container mx-auto px-4 py-5 flex-grow max-w-4xl">
-        <div class="glass-effect rounded-2xl shadow-2xl overflow-hidden border border-theme-input">
+        <div class="neumorphism-card overflow-hidden">
             <!-- Header -->
             <div class="text-center py-6 px-6 relative">
                 <div class="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-cyan-400/10"></div>
@@ -243,11 +295,11 @@
             </div>
 
             <!-- Main Content -->
-            <div class="bg-theme-card backdrop-blur-sm border border-theme-input p-4 mx-6 mb-6 rounded-xl">
+            <div class="neumorphism-card p-4 mx-6 mb-6">
                 <div class="mb-4">
                     <textarea
                         id="skey"
-                        class="w-full p-6 bg-theme-input backdrop-blur-sm border border-theme-input focus:border-blue-400 focus:ring-2 focus:ring-blue-500/20 focus:outline-none transition-all duration-300 resize-vertical text-theme-primary placeholder-theme-muted text-lg rounded-xl hover:border-blue-400/50"
+                        class="w-full p-6 neumorphism-input focus:outline-none transition-all duration-300 resize-vertical text-theme-primary placeholder-theme-muted text-lg"
                         rows="3"
                         placeholder="Enter your secret keys (one per line)..."
                         data-translate-placeholder="placeholder"
@@ -257,7 +309,7 @@
                 <div class="flex flex-col sm:flex-row gap-4 mb-4">
                     <button
                         id="generateBtn"
-                        class="modern-button text-white px-4 py-2 rounded-lg font-semibold text-sm transition-all duration-300 flex items-center justify-center gap-1 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]"
+                        class="neumorphism-button text-theme-primary px-4 py-2 font-semibold text-sm flex items-center justify-center gap-1"
                         onclick="run()"
                     >
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -267,7 +319,7 @@
                     </button>
                     <button
                         id="clearBtn"
-                        class="bg-theme-input hover:bg-theme-card text-theme-primary px-3 py-2 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg backdrop-blur-sm border border-theme-input drop-shadow-[0_0_6px_rgba(255,255,255,0.2)]"
+                        class="neumorphism-button text-theme-primary px-3 py-2 font-semibold"
                         onclick="qk()"
                     >
                         <span data-translate="clearBtn">Clear All</span>
@@ -275,11 +327,11 @@
                 </div>
 
                 <!-- Results Table -->
-                <div class="bg-theme-card backdrop-blur-sm rounded-xl shadow-xl overflow-hidden border border-theme-input">
+                <div class="neumorphism-card overflow-hidden">
                     <table class="w-full" id="tb">
                         <thead>
-                            <tr class="bg-gradient-to-r from-blue-500/50 to-cyan-600/50 text-white backdrop-blur-sm">
-                                <th class="px-2 py-3 text-left font-bold text-base bg-gradient-to-r from-slate-200 via-gray-300 to-slate-400 bg-clip-text text-transparent">
+                            <tr class="bg-gray-800 text-white">
+                                <th class="px-2 py-3 text-left font-bold text-base text-white">
                                     <div class="flex items-center gap-2">
                                         <svg class="w-5 h-5 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -287,7 +339,7 @@
                                         <span data-translate="codeHeader">Code</span>
                                     </div>
                                 </th>
-                                <th class="px-2 py-3 text-left font-bold text-base hidden sm:table-cell bg-gradient-to-r from-slate-200 via-gray-300 to-slate-400 bg-clip-text text-transparent">
+                                <th class="px-2 py-3 text-left font-bold text-base hidden sm:table-cell text-white">
                                     <div class="flex items-center gap-2">
                                         <svg class="w-5 h-5 text-cyan-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-3.586l6.257-6.257A6 6 0 0121 9z"></path>
@@ -295,7 +347,7 @@
                                         <span data-translate="secretKeyHeader">Secret Key</span>
                                     </div>
                                 </th>
-                                <th class="px-2 py-3 text-left font-bold text-base hidden md:table-cell bg-gradient-to-r from-slate-200 via-gray-300 to-slate-400 bg-clip-text text-transparent">
+                                <th class="px-2 py-3 text-left font-bold text-base hidden md:table-cell text-white">
                                     <div class="flex items-center gap-2">
                                         <svg class="w-5 h-5 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
