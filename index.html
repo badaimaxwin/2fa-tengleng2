@@ -696,7 +696,7 @@
                 errorDecodeFailed: "Unable to decode base32 format",
                 successGenerated: "Generated",
                 successCodes: "2FA code(s) successfully",
-                errorFound: "Found X invalid code(s)"
+                errorFound: "The code you entered is invalid"
             },
             id: {
                 title: "Generator Kode 2FA",
@@ -724,7 +724,7 @@
                 errorDecodeFailed: "Tidak dapat mendekode format base32",
                 successGenerated: "Berhasil menghasilkan",
                 successCodes: "kode 2FA",
-                errorFound: "Ditemukan X kode tidak valid"
+                errorFound: "Kode yang Anda masukkan tidak valid"
             }
         };
 
@@ -1061,8 +1061,7 @@
                         showCopyAlert(successMessage, false);
                     }
                     if (errorCount > 0) {
-                        const errorMessage = translations[currentLanguage].errorFound.replace('X', errorCount);
-                        showUserFriendlyError('errorFound', errorMessage);
+                        showUserFriendlyError('errorFound');
                     }
                     
                 } finally {
