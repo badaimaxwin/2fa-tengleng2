@@ -485,6 +485,35 @@
             width: 15%;
             padding-left: 1rem;
         }
+        
+        /* Logo styling */
+        .logo-container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Light theme logo */
+        [data-theme="light"] .logo-container {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Dark theme logo */
+        [data-theme="dark"] .logo-container {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                0 2px 8px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body class="min-h-screen neumorphism-bg flex flex-col" data-theme="dark">
@@ -531,10 +560,8 @@
             <!-- Header -->
             <header class="text-center py-6 px-6">
                 <div class="flex items-center justify-center mb-4">
-                    <div class="w-14 h-14 bg-gray-700/60 rounded-xl flex items-center justify-center">
-                        <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                        </svg>
+                    <div class="w-16 h-16 logo-container rounded-xl flex items-center justify-center p-2">
+                        <img src="logo.png" alt="2FA Generator Logo" class="w-full h-full object-contain">
                     </div>
                 </div>
                 <h1 class="text-3xl font-bold text-white mb-2" data-translate="title">2FA Code Generator</h1>
