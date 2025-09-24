@@ -540,19 +540,8 @@ footer {
     width: 30px;
     height: 30px;
 }
-.otp-ring-circle-bg {
-    fill: none;
-    stroke: rgba(255, 255, 255, 0.15);
-    stroke-width: 3;
-}
-.otp-ring-circle {
-    fill: none;
-    stroke: #10b981; /* success green */
-    stroke-width: 3;
-    transform: rotate(-90deg);
-    transform-origin: 50% 50%;
-    transition: stroke-dashoffset 0.25s linear;
-}
+.otp-ring-circle-bg {}
+.otp-ring-circle {}
 .otp-countdown-text {
     font-size: 12px;
     fill: #cbd5e1; /* slate-300 */

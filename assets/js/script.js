@@ -322,36 +322,10 @@ function createRow(entry, initialCode, waktuGenerate) {
     const codeHeader = createCell('div', 'otp-row');
     const codeSpan = createCell('span', 'font-mono text-2xl font-bold text-theme-primary otp-code', initialCode || '------');
 
-    // Countdown container (ring + text)
-    const countdownWrap = createCell('div', 'otp-countdown flex items-center justify-center gap-1');
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('class', 'otp-ring');
-    svg.setAttribute('viewBox', '0 0 36 36');
-    const radius = 16; // r
-    const circumference = 2 * Math.PI * radius;
-    const bgCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    bgCircle.setAttribute('cx', '18');
-    bgCircle.setAttribute('cy', '18');
-    bgCircle.setAttribute('r', String(radius));
-    bgCircle.setAttribute('class', 'otp-ring-circle-bg');
-    const fgCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    fgCircle.setAttribute('cx', '18');
-    fgCircle.setAttribute('cy', '18');
-    fgCircle.setAttribute('r', String(radius));
-    fgCircle.setAttribute('class', 'otp-ring-circle');
-    fgCircle.style.strokeDasharray = String(circumference);
-    fgCircle.style.strokeDashoffset = '0';
-    svg.appendChild(bgCircle);
-    svg.appendChild(fgCircle);
-    const countdownText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    countdownText.setAttribute('class', 'otp-countdown-text');
-    countdownText.setAttribute('x', '18');
-    countdownText.setAttribute('y', '18');
-    countdownText.setAttribute('text-anchor', 'middle');
-    countdownText.setAttribute('dominant-baseline', 'middle');
-    countdownText.textContent = '';
-    countdownWrap.appendChild(svg);
-    svg.appendChild(countdownText);
+    // Countdown number only (no ring)
+    const countdownWrap = createCell('div', 'otp-countdown flex items-center justify-center');
+    const countdownText = createCell('span', 'otp-countdown-text', '');
+    countdownWrap.appendChild(countdownText);
 
     codeHeader.appendChild(codeSpan);
     const copyBtn = createCell('button', 'copy-button text-theme-primary px-3 py-1 text-xs font-bold copy-btn flex items-center gap-1');
@@ -403,8 +377,6 @@ function createRow(entry, initialCode, waktuGenerate) {
     entry.codeSpan = codeSpan;
     entry.timeCell = tdTime;
     entry.timeMobileSpan = timeMobileSpan;
-    entry.countdownCircle = fgCircle;
-    entry.countdownCircumference = circumference;
     entry.countdownText = countdownText;
 
     return tr;
@@ -477,10 +449,6 @@ function updateCountdownDisplays() {
         const periodMs = (e.period || 30) * 1000;
         const remainingMs = periodMs - (now % periodMs);
         const frac = Math.max(0, Math.min(1, remainingMs / periodMs));
-        if (e.countdownCircle && e.countdownCircumference != null) {
-            const offset = e.countdownCircumference * (1 - frac);
-            e.countdownCircle.style.strokeDashoffset = String(offset);
-        }
         if (e.countdownText) {
             const secs = Math.ceil(remainingMs / 1000);
             e.countdownText.textContent = `${secs}`;
