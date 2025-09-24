@@ -6,9 +6,9 @@
     <meta name="keywords" content="2FA, Google Authenticator, Two Factor Authentication" />
     <meta name="description" content="Generate secure two-factor authentication (2FA) codes easily using 2FA Generator. Each generated secret key is unique and can be used to secure your accounts with an additional verification layer." />
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self';" />
     <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
     <style>
         body {
@@ -177,7 +177,7 @@
         }
         
         /* Light Theme - Glass Flat (Semi-flat) Styles */
-        [data-theme="light"] body {
+        body[data-theme="light"] {
             background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
         }
         
@@ -895,6 +895,7 @@
             localStorage.setItem('language', currentLanguage);
             updateLanguage();
             updateLanguageButton();
+            updateAriaStates();
         }
 
         function updateLanguage() {
@@ -950,6 +951,7 @@
             document.body.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
             updateThemeButton(newTheme);
+            updateAriaStates();
         }
 
         function updateThemeButton(theme) {
@@ -1023,88 +1025,272 @@
             return new Uint8Array(output);
         }
 
-        // HOTP implementation using CryptoJS - FIXED
-        function HOTP(K, C) {
+        // Web Crypto based TOTP implementation with otpauth parsing
+        const activeEntries = [];
+        let refreshTimeout = null;
+
+        function mapAlgorithm(alg) {
+            const upper = String(alg || 'SHA1').toUpperCase();
+            if (upper === 'SHA1') return 'SHA-1';
+            if (upper === 'SHA256') return 'SHA-256';
+            if (upper === 'SHA512') return 'SHA-512';
+            return 'SHA-1';
+        }
+
+        function toCounterBytes(counter) {
+            const buf = new ArrayBuffer(8);
+            const view = new DataView(buf);
+            view.setUint32(4, counter >>> 0, false);
+            return new Uint8Array(buf);
+        }
+
+        function parseOtpAuthUri(uri) {
             try {
-                // Validate input
-                if (!K || typeof K !== 'string') {
-                    throw new Error('Invalid secret key: Key must be a non-empty string');
+                const url = new URL(uri);
+                if (url.protocol !== 'otpauth:' || url.hostname.toLowerCase() !== 'totp') return null;
+                const params = url.searchParams;
+                const secretParam = params.get('secret');
+                if (!secretParam) return null;
+                const algorithm = mapAlgorithm(params.get('algorithm') || 'SHA1');
+                const digits = parseInt(params.get('digits') || '6', 10) || 6;
+                const period = parseInt(params.get('period') || '30', 10) || 30;
+                let label = decodeURIComponent(url.pathname.replace(/^\//, ''));
+                let issuer = params.get('issuer') || '';
+                if (label && label.includes(':')) {
+                    const parts = label.split(':');
+                    if (!issuer) issuer = parts[0].trim();
+                    label = parts.slice(1).join(':').trim();
                 }
-                
-                if (K.length < 16) {
-                    throw new Error('Invalid secret key: Key must be at least 16 characters long');
-                }
-                
-                const key = base32Decode(K);
-                if (key.length === 0) {
-                    throw new Error('Invalid secret key: Unable to decode base32 format');
-                }
-                
-                const counterBuffer = new ArrayBuffer(8);
-                const counterView = new DataView(counterBuffer);
-                counterView.setUint32(4, C, false);
-                
-                // Convert key to WordArray for CryptoJS
-                const keyWords = CryptoJS.lib.WordArray.create(key);
-                
-                // Convert counter to WordArray for CryptoJS
-                const counterArray = new Uint8Array(counterBuffer);
-                const counterWords = CryptoJS.lib.WordArray.create(counterArray);
-                
-                // Generate HMAC-SHA1
-                const hmac = CryptoJS.HmacSHA1(counterWords, keyWords);
-                
-                // Convert result to bytes array
-                const hmacBytes = [];
-                for (let i = 0; i < hmac.words.length; i++) {
-                    const word = hmac.words[i];
-                    hmacBytes.push((word >>> 24) & 0xff);
-                    hmacBytes.push((word >>> 16) & 0xff); 
-                    hmacBytes.push((word >>> 8) & 0xff);
-                    hmacBytes.push(word & 0xff);
-                }
-                
-                const offset = hmacBytes[19] & 0x0f;
-                const code = ((hmacBytes[offset] & 0x7f) << 24) |
-                            ((hmacBytes[offset + 1] & 0xff) << 16) |
-                            ((hmacBytes[offset + 2] & 0xff) << 8) |
-                            (hmacBytes[offset + 3] & 0xff);
-                
-                const otp = (code % 1000000).toString().padStart(6, '0');
-                return otp;
-            } catch (error) {
-                console.error('HOTP generation error:', error);
-                showUserFriendlyError('errorInvalidKey');
+                return {
+                    type: 'totp',
+                    secret: secretParam,
+                    label,
+                    issuer,
+                    algorithm,
+                    digits,
+                    period
+                };
+            } catch (_) {
                 return null;
             }
+        }
+
+        function parseInputLine(line) {
+            const trimmed = line.trim();
+            if (!trimmed) return null;
+            if (trimmed.toLowerCase().startsWith('otpauth://')) {
+                return parseOtpAuthUri(trimmed);
+            }
+            // support pipe-delimited formats; choose last non-empty part as secret
+            let candidate = trimmed;
+            if (trimmed.indexOf('|') > -1) {
+                const parts = trimmed.split('|').map(s => s.trim()).filter(Boolean);
+                candidate = parts[2] || parts[1] || parts[0];
+            }
+            return {
+                type: 'totp',
+                secret: candidate,
+                label: '',
+                issuer: '',
+                algorithm: mapAlgorithm('SHA1'),
+                digits: 6,
+                period: 30
+            };
+        }
+
+        async function importHmacKey(secretBytes, algorithm) {
+            return await crypto.subtle.importKey(
+                'raw',
+                secretBytes,
+                { name: 'HMAC', hash: { name: algorithm } },
+                false,
+                ['sign']
+            );
+        }
+
+        async function generateTOTPForEntry(entry, timeStep) {
+            try {
+                if (!entry || !entry.secretBytes || entry.secretBytes.length === 0) return null;
+                if (!entry.key) {
+                    entry.key = await importHmacKey(entry.secretBytes, entry.algorithm);
+                }
+                const counterBytes = toCounterBytes(timeStep);
+                const signature = await crypto.subtle.sign('HMAC', entry.key, counterBytes);
+                const hmac = new Uint8Array(signature);
+                const offset = hmac[hmac.length - 1] & 0x0f;
+                const code = ((hmac[offset] & 0x7f) << 24) |
+                             ((hmac[offset + 1] & 0xff) << 16) |
+                             ((hmac[offset + 2] & 0xff) << 8) |
+                             (hmac[offset + 3] & 0xff);
+                const mod = 10 ** (entry.digits || 6);
+                return String(code % mod).padStart(entry.digits || 6, '0');
+            } catch (error) {
+                console.error('TOTP generation error:', error);
+                return null;
+            }
+        }
+
+        function createCell(tag, className, text) {
+            const el = document.createElement(tag);
+            if (className) el.className = className;
+            if (text !== undefined) el.textContent = text;
+            return el;
+        }
+
+        function createRow(entry, initialCode, waktuGenerate) {
+            const tr = document.createElement('tr');
+            tr.className = 'ttrr bg-gray-800 hover:bg-gray-700 transition-all duration-300 border-b border-gray-600';
+
+            const tdCode = createCell('td', 'px-2 py-3 align-top');
+            const codeWrap = createCell('div', 'flex flex-col gap-2');
+            const codeSpan = createCell('span', 'font-mono text-2xl font-bold text-theme-primary otp-code', initialCode || '------');
+            const copyBtn = createCell('button', 'copy-button text-theme-primary px-3 py-1 text-xs font-bold copy-btn flex items-center gap-1 self-start');
+            copyBtn.setAttribute('type', 'button');
+            const copyIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            copyIcon.setAttribute('class', 'w-3 h-3');
+            copyIcon.setAttribute('fill', 'none');
+            copyIcon.setAttribute('stroke', 'currentColor');
+            copyIcon.setAttribute('viewBox', '0 0 24 24');
+            const copyPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            copyPath.setAttribute('stroke-linecap', 'round');
+            copyPath.setAttribute('stroke-linejoin', 'round');
+            copyPath.setAttribute('stroke-width', '2');
+            copyPath.setAttribute('d', 'M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z');
+            copyIcon.appendChild(copyPath);
+            const copyText = document.createElement('span');
+            copyText.textContent = translations[currentLanguage].copyBtn;
+            copyBtn.appendChild(copyIcon);
+            copyBtn.appendChild(copyText);
+            codeWrap.appendChild(codeSpan);
+            codeWrap.appendChild(copyBtn);
+            tdCode.appendChild(codeWrap);
+
+            // Mobile details
+            const mobileDetails = createCell('div', 'sm:hidden mt-3 pt-3 border-t border-theme-table');
+            const secretMobile = createCell('div', 'text-xs text-theme-muted mb-1');
+            secretMobile.append('Secret: ');
+            const secretMobileSpan = createCell('span', 'font-mono text-theme-secondary', (entry.secretDisplay || '').substring(0, 20) + ((entry.secretDisplay || '').length > 20 ? '...' : ''));
+            secretMobile.appendChild(secretMobileSpan);
+            const timeMobile = createCell('div', 'text-xs text-theme-muted');
+            timeMobile.append('Time: ');
+            const timeMobileSpan = createCell('span', 'text-theme-secondary', waktuGenerate);
+            timeMobile.appendChild(timeMobileSpan);
+            mobileDetails.appendChild(secretMobile);
+            mobileDetails.appendChild(timeMobile);
+            tdCode.appendChild(mobileDetails);
+
+            const tdSecret = createCell('td', 'px-2 py-3 font-mono text-sm text-theme-secondary break-all hidden sm:table-cell align-middle', entry.secretDisplay || '');
+            const tdTime = createCell('td', 'px-2 py-3 text-sm text-theme-muted hidden md:table-cell align-middle', waktuGenerate);
+
+            tr.appendChild(tdCode);
+            tr.appendChild(tdSecret);
+            tr.appendChild(tdTime);
+
+            // Save refs for updates
+            entry.rowElement = tr;
+            entry.codeSpan = codeSpan;
+            entry.timeCell = tdTime;
+            entry.timeMobileSpan = timeMobileSpan;
+
+            return tr;
+        }
+
+        function removePlaceholderIfPresent() {
+            const placeholderRow = document.querySelector('#tb tbody tr td[colspan="3"]');
+            if (placeholderRow) {
+                placeholderRow.parentElement.remove();
+            }
+        }
+
+        function insertRowAtTop(tr) {
+            const tbody = document.querySelector('#tb tbody');
+            tbody.insertAdjacentElement('afterbegin', tr);
+        }
+
+        function limitRowsTo(max) {
+            const rows = document.querySelectorAll('#tb tbody .ttrr');
+            if (rows.length > max) {
+                for (let i = max; i < rows.length; i++) {
+                    const row = rows[i];
+                    row.remove();
+                }
+            }
+        }
+
+        function computeNextRefreshDelayMs() {
+            if (activeEntries.length === 0) return 30000;
+            const now = Date.now();
+            let minDelay = Infinity;
+            for (const e of activeEntries) {
+                const periodMs = (e.period || 30) * 1000;
+                const delay = periodMs - (now % periodMs);
+                if (delay < minDelay) minDelay = delay;
+            }
+            return Math.max(250, Math.min(minDelay + 10, 30000));
+        }
+
+        async function refreshAllOtps() {
+            const now = new Date();
+            for (const e of activeEntries) {
+                const period = e.period || 30;
+                const timeStep = Math.floor(now.getTime() / (period * 1000));
+                const code = await generateTOTPForEntry(e, timeStep);
+                if (code) {
+                    e.codeSpan.textContent = code;
+                }
+                const timeText = formatDateTime(now);
+                e.timeCell.textContent = timeText;
+                if (e.timeMobileSpan) e.timeMobileSpan.textContent = timeText;
+            }
+        }
+
+        async function scheduleRefresh() {
+            if (refreshTimeout) {
+                clearTimeout(refreshTimeout);
+                refreshTimeout = null;
+            }
+            await refreshAllOtps();
+            const nextDelay = computeNextRefreshDelayMs();
+            refreshTimeout = setTimeout(scheduleRefresh, nextDelay);
         }
         
         function showUserFriendlyError(messageKey, customMessage = null) {
             const alertBox = document.getElementById('copy-alert');
             const message = customMessage || translations[currentLanguage][messageKey] || messageKey;
             const currentTheme = document.body.getAttribute('data-theme');
-            
-            alertBox.innerHTML = `
-                <div class="flex items-center gap-3">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.99-.833-2.76 0L3.054 16.5C2.284 18.167 3.246 20 4.786 20z"></path>
-                    </svg>
-                    <span>${message}</span>
-                </div>
-            `;
-            
-            // Force positioning for light theme
+
+            // Build DOM instead of innerHTML
+            alertBox.textContent = '';
+            const container = document.createElement('div');
+            container.className = 'flex items-center gap-3';
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('class', 'w-5 h-5');
+            svg.setAttribute('fill', 'none');
+            svg.setAttribute('stroke', 'currentColor');
+            svg.setAttribute('viewBox', '0 0 24 24');
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('stroke-linecap', 'round');
+            path.setAttribute('stroke-linejoin', 'round');
+            path.setAttribute('stroke-width', '2');
+            path.setAttribute('d', 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.99-.833-2.76 0L3.054 16.5C2.284 18.167 3.246 20 4.786 20z');
+            svg.appendChild(path);
+            const span = document.createElement('span');
+            span.textContent = message;
+            container.appendChild(svg);
+            container.appendChild(span);
+            alertBox.appendChild(container);
+
             if (currentTheme === 'light') {
                 alertBox.style.position = 'fixed';
                 alertBox.style.top = '5rem';
                 alertBox.style.right = '1.5rem';
                 alertBox.style.zIndex = '9999';
             }
-            
-            alertBox.className = `fixed top-20 right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border bg-red-500/90 border-red-400/50 opacity-100 transform translate-y-0 scale-100`;
-            
+
+            alertBox.className = 'fixed top-20 right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border bg-red-500/90 border-red-400/50 opacity-100 transform translate-y-0 scale-100';
+
             setTimeout(() => {
-                alertBox.className = `fixed top-20 right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border bg-red-500/90 border-red-400/50 opacity-0 transform translate-y-2 scale-95 pointer-events-none`;
+                alertBox.className = 'fixed top-20 right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border bg-red-500/90 border-red-400/50 opacity-0 transform translate-y-2 scale-95 pointer-events-none';
             }, 5000);
         }
 
@@ -1119,14 +1305,13 @@
         }
 
         
-        function run() {
-            const con = document.getElementById("skey").value.trim();
+        async function run() {
+            const con = document.getElementById('skey').value.trim();
             if (!con) {
                 showUserFriendlyError('errorEmptyInput');
                 return;
             }
-            
-            // Show loading state
+
             const generateBtn = document.getElementById('generateBtn');
             const originalText = generateBtn.innerHTML;
             generateBtn.innerHTML = `
@@ -1136,92 +1321,79 @@
                 <span>Generating...</span>
             `;
             generateBtn.disabled = true;
-            
-            // Use setTimeout to allow UI to update
-            setTimeout(() => {
-                try {
-                    const arr = con.split("\n");
-                    let successCount = 0;
-                    let errorCount = 0;
-                    
-                    for (let i = 0; i < arr.length; i++) {
-                        const secret = arr[i].trim();
-                        if (!secret) continue;
-                        
-                        let code = secret;
-                        if (secret.indexOf("|") > 0) {
-                            const arr2 = secret.split("|");
-                            code = arr2[2] || arr2[1] || arr2[0];
-                        }
-                        
-                        if (code.length > 0) {
-                            const ctime = Math.floor((new Date() - 0) / 30000);
-                            const otp = HOTP(code, ctime);
-                            
-                            if (otp) {
-                                const waktuGenerate = formatDateTime(new Date());
-                                successCount++;
-                                
-                                const str = `
-                                    <tr class='ttrr bg-gray-800 hover:bg-gray-700 transition-all duration-300 border-b border-gray-600'>
-                                        <td class='px-2 py-3 align-top'>
-                                            <div class='flex flex-col gap-2'>
-                                                <span class='font-mono text-2xl font-bold text-theme-primary'>${otp}</span>
-                                                <button class='copy-button text-theme-primary px-3 py-1 text-xs font-bold copy-btn flex items-center gap-1 self-start' data-code='${otp}'>
-                                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
-                                                    </svg>
-                                                    ${translations[currentLanguage].copyBtn}
-                                                </button>
-                                            </div>
-                                            <div class='sm:hidden mt-3 pt-3 border-t border-theme-table'>
-                                                <div class='text-xs text-theme-muted mb-1'>Secret: <span class='font-mono text-theme-secondary'>${code.substring(0, 20)}${code.length > 20 ? '...' : ''}</span></div>
-                                                <div class='text-xs text-theme-muted'>Time: <span class='text-theme-secondary'>${waktuGenerate}</span></div>
-                                            </div>
-                                        </td>
-                                        <td class='px-2 py-3 font-mono text-sm text-theme-secondary break-all hidden sm:table-cell align-middle'>${code}</td>
-                                        <td class='px-2 py-3 text-sm text-theme-muted hidden md:table-cell align-middle'>${waktuGenerate}</td>
-                                    </tr>
-                                `;
-                                
-                                // Remove placeholder row if it exists
-                                const placeholderRow = document.querySelector('#tb tbody tr td[colspan="3"]');
-                                if (placeholderRow) {
-                                    placeholderRow.parentElement.remove();
-                                }
-                                
-                                // Add new row at the beginning
-                                document.querySelector("#tb tbody").insertAdjacentHTML('afterbegin', str);
 
-                                // Keep only 10 rows maximum
-                                const rows = document.querySelectorAll("#tb tbody .ttrr");
-                                if (rows.length > 10) {
-                                    rows[rows.length - 1].remove();
-                                }
-                                
-                                // Update table visibility
-                                updateTableVisibility();
-                            } else {
-                                errorCount++;
-                            }
-                        }
+            try {
+                // Clear previous entries
+                activeEntries.length = 0;
+
+                const lines = con.split('\n');
+                let successCount = 0;
+                let errorCount = 0;
+                const tbody = document.querySelector('#tb tbody');
+
+                for (const line of lines) {
+                    const parsed = parseInputLine(line);
+                    if (!parsed || !parsed.secret) continue;
+
+                    if (parsed.secret.length < 16) {
+                        errorCount++;
+                        continue;
                     }
-                    
-                    // Show results summary
-                    if (successCount > 0) {
-                        const successMessage = `${translations[currentLanguage].successGenerated} ${successCount} ${translations[currentLanguage].successCodes}`;
-                        showCopyAlert(successMessage, false);
+
+                    const secretBytes = base32Decode(parsed.secret);
+                    if (!secretBytes || secretBytes.length === 0) {
+                        errorCount++;
+                        continue;
                     }
-                    if (errorCount > 0) {
-                        showUserFriendlyError('errorFound');
+
+                    const entry = {
+                        secretBytes,
+                        secretDisplay: parsed.secret,
+                        algorithm: parsed.algorithm,
+                        digits: parsed.digits,
+                        period: parsed.period,
+                        label: parsed.label,
+                        issuer: parsed.issuer,
+                        key: null,
+                        rowElement: null,
+                        codeSpan: null,
+                        timeCell: null,
+                        timeMobileSpan: null
+                    };
+
+                    const now = new Date();
+                    const step = Math.floor(now.getTime() / ((entry.period || 30) * 1000));
+                    const code = await generateTOTPForEntry(entry, step);
+                    if (!code) {
+                        errorCount++;
+                        continue;
                     }
-                    
-                } finally {
-                    // Restore button state
-                    generateBtn.innerHTML = originalText;
-                    generateBtn.disabled = false;
+
+                    const waktuGenerate = formatDateTime(now);
+                    const row = createRow(entry, code, waktuGenerate);
+
+                    removePlaceholderIfPresent();
+                    insertRowAtTop(row);
+                    successCount++;
+
+                    activeEntries.push(entry);
                 }
-            }, 100);
+
+                limitRowsTo(10);
+                updateTableVisibility();
+
+                if (successCount > 0) {
+                    const successMessage = `${translations[currentLanguage].successGenerated} ${successCount} ${translations[currentLanguage].successCodes}`;
+                    showCopyAlert(successMessage, false);
+                    await scheduleRefresh();
+                }
+                if (errorCount > 0) {
+                    showUserFriendlyError('errorFound');
+                }
+            } finally {
+                generateBtn.innerHTML = originalText;
+                generateBtn.disabled = false;
+            }
         }
 
         function updateTableVisibility() {
@@ -1302,6 +1474,13 @@
             
             // Update language for newly created content
             updateLanguageAfterContent();
+
+            // Clear active entries and stop auto-refresh
+            activeEntries.length = 0;
+            if (refreshTimeout) {
+                clearTimeout(refreshTimeout);
+                refreshTimeout = null;
+            }
         }
 
         // Copy to clipboard functionality and show more button
@@ -1310,7 +1489,10 @@
             const copyBtn = e.target.closest('.copy-btn');
             if (copyBtn) {
                 e.preventDefault();
-                const code = copyBtn.getAttribute('data-code');
+                // derive code from nearest .otp-code span to avoid stale data-code
+                const row = copyBtn.closest('tr');
+                const codeEl = row ? row.querySelector('.otp-code') : null;
+                const code = codeEl ? codeEl.textContent : copyBtn.getAttribute('data-code');
                 if (navigator.clipboard && window.isSecureContext) {
                     navigator.clipboard.writeText(code).then(function() {
                         showCopyAlert(`${translations[currentLanguage].copySuccess} ${code}`);
@@ -1355,28 +1537,39 @@
         function showCopyAlert(message, isError = false) {
             const alertBox = document.getElementById('copy-alert');
             const currentTheme = document.body.getAttribute('data-theme');
-            
-            alertBox.innerHTML = `
-                <div class="flex items-center gap-3">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${isError ? 'M6 18L18 6M6 6l12 12' : 'M5 13l4 4L19 7'}"></path>
-                    </svg>
-                    <span>${message}</span>
-                </div>
-            `;
-            
-            // Force positioning for light theme
+
+            // Build DOM safely
+            alertBox.textContent = '';
+            const container = document.createElement('div');
+            container.className = 'flex items-center gap-3';
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('class', 'w-5 h-5');
+            svg.setAttribute('fill', 'none');
+            svg.setAttribute('stroke', 'currentColor');
+            svg.setAttribute('viewBox', '0 0 24 24');
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('stroke-linecap', 'round');
+            path.setAttribute('stroke-linejoin', 'round');
+            path.setAttribute('stroke-width', '2');
+            path.setAttribute('d', isError ? 'M6 18L18 6M6 6l12 12' : 'M5 13l4 4L19 7');
+            svg.appendChild(path);
+            const span = document.createElement('span');
+            span.textContent = message;
+            container.appendChild(svg);
+            container.appendChild(span);
+            alertBox.appendChild(container);
+
             if (currentTheme === 'light') {
                 alertBox.style.position = 'fixed';
                 alertBox.style.top = '5rem';
                 alertBox.style.right = '1.5rem';
                 alertBox.style.zIndex = '9999';
             }
-            
+
             alertBox.className = `fixed top-20 right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border ${
                 isError ? 'bg-red-500/90 border-red-400/50' : 'bg-green-500/90 border-green-400/50'
             } opacity-100 transform translate-y-0 scale-100`;
-            
+
             setTimeout(() => {
                 alertBox.className = `fixed top-20 right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border ${
                     isError ? 'bg-red-500/90 border-red-400/50' : 'bg-green-500/90 border-green-400/50'
