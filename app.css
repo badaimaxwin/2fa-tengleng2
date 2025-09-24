@@ -1,0 +1,605 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+    background: var(--bg-color);
+    color: var(--text-primary);
+}
+
+/* Neumorphism Background */
+.neumorphism-bg {
+    background: var(--bg-color);
+}
+
+/* Neumorphism Card */
+.neumorphism-card {
+    background: var(--surface-color);
+    border-radius: 20px;
+    box-shadow: 
+        8px 8px 16px var(--shadow-dark),
+        -8px -8px 16px var(--shadow-light);
+    border: none;
+}
+
+/* Neumorphism Button */
+.neumorphism-button {
+    background: var(--surface-color);
+    border: none;
+    border-radius: 15px;
+    box-shadow: 
+        6px 6px 12px var(--shadow-dark),
+        -6px -6px 12px var(--shadow-light);
+    transition: all 0.3s ease;
+}
+
+.neumorphism-button:hover {
+    box-shadow: 
+        4px 4px 8px var(--shadow-dark),
+        -4px -4px 8px var(--shadow-light);
+}
+
+.neumorphism-button:active {
+    box-shadow: 
+        inset 4px 4px 8px var(--shadow-dark),
+        inset -4px -4px 8px var(--shadow-light);
+}
+
+/* Subtle Copy Button */
+.copy-button {
+    background: var(--surface-color);
+    border: none;
+    border-radius: 8px;
+    box-shadow: 
+        2px 2px 4px var(--shadow-dark),
+        -2px -2px 4px var(--shadow-light);
+    transition: all 0.2s ease;
+}
+
+.copy-button:hover {
+    box-shadow: 
+        1px 1px 2px var(--shadow-dark),
+        -1px -1px 2px var(--shadow-light);
+}
+
+.copy-button:active {
+    box-shadow: 
+        inset 1px 1px 2px var(--shadow-dark),
+        inset -1px -1px 2px var(--shadow-light);
+}
+
+/* Neumorphism Input */
+.neumorphism-input {
+    background: var(--surface-color);
+    border: none;
+    border-radius: 15px;
+    box-shadow: 
+        inset 6px 6px 12px var(--shadow-dark),
+        inset -6px -6px 12px var(--shadow-light);
+}
+
+.neumorphism-input:focus {
+    box-shadow: 
+        inset 4px 4px 8px var(--shadow-dark),
+        inset -4px -4px 8px var(--shadow-light);
+    outline: none;
+}
+
+/* Neumorphism Dark Theme */
+:root {
+    --bg-color: #1a1a1a;
+    --surface-color: #2d2d2d;
+    --text-primary: #ffffff;
+    --text-secondary: #b3b3b3;
+    --text-muted: #808080;
+    --accent-color: #6366f1;
+    --accent-hover: #4f46e5;
+    --shadow-light: #404040;
+    --shadow-dark: #0a0a0a;
+}
+
+/* Light Theme Variables - Colorful Neumorphism */
+[data-theme="light"] {
+    --bg-color: #f0f9ff;
+    --surface-color: #ffffff;
+    --text-primary: #0f172a;
+    --text-secondary: #334155;
+    --text-muted: #64748b;
+    --accent-color: #3b82f6;
+    --accent-hover: #2563eb;
+    --shadow-light: #e0e7ff;
+    --shadow-dark: #c7d2fe;
+    --card-bg: #ffffff;
+    --input-bg: #f8fafc;
+    --button-primary: #3b82f6;
+    --button-secondary: #64748b;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --error-color: #ef4444;
+}
+
+.glass-effect {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+}
+
+.gradient-bg {
+    background: var(--bg-gradient);
+}
+
+.modern-button {
+    background: var(--button-gradient);
+    border: none;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+}
+
+.modern-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.modern-button:hover::before {
+    left: 100%;
+}
+
+.modern-button:hover {
+    box-shadow: 0 8px 25px rgba(14, 165, 233, 0.6);
+    transform: translateY(-2px);
+}
+
+/* Custom text colors for theme switching */
+.text-theme-primary {
+    color: var(--text-primary);
+}
+
+/* Light Theme - Glass Flat (Semi-flat) Styles */
+body[data-theme="light"] {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 50%, #cbd5e1 100%);
+}
+
+[data-theme="light"] .neumorphism-card {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .neumorphism-button {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 
+        0 4px 16px rgba(0, 0, 0, 0.1),
+        0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .neumorphism-button:hover {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.15),
+        0 2px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+[data-theme="light"] .neumorphism-input {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.05),
+        0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+[data-theme="light"] .neumorphism-input:focus {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid var(--accent-color);
+    box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.05),
+        0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Light Theme Header Styling */
+[data-theme="light"] h1 {
+    background: linear-gradient(135deg, #3b82f6, #06b6d4, #10b981);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+[data-theme="light"] .bg-gray-800 {
+    background: linear-gradient(135deg, #3b82f6, #06b6d4) !important;
+}
+
+[data-theme="light"] .bg-gray-700\/50 {
+    background: linear-gradient(135deg, #3b82f6/80, #06b6d4/80) !important;
+}
+
+[data-theme="light"] .text-gray-300 {
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .text-gray-400 {
+    color: #e2e8f0 !important;
+}
+
+/* Light Theme Table Styling */
+[data-theme="light"] .bg-gray-800 {
+    background: linear-gradient(135deg, #3b82f6, #06b6d4) !important;
+}
+
+[data-theme="light"] .bg-gray-700\/50 {
+    background: linear-gradient(135deg, #3b82f6/80, #06b6d4/80) !important;
+}
+
+[data-theme="light"] .hover\:bg-gray-700:hover {
+    background: linear-gradient(135deg, #2563eb, #0891b2) !important;
+}
+
+[data-theme="light"] .border-gray-600 {
+    border-color: #3b82f6 !important;
+}
+
+/* Light Theme Copy Button */
+[data-theme="light"] .copy-button {
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.08),
+        0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="light"] .copy-button:hover {
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 
+        0 3px 12px rgba(0, 0, 0, 0.12),
+        0 1px 3px rgba(0, 0, 0, 0.06);
+}
+
+[data-theme="light"] .copy-button:active {
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 
+        inset 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Light Theme Switch Buttons */
+[data-theme="light"] .fixed .neumorphism-card {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 
+        0 4px 16px rgba(0, 0, 0, 0.1),
+        0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.text-theme-secondary {
+    color: var(--text-secondary);
+}
+
+/* Placeholder styling */
+.neumorphism-input::placeholder {
+    opacity: 0.6;
+    font-size: 0.875rem;
+}
+
+[data-theme="light"] .neumorphism-input::placeholder {
+    opacity: 0.5;
+    color: #64748b;
+}
+
+.text-theme-muted {
+    color: var(--text-muted);
+}
+
+.bg-theme-card {
+    background: var(--card-bg);
+}
+
+.bg-theme-input {
+    background: var(--input-bg);
+}
+
+.border-theme-input {
+    border-color: var(--input-border);
+}
+
+.focus\:border-theme-input:focus {
+    border-color: var(--input-focus);
+}
+
+.bg-theme-table-row {
+    background: var(--table-row-bg);
+}
+
+.hover\:bg-theme-table-row:hover {
+    background: var(--table-row-hover);
+}
+
+.border-theme-table {
+    border-color: var(--table-border);
+}
+
+/* Accessibility - Screen Reader Only */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Focus styles for accessibility */
+.focus\:ring-accent-color:focus {
+    --tw-ring-color: var(--accent-color);
+}
+
+.focus\:ring-offset-2:focus {
+    --tw-ring-offset-width: 2px;
+}
+
+/* Minimum touch target size */
+.min-h-\[44px\] {
+    min-height: 44px;
+}
+
+/* Animation for loading spinner */
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Ensure consistent notification positioning */
+#copy-alert {
+    position: fixed !important;
+    top: 5rem !important;
+    right: 1.5rem !important;
+    z-index: 9999 !important;
+}
+
+/* Ensure consistent positioning for both themes */
+[data-theme="dark"] #copy-alert,
+[data-theme="light"] #copy-alert {
+    position: fixed !important;
+    top: 5rem !important;
+    right: 1.5rem !important;
+    z-index: 9999 !important;
+}
+
+/* Override Tailwind classes for light theme notifications */
+[data-theme="light"] #copy-alert {
+    position: fixed !important;
+    top: 5rem !important;
+    right: 1.5rem !important;
+    z-index: 9999 !important;
+    transform: translateY(0) scale(1) !important;
+}
+
+[data-theme="light"] #copy-alert.show-notification {
+    position: fixed !important;
+    top: 5rem !important;
+    right: 1.5rem !important;
+    z-index: 9999 !important;
+    transform: translateY(0) scale(1) !important;
+}
+
+/* Smooth transitions for theme change */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Footer Styling */
+footer {
+    border-radius: 1rem;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+/* Light theme footer */
+[data-theme="light"] footer {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+        0 12px 48px rgba(0, 0, 0, 0.15),
+        0 4px 16px rgba(0, 0, 0, 0.1),
+        0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Enhanced shadows for light theme */
+[data-theme="light"] .neumorphism-card {
+    box-shadow: 
+        0 12px 48px rgba(0, 0, 0, 0.15),
+        0 4px 16px rgba(0, 0, 0, 0.1),
+        0 2px 8px rgba(0, 0, 0, 0.05) !important;
+}
+
+[data-theme="light"] .neumorphism-button {
+    box-shadow: 
+        0 6px 24px rgba(0, 0, 0, 0.12),
+        0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .neumorphism-button:hover {
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.18),
+        0 3px 12px rgba(0, 0, 0, 0.12) !important;
+}
+
+[data-theme="light"] .neumorphism-input {
+    box-shadow: 
+        inset 0 2px 4px rgba(0, 0, 0, 0.08),
+        0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+[data-theme="light"] .copy-button {
+    box-shadow: 
+        0 4px 16px rgba(0, 0, 0, 0.1),
+        0 1px 4px rgba(0, 0, 0, 0.06) !important;
+}
+
+[data-theme="light"] .copy-button:hover {
+    box-shadow: 
+        0 6px 20px rgba(0, 0, 0, 0.15),
+        0 2px 6px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Dark theme footer */
+[data-theme="dark"] footer {
+    background: rgba(30, 30, 30, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Light theme subtitle visibility */
+[data-theme="light"] .text-gray-400 {
+    color: #64748b !important;
+}
+
+/* Ensure subtitle is visible in light theme */
+[data-theme="light"] p[data-translate="subtitle"] {
+    color: #475569 !important;
+    font-weight: 500;
+}
+
+/* Table column widths */
+.table-custom th:nth-child(1),
+.table-custom td:nth-child(1) {
+    width: 30%;
+    padding-right: 1rem;
+}
+
+.table-custom th:nth-child(2),
+.table-custom td:nth-child(2) {
+    width: 55%;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
+
+.table-custom th:nth-child(3),
+.table-custom td:nth-child(3) {
+    width: 15%;
+    padding-left: 1rem;
+}
+
+/* Logo styling with enhanced shadows */
+.logo-container {
+    background: transparent;
+    border: none;
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.2),
+        0 4px 16px rgba(0, 0, 0, 0.15),
+        0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced logo shadows for light theme */
+[data-theme="light"] .logo-container {
+    box-shadow: 
+        0 12px 48px rgba(0, 0, 0, 0.25),
+        0 6px 24px rgba(0, 0, 0, 0.2),
+        0 3px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Enhanced logo shadows for dark theme */
+[data-theme="dark"] .logo-container {
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 4px 16px rgba(0, 0, 0, 0.3),
+        0 2px 8px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Logo hover effect */
+.logo-container:hover {
+    transform: translateY(-2px);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="light"] .logo-container:hover {
+    box-shadow: 
+        0 16px 64px rgba(0, 0, 0, 0.3),
+        0 8px 32px rgba(0, 0, 0, 0.25),
+        0 4px 16px rgba(0, 0, 0, 0.2) !important;
+}
+
+[data-theme="dark"] .logo-container:hover {
+    box-shadow: 
+        0 12px 48px rgba(0, 0, 0, 0.5),
+        0 6px 24px rgba(0, 0, 0, 0.4),
+        0 3px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Mobile notification sizing */
+@media (max-width: 768px) {
+    #copy-alert {
+        top: 1rem !important;
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%) !important;
+        width: calc(100vw - 2rem) !important;
+        max-width: 400px !important;
+        padding: 0.75rem 1rem !important;
+        font-size: 0.875rem !important;
+        line-height: 1.25rem !important;
+    }
+    
+    #copy-alert .flex {
+        gap: 0.5rem !important;
+    }
+    
+    #copy-alert svg {
+        width: 1rem !important;
+        height: 1rem !important;
+    }
+    
+    #copy-alert span {
+        font-size: 0.875rem !important;
+        line-height: 1.25rem !important;
+    }
+}
+
+/* Extra small mobile devices */
+@media (max-width: 480px) {
+    #copy-alert {
+        top: 0.75rem !important;
+        left: 50% !important;
+        right: auto !important;
+        transform: translateX(-50%) !important;
+        width: calc(100vw - 1.5rem) !important;
+        max-width: 350px !important;
+        padding: 0.5rem 0.75rem !important;
+        font-size: 0.8rem !important;
+        line-height: 1.2rem !important;
+    }
+    
+    #copy-alert svg {
+        width: 0.875rem !important;
+        height: 0.875rem !important;
+    }
+}
