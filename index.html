@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>2FA - Two Factor Authenticator</title>
+    <meta name="keywords" content="2FA, Google Authenticator, Two Factor Authentication" />
+    <meta name="description" content="Buat kode rahasia autentikasi dua faktor (2FA) dengan mudah menggunakan 2FA Generator. Setiap secret key yang dihasilkan bersifat unik dan dapat digunakan untuk mengamankan akun Anda dengan lapisan verifikasi tambahan." />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <link rel="icon" href="https://i.postimg.cc/brQ4kr65/favicon.png" type="image/png" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        /* Light Theme Variables */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-primary: rgba(255, 255, 255, 1);
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --text-muted: rgba(255, 255, 255, 0.7);
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --input-bg: rgba(255, 255, 255, 0.2);
+            --input-border: rgba(255, 255, 255, 0.3);
+            --input-focus: rgba(255, 255, 255, 0.6);
+            --button-gradient: linear-gradient(45deg, #667eea, #764ba2);
+            --table-row-bg: rgba(255, 255, 255, 0.05);
+            --table-row-hover: rgba(255, 255, 255, 0.1);
+            --table-border: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Dark Theme Variables */
+        [data-theme="light"] {
+            --bg-gradient: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 100%);
+            --glass-bg: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --text-primary: rgba(0, 0, 0, 0.9);
+            --text-secondary: rgba(0, 0, 0, 0.7);
+            --text-muted: rgba(0, 0, 0, 0.6);
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --input-bg: rgba(255, 255, 255, 0.8);
+            --input-border: rgba(0, 0, 0, 0.2);
+            --input-focus: rgba(59, 130, 246, 0.5);
+            --button-gradient: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            --table-row-bg: rgba(0, 0, 0, 0.02);
+            --table-row-hover: rgba(0, 0, 0, 0.05);
+            --table-border: rgba(0, 0, 0, 0.1);
+        }
+        
+        .glass-effect {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+        }
+        
+        .gradient-bg {
+            background: var(--bg-gradient);
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .pulse-border {
+            animation: pulse-border 2s infinite;
+        }
+        
+        @keyframes pulse-border {
+            0%, 100% { border-color: rgb(37, 99, 235); }
+            50% { border-color: rgb(79, 70, 229); }
+        }
+        
+        .modern-button {
+            background: var(--button-gradient);
+            border: none;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .modern-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .modern-button:hover::before {
+            left: 100%;
+        }
+        
+        /* Theme Switch Styles */
+        .theme-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: var(--glass-bg);
+            border-radius: 25px;
+            border: 2px solid var(--glass-border);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .theme-switch:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .theme-switch-handle {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 22px;
+            height: 22px;
+            background: var(--button-gradient);
+            border-radius: 50%;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        [data-theme="light"] .theme-switch-handle {
+            transform: translateX(28px);
+        }
+        
+        .theme-switch-icon {
+            width: 12px;
+            height: 12px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        
+        /* Custom text colors for theme switching */
+        .text-theme-primary {
+            color: var(--text-primary);
+        }
+        
+        .text-theme-secondary {
+            color: var(--text-secondary);
+        }
+        
+        .text-theme-muted {
+            color: var(--text-muted);
+        }
+        
+        .bg-theme-card {
+            background: var(--card-bg);
+        }
+        
+        .bg-theme-input {
+            background: var(--input-bg);
+        }
+        
+        .border-theme-input {
+            border-color: var(--input-border);
+        }
+        
+        .focus\:border-theme-input:focus {
+            border-color: var(--input-focus);
+        }
+        
+        .bg-theme-table-row {
+            background: var(--table-row-bg);
+        }
+        
+        .hover\:bg-theme-table-row:hover {
+            background: var(--table-row-hover);
+        }
+        
+        .border-theme-table {
+            border-color: var(--table-border);
+        }
+        
+        /* Smooth transitions for theme change */
+        * {
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+    </style>
+</head>
+<body class="min-h-screen gradient-bg flex flex-col" data-theme="dark">
+    <!-- Theme Switch Button - Fixed Position -->
+    <div class="fixed top-6 left-6 z-50">
+        <div class="flex items-center gap-3 bg-theme-card backdrop-blur-sm rounded-full px-4 py-2 border border-theme-input shadow-lg">
+            <svg class="w-4 h-4 text-theme-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+            </svg>
+            <div class="theme-switch" onclick="toggleTheme()">
+                <div class="theme-switch-handle">
+                    <svg class="theme-switch-icon moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                    </svg>
+                    <svg class="theme-switch-icon sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                </div>
+            </div>
+            <svg class="w-4 h-4 text-theme-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+            </svg>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-10 flex-grow max-w-4xl">
+        <div class="glass-effect rounded-2xl shadow-2xl overflow-hidden card-hover border border-theme-input">
+            <!-- Header -->
+            <div class="text-center py-12 px-6 relative">
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-purple-400/10"></div>
+                <div class="relative z-10">
+                    <div class="w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+                        <img 
+                            src="https://i.postimg.cc/brQ4kr65/favicon.png"
+                            alt="2FA Logo showing a security shield with two-factor authentication symbol"
+                            class="w-12 h-12 object-contain"
+                        />
+                    </div>
+                    <h1 class="text-5xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent mb-3">2FA Code Generator</h1>
+                    <p class="text-theme-secondary text-xl font-medium">Generate secure two-factor authentication codes instantly</p>
+                    <div class="mt-4 inline-block px-4 py-2 bg-theme-card rounded-full backdrop-blur-sm border border-theme-input">
+                        <span class="text-theme-muted text-sm font-medium">✨ Modern • Secure • Fast</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="bg-theme-card backdrop-blur-sm border border-theme-input p-8 mx-6 mb-6 rounded-xl">
+                <div class="mb-4">
+                    <textarea
+                        id="skey"
+                        class="w-full p-6 bg-theme-input backdrop-blur-sm border border-theme-input focus:border-theme-input focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 resize-vertical text-theme-primary placeholder-theme-muted pulse-border text-lg rounded-xl"
+                        rows="6"
+                        placeholder="Enter your secret keys (one per line)..."
+                    ></textarea>
+                </div>
+                
+                <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                    <button
+                        id="generateBtn"
+                        class="modern-button text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 hover:shadow-2xl hover:scale-105 flex items-center justify-center gap-3"
+                        onclick="run()"
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-3.586l6.257-6.257A6 6 0 0121 9z"></path>
+                        </svg>
+                        Generate Codes
+                    </button>
+                    <button
+                        id="clearBtn"
+                        class="bg-theme-input hover:bg-theme-card text-theme-primary px-6 py-4 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg backdrop-blur-sm border border-theme-input"
+                        onclick="qk()"
+                    >
+                        Clear All
+                    </button>
+                </div>
+
+                <!-- Results Table -->
+                <div class="bg-theme-card backdrop-blur-sm rounded-xl shadow-xl overflow-hidden border border-theme-input">
+                    <table class="w-full" id="tb">
+                        <thead>
+                            <tr class="bg-gradient-to-r from-blue-500/50 to-purple-600/50 text-white backdrop-blur-sm">
+                                <th class="px-4 py-3 text-left font-bold text-base">
+                                    <div class="flex items-center gap-2">
+                                        <svg class="w-5 h-5 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        Code
+                                    </div>
+                                </th>
+                                <th class="px-4 py-3 text-left font-bold text-base hidden sm:table-cell">
+                                    <div class="flex items-center gap-2">
+                                        <svg class="w-5 h-5 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-3.586l6.257-6.257A6 6 0 0121 9z"></path>
+                                        </svg>
+                                        Secret Key
+                                    </div>
+                                </th>
+                                <th class="px-4 py-3 text-left font-bold text-base hidden md:table-cell">
+                                    <div class="flex items-center gap-2">
+                                        <svg class="w-5 h-5 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        Generated
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="3" class="px-4 py-8 text-center text-theme-muted">
+                                    <div class="flex flex-col items-center gap-4">
+                                        <div class="w-16 h-16 bg-theme-input rounded-full flex items-center justify-center">
+                                            <svg class="w-8 h-8 text-theme-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                            </svg>
+                                        </div>
+                                        <p class="text-lg font-medium text-theme-secondary">Your 2FA codes will appear here</p>
+                                        <p class="text-sm text-theme-muted">Enter your secret keys and click Generate</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Information Notes -->
+                <div class="mt-8 space-y-4">
+                    <div class="bg-blue-500/20 backdrop-blur-sm border border-blue-400/30 rounded-xl p-4 flex items-start gap-3">
+                        <div class="w-6 h-6 bg-blue-500/30 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-theme-secondary text-sm leading-relaxed">
+                            <span class="font-semibold text-blue-300">ℹ️ Informasi:</span> Kode verifikasi akan diperbarui otomatis setiap 30 detik. Pastikan secret key Anda valid dan berasal dari sumber terpercaya.
+                        </div>
+                    </div>
+
+                    <div class="bg-yellow-500/20 backdrop-blur-sm border border-yellow-400/30 rounded-xl p-4 flex items-start gap-3">
+                        <div class="w-6 h-6 bg-yellow-500/30 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <svg class="w-4 h-4 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.99-.833-2.76 0L3.054 16.5C2.284 18.167 3.246 20 4.786 20z"></path>
+                            </svg>
+                        </div>
+                        <div class="text-theme-secondary text-sm leading-relaxed">
+                            <span class="font-semibold text-yellow-300">⚠️ Keamanan:</span> Jangan bagikan secret key atau kode verifikasi kepada siapa pun. Aplikasi ini berjalan sepenuhnya di browser Anda untuk keamanan maksimal.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-black/20 backdrop-blur-sm border-t border-theme-input py-6">
+        <div class="text-center text-theme-secondary text-sm">
+            <p class="font-medium">© 2025 2FA Code Generator</p>
+            <p class="mt-1">Built with ❤️ by <span class="font-semibold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">TENGLENG TEAM</span></p>
+        </div>
+    </footer>
+
+    <!-- Floating Alert -->
+    <div id="copy-alert" class="fixed top-20 right-5 px-6 py-3 rounded-md shadow-lg text-white font-semibold z-40 transition-all duration-300 bg-green-500 opacity-0 transform translate-y-2 pointer-events-none">
+    </div>
+
+    <script>
+        // Theme Management
+        function initializeTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.body.setAttribute('data-theme', savedTheme);
+            updateThemeIcons(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcons(newTheme);
+        }
+
+        function updateThemeIcons(theme) {
+            const moonIcon = document.querySelector('.moon-icon');
+            const sunIcon = document.querySelector('.sun-icon');
+            
+            if (theme === 'light') {
+                moonIcon.style.display = 'none';
+                sunIcon.style.display = 'block';
+            } else {
+                moonIcon.style.display = 'block';
+                sunIcon.style.display = 'none';
+            }
+        }
+
+        // Initialize theme on page load
+        document.addEventListener('DOMContentLoaded', initializeTheme);
+
+        // Base32 decode function
+        function base32Decode(encoded) {
+            const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+            let bits = '';
+            let output = [];
+            
+            encoded = encoded.toUpperCase().replace(/=+$/, '');
+            
+            for (let i = 0; i < encoded.length; i++) {
+                const val = alphabet.indexOf(encoded[i]);
+                if (val === -1) continue;
+                bits += val.toString(2).padStart(5, '0');
+            }
+            
+            for (let i = 0; i + 8 <= bits.length; i += 8) {
+                output.push(parseInt(bits.substring(i, i + 8), 2));
+            }
+            
+            return new Uint8Array(output);
+        }
+
+        // HOTP implementation using CryptoJS - FIXED
+        function HOTP(K, C) {
+            try {
+                const key = base32Decode(K);
+                const counterBuffer = new ArrayBuffer(8);
+                const counterView = new DataView(counterBuffer);
+                counterView.setUint32(4, C, false);
+                
+                // Convert key to WordArray for CryptoJS
+                const keyWords = CryptoJS.lib.WordArray.create(key);
+                
+                // Convert counter to WordArray for CryptoJS
+                const counterArray = new Uint8Array(counterBuffer);
+                const counterWords = CryptoJS.lib.WordArray.create(counterArray);
+                
+                // Generate HMAC-SHA1
+                const hmac = CryptoJS.HmacSHA1(counterWords, keyWords);
+                
+                // Convert result to bytes array
+                const hmacBytes = [];
+                for (let i = 0; i < hmac.words.length; i++) {
+                    const word = hmac.words[i];
+                    hmacBytes.push((word >>> 24) & 0xff);
+                    hmacBytes.push((word >>> 16) & 0xff); 
+                    hmacBytes.push((word >>> 8) & 0xff);
+                    hmacBytes.push(word & 0xff);
+                }
+                
+                const offset = hmacBytes[19] & 0x0f;
+                const code = ((hmacBytes[offset] & 0x7f) << 24) |
+                            ((hmacBytes[offset + 1] & 0xff) << 16) |
+                            ((hmacBytes[offset + 2] & 0xff) << 8) |
+                            (hmacBytes[offset + 3] & 0xff);
+                
+                const otp = (code % 1000000).toString().padStart(6, '0');
+                return otp;
+            } catch (error) {
+                console.error('HOTP generation error:', error);
+                return '000000';
+            }
+        }
+
+        // Format date time as DD-MM-YYYY HH:mm
+        function formatDateTime(date) {
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const year = date.getFullYear();
+            const hours = String(date.getHours()).padStart(2, '0');
+            const minutes = String(date.getMinutes()).padStart(2, '0');
+            return `${day}-${month}-${year} ${hours}:${minutes}`;
+        }
+
+        function run() {
+            const con = document.getElementById("skey").value;
+            const arr = con.split("\n");
+            
+            for (let i = 0; i < arr.length; i++) {
+                const secret = arr[i].trim();
+                if (!secret) continue;
+                
+                let code = secret;
+                if (secret.indexOf("|") > 0) {
+                    const arr2 = secret.split("|");
+                    code = arr2[2] || arr2[1] || arr2[0];
+                }
+                
+                if (code.length > 0) {
+                    const ctime = Math.floor((new Date() - 0) / 30000);
+                    const otp = HOTP(code, ctime);
+                    const waktuGenerate = formatDateTime(new Date());
+                    
+                    const str = `
+                        <tr class='ttrr bg-theme-table-row hover:bg-theme-table-row transition-all duration-300 border-b border-theme-table'>
+                            <td class='px-4 py-3 align-top'>
+                                <div class='flex flex-col gap-2'>
+                                    <span class='font-mono text-2xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent'>${otp}</span>
+                                    <button class='modern-button text-white px-3 py-1 rounded-lg text-xs font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105 copy-btn flex items-center gap-1 self-start' data-code='${otp}'>
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                        Copy
+                                    </button>
+                                </div>
+                                <div class='sm:hidden mt-3 pt-3 border-t border-theme-table'>
+                                    <div class='text-xs text-theme-muted mb-1'>Secret: <span class='font-mono text-theme-secondary'>${code.substring(0, 20)}${code.length > 20 ? '...' : ''}</span></div>
+                                    <div class='text-xs text-theme-muted'>Time: <span class='text-theme-secondary'>${waktuGenerate}</span></div>
+                                </div>
+                            </td>
+                            <td class='px-4 py-3 font-mono text-sm text-theme-secondary break-all hidden sm:table-cell align-middle'>${code}</td>
+                            <td class='px-4 py-3 text-sm text-theme-muted hidden md:table-cell align-middle'>${waktuGenerate}</td>
+                        </tr>
+                    `;
+                    
+                    // Remove placeholder row if it exists
+                    const placeholderRow = document.querySelector('#tb tbody tr td[colspan="3"]');
+                    if (placeholderRow) {
+                        placeholderRow.parentElement.remove();
+                    }
+                    
+                    // Add new row at the beginning
+                    document.querySelector("#tb tbody").insertAdjacentHTML('afterbegin', str);
+
+                    // Keep only 10 rows maximum
+                    const rows = document.querySelectorAll("#tb tbody .ttrr");
+                    if (rows.length > 10) {
+                        rows[rows.length - 1].remove();
+                    }
+                    
+                    // Update table visibility
+                    updateTableVisibility();
+                }
+            }
+        }
+
+        function updateTableVisibility() {
+            const rows = document.querySelectorAll("#tb tbody .ttrr");
+            const existingShowMoreRow = document.getElementById("show-more-row");
+            
+            if (rows.length > 3) {
+                // Hide rows after the 3rd one
+                rows.forEach((row, index) => {
+                    if (index >= 3) {
+                        row.style.display = 'none';
+                        row.classList.add('hidden-row');
+                    } else {
+                        row.style.display = 'table-row';
+                        row.classList.remove('hidden-row');
+                    }
+                });
+                
+                // Show "Show More" button if it doesn't exist
+                if (!existingShowMoreRow) {
+                    const showMoreRow = document.createElement('tr');
+                    showMoreRow.id = 'show-more-row';
+                    showMoreRow.innerHTML = `
+                        <td colspan="3" class="px-4 py-4 text-center">
+                            <button id="show-more-btn" class="bg-theme-input hover:bg-theme-card text-theme-primary px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 backdrop-blur-sm border border-theme-input hover:scale-105">
+                                Tampilkan Lainnya (${rows.length - 3})
+                            </button>
+                        </td>
+                    `;
+                    document.querySelector("#tb tbody").appendChild(showMoreRow);
+                } else {
+                    // Update button count if it already exists
+                    const btn = document.getElementById("show-more-btn");
+                    if (btn) {
+                        btn.textContent = `Tampilkan Lainnya (${rows.length - 3})`;
+                    }
+                }
+            } else {
+                // Remove show more button if 3 or fewer rows
+                if (existingShowMoreRow) {
+                    existingShowMoreRow.remove();
+                }
+                
+                // Show all rows if 3 or fewer
+                rows.forEach(row => {
+                    row.style.display = 'table-row';
+                    row.classList.remove('hidden-row');
+                });
+            }
+        }
+
+        function qk() {
+            document.getElementById("skey").value = '';
+            document.querySelectorAll(".ttrr").forEach(row => row.remove());
+            
+            // Remove show more button
+            const showMoreRow = document.getElementById("show-more-row");
+            if (showMoreRow) {
+                showMoreRow.remove();
+            }
+            
+            // Add placeholder row back
+            document.querySelector("#tb tbody").innerHTML = `
+                <tr>
+                    <td colspan="3" class="px-4 py-8 text-center text-theme-muted">
+                        <div class="flex flex-col items-center gap-4">
+                            <div class="w-16 h-16 bg-theme-input rounded-full flex items-center justify-center">
+                                <svg class="w-8 h-8 text-theme-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                </svg>
+                            </div>
+                            <p class="text-lg font-medium text-theme-secondary">Your 2FA codes will appear here</p>
+                            <p class="text-sm text-theme-muted">Enter your secret keys and click Generate</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }
+
+        // Copy to clipboard functionality and show more button
+        document.addEventListener('click', function(e) {
+            // Handle copy button clicks
+            const copyBtn = e.target.closest('.copy-btn');
+            if (copyBtn) {
+                e.preventDefault();
+                const code = copyBtn.getAttribute('data-code');
+                if (navigator.clipboard && window.isSecureContext) {
+                    navigator.clipboard.writeText(code).then(function() {
+                        showCopyAlert(`Kode 2FA berhasil disalin: ${code}`);
+                    }, function(err) {
+                        showCopyAlert(`Gagal menyalin kode: ${err}`, true);
+                    });
+                } else {
+                    // Fallback for non-HTTPS environments
+                    const textArea = document.createElement('textarea');
+                    textArea.value = code;
+                    textArea.style.position = 'fixed';
+                    textArea.style.opacity = '0';
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    try {
+                        document.execCommand('copy');
+                        showCopyAlert(`Kode 2FA berhasil disalin: ${code}`);
+                    } catch (err) {
+                        showCopyAlert(`Gagal menyalin kode: ${err}`, true);
+                    }
+                    document.body.removeChild(textArea);
+                }
+            }
+            
+            // Handle show more button clicks
+            if (e.target.id === 'show-more-btn' || e.target.closest('#show-more-btn')) {
+                e.preventDefault();
+                const hiddenRows = document.querySelectorAll("#tb tbody .hidden-row");
+                hiddenRows.forEach(row => {
+                    row.style.display = 'table-row';
+                    row.classList.remove('hidden-row');
+                });
+                
+                // Remove show more button after showing all rows
+                const showMoreRow = document.getElementById("show-more-row");
+                if (showMoreRow) {
+                    showMoreRow.remove();
+                }
+            }
+        });
+
+        function showCopyAlert(message, isError = false) {
+            const alertBox = document.getElementById('copy-alert');
+            alertBox.innerHTML = `
+                <div class="flex items-center gap-3">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${isError ? 'M6 18L18 6M6 6l12 12' : 'M5 13l4 4L19 7'}"></path>
+                    </svg>
+                    <span>${message}</span>
+                </div>
+            `;
+            alertBox.className = `fixed top-20 right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border ${
+                isError ? 'bg-red-500/90 border-red-400/50' : 'bg-green-500/90 border-green-400/50'
+            } opacity-100 transform translate-y-0 scale-100`;
+            
+            setTimeout(() => {
+                alertBox.className = `fixed top-20 right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border ${
+                    isError ? 'bg-red-500/90 border-red-400/50' : 'bg-green-500/90 border-green-400/50'
+                } opacity-0 transform translate-y-2 scale-95 pointer-events-none`;
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
