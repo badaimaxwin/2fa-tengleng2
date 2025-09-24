@@ -514,9 +514,10 @@ footer {
 
 /* OTP countdown ring styles */
 .otp-countdown {
-    display: inline-flex;
+    display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 0.25rem;
 }
 .otp-countdown .otp-ring {
     width: 30px;

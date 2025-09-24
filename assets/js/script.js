@@ -319,7 +319,7 @@ function createRow(entry, initialCode, waktuGenerate) {
 
     const tdCode = createCell('td', 'px-2 py-3 align-top');
     const codeWrap = createCell('div', 'flex flex-col gap-2');
-    const codeHeader = createCell('div', 'flex items-center justify-between');
+    const codeHeader = createCell('div', 'flex items-center');
     const codeSpan = createCell('span', 'font-mono text-2xl font-bold text-theme-primary otp-code', initialCode || '------');
 
     // Countdown container (ring + text)
@@ -348,7 +348,6 @@ function createRow(entry, initialCode, waktuGenerate) {
     countdownWrap.appendChild(countdownText);
 
     codeHeader.appendChild(codeSpan);
-    codeHeader.appendChild(countdownWrap);
     const copyBtn = createCell('button', 'copy-button text-theme-primary px-3 py-1 text-xs font-bold copy-btn flex items-center gap-1 self-start');
     copyBtn.setAttribute('type', 'button');
     const copyIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -367,6 +366,7 @@ function createRow(entry, initialCode, waktuGenerate) {
     copyBtn.appendChild(copyIcon);
     copyBtn.appendChild(copyText);
     codeWrap.appendChild(codeHeader);
+    codeWrap.appendChild(countdownWrap);
     codeWrap.appendChild(copyBtn);
     tdCode.appendChild(codeWrap);
 
