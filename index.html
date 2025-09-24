@@ -429,6 +429,31 @@
         * {
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
+        
+        /* Footer Styling */
+        footer {
+            border-radius: 1rem;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        
+        /* Light theme footer */
+        [data-theme="light"] footer {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.1),
+                0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        /* Dark theme footer */
+        [data-theme="dark"] footer {
+            background: rgba(30, 30, 30, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                0 2px 8px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body class="min-h-screen neumorphism-bg flex flex-col" data-theme="dark">
@@ -613,10 +638,55 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-black/20 backdrop-blur-sm border-t border-theme-input py-6">
-        <div class="text-center text-theme-secondary text-sm">
-            <p class="font-medium">© 2025 2FA Code Generator</p>
-            <p class="mt-1">Built with ❤️ by <span class="font-semibold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">TENGLENG TEAM</span></p>
+    <footer class="neumorphism-card mx-6 mb-6 mt-8">
+        <div class="text-center py-8">
+            <!-- Logo and Title -->
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-theme-primary">2FA Generator</h3>
+                    <p class="text-xs text-theme-muted">Secure & Fast</p>
+                </div>
+            </div>
+            
+            <!-- Features -->
+            <div class="flex flex-wrap justify-center gap-4 mb-6">
+                <div class="flex items-center gap-2 text-theme-secondary text-sm">
+                    <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <span>100% Secure</span>
+                </div>
+                <div class="flex items-center gap-2 text-theme-secondary text-sm">
+                    <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
+                    <span>Lightning Fast</span>
+                </div>
+                <div class="flex items-center gap-2 text-theme-secondary text-sm">
+                    <svg class="w-4 h-4 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                    </svg>
+                    <span>Open Source</span>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="border-t border-theme-input pt-4">
+                <p class="text-theme-muted text-sm">
+                    © 2025 2FA Code Generator • Built with ❤️ by 
+                    <span class="font-semibold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
+                        TENGLENG TEAM
+                    </span>
+                </p>
+                <p class="text-theme-muted text-xs mt-2">
+                    Runs entirely in your browser • No data sent to servers
+                </p>
+            </div>
         </div>
     </footer>
 
