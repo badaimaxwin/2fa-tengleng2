@@ -564,6 +564,7 @@ async function run() {
                 algorithm: parsed.algorithm,
                 digits: parsed.digits,
                 period: parsed.period,
+                t0Ms: parsed.t0Ms,
                 label: parsed.label,
                 issuer: parsed.issuer,
                 key: null,
@@ -574,7 +575,8 @@ async function run() {
             };
 
             const now = new Date();
-            const step = Math.floor(now.getTime() / ((entry.period || 30) * 1000));
+            const t0 = entry.t0Ms || 0;
+            const step = Math.floor((now.getTime() - t0) / ((entry.period || 30) * 1000));
             const code = await generateTOTPForEntry(entry, step);
             if (!code) {
                 errorCount++;
