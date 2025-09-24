@@ -324,8 +324,8 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                                             </svg>
                                         </div>
-                            <p class="text-lg font-medium text-theme-secondary">${translations[currentLanguage].placeholderText}</p>
-                            <p class="text-sm text-theme-muted">${translations[currentLanguage].placeholderSubtext}</p>
+                            <p class="text-lg font-medium text-theme-secondary" data-translate="placeholderText">Your 2FA codes will appear here</p>
+                            <p class="text-sm text-theme-muted" data-translate="placeholderSubtext">Enter your secret keys and click Generate</p>
                                     </div>
                                 </td>
                             </tr>
@@ -454,6 +454,13 @@
                     element.placeholder = translations[currentLanguage][key];
                 }
             });
+        }
+
+        function updateLanguageAfterContent() {
+            // Update any dynamically created content
+            setTimeout(() => {
+                updateLanguage();
+            }, 100);
         }
 
         function updateLanguageButton() {
@@ -708,12 +715,15 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                                 </svg>
                             </div>
-                            <p class="text-lg font-medium text-theme-secondary" data-translate="placeholderText">Your 2FA codes will appear here</p>
-                            <p class="text-sm text-theme-muted" data-translate="placeholderSubtext">Enter your secret keys and click Generate</p>
+                            <p class="text-lg font-medium text-theme-secondary" data-translate="placeholderText">${translations[currentLanguage].placeholderText}</p>
+                            <p class="text-sm text-theme-muted" data-translate="placeholderSubtext">${translations[currentLanguage].placeholderSubtext}</p>
                         </div>
                     </td>
                 </tr>
             `;
+            
+            // Update language for newly created content
+            updateLanguageAfterContent();
         }
 
         // Copy to clipboard functionality and show more button
