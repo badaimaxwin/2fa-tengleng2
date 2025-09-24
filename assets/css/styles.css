@@ -530,10 +530,10 @@ footer {
 .otp-row .otp-code {
     justify-self: start;
 }
-.otp-row .otp-countdown {
+.otp-row .copy-button {
     justify-self: center;
 }
-.otp-row .copy-button {
+.otp-row .otp-countdown {
     justify-self: end;
 }
 .otp-countdown .otp-ring {

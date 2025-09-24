@@ -365,9 +365,9 @@ function createRow(entry, initialCode, waktuGenerate) {
     copyText.textContent = translations[currentLanguage].copyBtn;
     copyBtn.appendChild(copyIcon);
     copyBtn.appendChild(copyText);
-    // Order: [OTP code] [countdown centered] [copy button]
-    codeHeader.appendChild(countdownWrap);
+    // Order: [OTP code] [copy centered] [countdown right]
     codeHeader.appendChild(copyBtn);
+    codeHeader.appendChild(countdownWrap);
     codeWrap.appendChild(codeHeader);
     tdCode.appendChild(codeWrap);
 
