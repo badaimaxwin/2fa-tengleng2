@@ -69,8 +69,8 @@
         .neumorphism-input:focus {
             box-shadow: 
                 inset 4px 4px 8px var(--shadow-dark),
-                inset -4px -4px 8px var(--shadow-light),
-                0 0 0 2px var(--accent-color);
+                inset -4px -4px 8px var(--shadow-light);
+            outline: none;
         }
         
         /* Neumorphism Dark Theme */
@@ -298,7 +298,7 @@
                 <div class="mb-4">
                     <textarea
                         id="skey"
-                        class="w-full p-6 neumorphism-input focus:outline-none transition-all duration-300 resize-vertical text-theme-primary placeholder-theme-muted text-lg"
+                        class="w-full p-6 neumorphism-input transition-all duration-300 resize-vertical text-theme-primary placeholder-theme-muted text-lg"
                         rows="3"
                         placeholder="Enter your secret keys (one per line)..."
                         data-translate-placeholder="placeholder"
