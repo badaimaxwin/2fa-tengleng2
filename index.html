@@ -28,7 +28,7 @@
             --input-bg: rgba(255, 255, 255, 0.2);
             --input-border: rgba(255, 255, 255, 0.3);
             --input-focus: rgba(14, 165, 233, 0.6);
-            --button-gradient: linear-gradient(45deg, #0ea5e9, #3b82f6);
+            --button-gradient: linear-gradient(45deg, #0ea5e9, #06b6d4, #3b82f6);
             --table-row-bg: rgba(255, 255, 255, 0.05);
             --table-row-hover: rgba(14, 165, 233, 0.1);
             --table-border: rgba(255, 255, 255, 0.1);
@@ -70,7 +70,7 @@
             border: none;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.3);
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
         }
         
         .modern-button::before {
@@ -89,7 +89,7 @@
         }
         
         .modern-button:hover {
-            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.5);
+            box-shadow: 0 8px 25px rgba(14, 165, 233, 0.6);
             transform: translateY(-2px);
         }
         
@@ -257,7 +257,7 @@
                 <div class="flex flex-col sm:flex-row gap-4 mb-8">
                     <button
                         id="generateBtn"
-                        class="modern-button text-white px-8 py-4 rounded-xl font-bold text-lg transition-all duration-300 flex items-center justify-center gap-3 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]"
+                        class="modern-button text-white px-6 py-3 rounded-xl font-bold text-base transition-all duration-300 flex items-center justify-center gap-2 drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]"
                         onclick="run()"
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -267,7 +267,7 @@
                     </button>
                     <button
                         id="clearBtn"
-                        class="bg-theme-input hover:bg-theme-card text-theme-primary px-6 py-4 rounded-xl font-bold transition-all duration-300 hover:shadow-lg backdrop-blur-sm border border-theme-input drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]"
+                        class="bg-theme-input hover:bg-theme-card text-theme-primary px-4 py-3 rounded-xl font-bold transition-all duration-300 hover:shadow-lg backdrop-blur-sm border border-theme-input drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]"
                         onclick="qk()"
                     >
                         <span data-translate="clearBtn">Clear All</span>
