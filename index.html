@@ -408,6 +408,23 @@
             z-index: 9999 !important;
         }
         
+        /* Override Tailwind classes for light theme notifications */
+        [data-theme="light"] #copy-alert {
+            position: fixed !important;
+            top: 5rem !important;
+            right: 1.5rem !important;
+            z-index: 9999 !important;
+            transform: translateY(0) scale(1) !important;
+        }
+        
+        [data-theme="light"] #copy-alert.show-notification {
+            position: fixed !important;
+            top: 5rem !important;
+            right: 1.5rem !important;
+            z-index: 9999 !important;
+            transform: translateY(0) scale(1) !important;
+        }
+        
         /* Smooth transitions for theme change */
         * {
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
@@ -870,6 +887,7 @@
         function showUserFriendlyError(messageKey, customMessage = null) {
             const alertBox = document.getElementById('copy-alert');
             const message = customMessage || translations[currentLanguage][messageKey] || messageKey;
+            const currentTheme = document.body.getAttribute('data-theme');
             
             alertBox.innerHTML = `
                 <div class="flex items-center gap-3">
@@ -879,6 +897,15 @@
                     <span>${message}</span>
                 </div>
             `;
+            
+            // Force positioning for light theme
+            if (currentTheme === 'light') {
+                alertBox.style.position = 'fixed';
+                alertBox.style.top = '5rem';
+                alertBox.style.right = '1.5rem';
+                alertBox.style.zIndex = '9999';
+            }
+            
             alertBox.className = `fixed top-20 right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border bg-red-500/90 border-red-400/50 opacity-100 transform translate-y-0 scale-100`;
             
             setTimeout(() => {
@@ -1133,6 +1160,8 @@
 
         function showCopyAlert(message, isError = false) {
             const alertBox = document.getElementById('copy-alert');
+            const currentTheme = document.body.getAttribute('data-theme');
+            
             alertBox.innerHTML = `
                 <div class="flex items-center gap-3">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1141,6 +1170,15 @@
                     <span>${message}</span>
                 </div>
             `;
+            
+            // Force positioning for light theme
+            if (currentTheme === 'light') {
+                alertBox.style.position = 'fixed';
+                alertBox.style.top = '5rem';
+                alertBox.style.right = '1.5rem';
+                alertBox.style.zIndex = '9999';
+            }
+            
             alertBox.className = `fixed top-20 right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border ${
                 isError ? 'bg-red-500/90 border-red-400/50' : 'bg-green-500/90 border-green-400/50'
             } opacity-100 transform translate-y-0 scale-100`;
