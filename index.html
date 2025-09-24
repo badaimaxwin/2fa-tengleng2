@@ -289,7 +289,7 @@
                     <table class="w-full" id="tb">
                         <thead>
                             <tr class="bg-gradient-to-r from-blue-500/50 to-purple-600/50 text-white backdrop-blur-sm">
-                                <th class="px-4 py-3 text-left font-bold text-base">
+                                <th class="px-2 py-3 text-left font-bold text-base">
                                     <div class="flex items-center gap-2">
                                         <svg class="w-5 h-5 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -297,7 +297,7 @@
                                         <span data-translate="codeHeader">Code</span>
                                     </div>
                                 </th>
-                                <th class="px-4 py-3 text-left font-bold text-base hidden sm:table-cell">
+                                <th class="px-2 py-3 text-left font-bold text-base hidden sm:table-cell">
                                     <div class="flex items-center gap-2">
                                         <svg class="w-5 h-5 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-3.586l6.257-6.257A6 6 0 0121 9z"></path>
@@ -305,7 +305,7 @@
                                         <span data-translate="secretKeyHeader">Secret Key</span>
                                     </div>
                                 </th>
-                                <th class="px-4 py-3 text-left font-bold text-base hidden md:table-cell">
+                                <th class="px-2 py-3 text-left font-bold text-base hidden md:table-cell">
                                     <div class="flex items-center gap-2">
                                         <svg class="w-5 h-5 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -605,7 +605,7 @@
                     
                     const str = `
                         <tr class='ttrr bg-theme-table-row hover:bg-theme-table-row transition-all duration-300 border-b border-theme-table'>
-                            <td class='px-4 py-3 align-top'>
+                            <td class='px-2 py-3 align-top'>
                                 <div class='flex flex-col gap-2'>
                                     <span class='font-mono text-2xl font-bold bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent'>${otp}</span>
                                     <button class='modern-button text-white px-3 py-1 rounded-lg text-xs font-semibold transition-all duration-300 hover:shadow-lg hover:scale-105 copy-btn flex items-center gap-1 self-start' data-code='${otp}'>
@@ -620,8 +620,8 @@
                                     <div class='text-xs text-theme-muted'>Time: <span class='text-theme-secondary'>${waktuGenerate}</span></div>
                                 </div>
                             </td>
-                            <td class='px-4 py-3 font-mono text-sm text-theme-secondary break-all hidden sm:table-cell align-middle'>${code}</td>
-                            <td class='px-4 py-3 text-sm text-theme-muted hidden md:table-cell align-middle'>${waktuGenerate}</td>
+                            <td class='px-2 py-3 font-mono text-sm text-theme-secondary break-all hidden sm:table-cell align-middle'>${code}</td>
+                            <td class='px-2 py-3 text-sm text-theme-muted hidden md:table-cell align-middle'>${waktuGenerate}</td>
                         </tr>
                     `;
                     
