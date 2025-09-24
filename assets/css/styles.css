@@ -512,6 +512,29 @@ footer {
     text-align: center;
 }
 
+/* OTP countdown ring styles */
+.otp-countdown .otp-ring {
+    width: 20px;
+    height: 20px;
+}
+.otp-ring-circle-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.15);
+    stroke-width: 3;
+}
+.otp-ring-circle {
+    fill: none;
+    stroke: #10b981; /* success green */
+    stroke-width: 3;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    transition: stroke-dashoffset 0.25s linear;
+}
+.otp-countdown-text {
+    font-size: 0.75rem;
+    line-height: 1rem;
+}
+
 /* Logo styling with enhanced shadows */
 .logo-container {
     background: transparent;

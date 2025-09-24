@@ -203,6 +203,7 @@ function base32Decode(encoded) {
 // Web Crypto based TOTP implementation with otpauth parsing
 const activeEntries = [];
 let refreshTimeout = null;
+let countdownInterval = null;
 
 function mapAlgorithm(alg) {
     const upper = String(alg || 'SHA1').toUpperCase();
@@ -318,7 +319,36 @@ function createRow(entry, initialCode, waktuGenerate) {
 
     const tdCode = createCell('td', 'px-2 py-3 align-top');
     const codeWrap = createCell('div', 'flex flex-col gap-2');
+    const codeHeader = createCell('div', 'flex items-center justify-between');
     const codeSpan = createCell('span', 'font-mono text-2xl font-bold text-theme-primary otp-code', initialCode || '------');
+
+    // Countdown container (ring + text)
+    const countdownWrap = createCell('div', 'otp-countdown flex items-center gap-1');
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'otp-ring');
+    svg.setAttribute('viewBox', '0 0 36 36');
+    const radius = 16; // r
+    const circumference = 2 * Math.PI * radius;
+    const bgCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    bgCircle.setAttribute('cx', '18');
+    bgCircle.setAttribute('cy', '18');
+    bgCircle.setAttribute('r', String(radius));
+    bgCircle.setAttribute('class', 'otp-ring-circle-bg');
+    const fgCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    fgCircle.setAttribute('cx', '18');
+    fgCircle.setAttribute('cy', '18');
+    fgCircle.setAttribute('r', String(radius));
+    fgCircle.setAttribute('class', 'otp-ring-circle');
+    fgCircle.style.strokeDasharray = String(circumference);
+    fgCircle.style.strokeDashoffset = '0';
+    svg.appendChild(bgCircle);
+    svg.appendChild(fgCircle);
+    const countdownText = createCell('span', 'otp-countdown-text text-theme-muted', '');
+    countdownWrap.appendChild(svg);
+    countdownWrap.appendChild(countdownText);
+
+    codeHeader.appendChild(codeSpan);
+    codeHeader.appendChild(countdownWrap);
     const copyBtn = createCell('button', 'copy-button text-theme-primary px-3 py-1 text-xs font-bold copy-btn flex items-center gap-1 self-start');
     copyBtn.setAttribute('type', 'button');
     const copyIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -336,7 +366,7 @@ function createRow(entry, initialCode, waktuGenerate) {
     copyText.textContent = translations[currentLanguage].copyBtn;
     copyBtn.appendChild(copyIcon);
     copyBtn.appendChild(copyText);
-    codeWrap.appendChild(codeSpan);
+    codeWrap.appendChild(codeHeader);
     codeWrap.appendChild(copyBtn);
     tdCode.appendChild(codeWrap);
 
@@ -354,7 +384,7 @@ function createRow(entry, initialCode, waktuGenerate) {
     mobileDetails.appendChild(timeMobile);
     tdCode.appendChild(mobileDetails);
 
-    const tdSecret = createCell('td', 'px-2 py-3 font-mono text-sm text-theme-secondary break-all hidden sm:table-cell align-middle', entry.secretDisplay || '');
+    const tdSecret = createCell('td', 'px-2 py-3 font-mono text-sm text-theme-secondary break-all hidden sm:table-cell align-middle text-center', entry.secretDisplay || '');
     const tdTime = createCell('td', 'px-2 py-3 text-sm text-theme-muted hidden md:table-cell align-middle text-center', waktuGenerate);
 
     tr.appendChild(tdCode);
@@ -366,6 +396,9 @@ function createRow(entry, initialCode, waktuGenerate) {
     entry.codeSpan = codeSpan;
     entry.timeCell = tdTime;
     entry.timeMobileSpan = timeMobileSpan;
+    entry.countdownCircle = fgCircle;
+    entry.countdownCircumference = circumference;
+    entry.countdownText = countdownText;
 
     return tr;
 }
@@ -427,6 +460,31 @@ async function scheduleRefresh() {
     await refreshAllOtps();
     const nextDelay = computeNextRefreshDelayMs();
     refreshTimeout = setTimeout(scheduleRefresh, nextDelay);
+    startCountdownLoop();
+}
+
+function updateCountdownDisplays() {
+    if (activeEntries.length === 0) return;
+    const now = Date.now();
+    for (const e of activeEntries) {
+        const periodMs = (e.period || 30) * 1000;
+        const remainingMs = periodMs - (now % periodMs);
+        const frac = Math.max(0, Math.min(1, remainingMs / periodMs));
+        if (e.countdownCircle && e.countdownCircumference != null) {
+            const offset = e.countdownCircumference * (1 - frac);
+            e.countdownCircle.style.strokeDashoffset = String(offset);
+        }
+        if (e.countdownText) {
+            const secs = Math.ceil(remainingMs / 1000);
+            e.countdownText.textContent = `${secs}s`;
+        }
+    }
+}
+
+function startCountdownLoop() {
+    if (countdownInterval) clearInterval(countdownInterval);
+    updateCountdownDisplays();
+    countdownInterval = setInterval(updateCountdownDisplays, 250);
 }
 
 function showUserFriendlyError(messageKey, customMessage = null) {
