@@ -355,7 +355,7 @@ function createRow(entry, initialCode, waktuGenerate) {
     tdCode.appendChild(mobileDetails);
 
     const tdSecret = createCell('td', 'px-2 py-3 font-mono text-sm text-theme-secondary break-all hidden sm:table-cell align-middle', entry.secretDisplay || '');
-    const tdTime = createCell('td', 'px-2 py-3 text-sm text-theme-muted hidden md:table-cell align-middle', waktuGenerate);
+    const tdTime = createCell('td', 'px-2 py-3 text-sm text-theme-muted hidden md:table-cell align-middle text-center', waktuGenerate);
 
     tr.appendChild(tdCode);
     tr.appendChild(tdSecret);
