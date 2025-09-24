@@ -217,6 +217,20 @@
         </div>
     </div>
 
+    <!-- Language Switch Button - Fixed Position -->
+    <div class="fixed top-6 right-6 z-50">
+        <div class="bg-theme-card backdrop-blur-sm rounded-full px-4 py-2 border border-theme-input shadow-lg">
+            <button id="language-switch" onclick="toggleLanguage()" class="flex items-center gap-2 text-theme-primary font-semibold text-sm transition-all duration-300 hover:scale-105">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
+                </svg>
+                <span id="current-lang">EN</span>
+                <span class="text-theme-muted">|</span>
+                <span id="other-lang">ID</span>
+            </button>
+        </div>
+    </div>
+
     <div class="container mx-auto px-4 py-10 flex-grow max-w-4xl">
         <div class="glass-effect rounded-2xl shadow-2xl overflow-hidden card-hover border border-theme-input">
             <!-- Header -->
@@ -230,10 +244,10 @@
                             class="w-12 h-12 object-contain"
                         />
                     </div>
-                    <h1 class="text-5xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent mb-3">2FA Code Generator</h1>
-                    <p class="text-theme-secondary text-xl font-medium">Generate secure two-factor authentication codes instantly</p>
+                    <h1 class="text-5xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent mb-3" data-translate="title">2FA Code Generator</h1>
+                    <p class="text-theme-secondary text-xl font-medium" data-translate="subtitle">Generate secure two-factor authentication codes instantly</p>
                     <div class="mt-4 inline-block px-4 py-2 bg-theme-card rounded-full backdrop-blur-sm border border-theme-input">
-                        <span class="text-theme-muted text-sm font-medium">✨ Modern • Secure • Fast</span>
+                        <span class="text-theme-muted text-sm font-medium" data-translate="features">✨ Modern • Secure • Fast</span>
                     </div>
                 </div>
             </div>
@@ -246,6 +260,7 @@
                         class="w-full p-6 bg-theme-input backdrop-blur-sm border border-theme-input focus:border-theme-input focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 resize-vertical text-theme-primary placeholder-theme-muted pulse-border text-lg rounded-xl"
                         rows="6"
                         placeholder="Enter your secret keys (one per line)..."
+                        data-translate-placeholder="placeholder"
                     ></textarea>
                 </div>
                 
@@ -258,14 +273,14 @@
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-3.586l6.257-6.257A6 6 0 0121 9z"></path>
                         </svg>
-                        Generate Codes
+                        <span data-translate="generateBtn">Generate Codes</span>
                     </button>
                     <button
                         id="clearBtn"
                         class="bg-theme-input hover:bg-theme-card text-theme-primary px-6 py-4 rounded-xl font-semibold transition-all duration-300 hover:shadow-lg backdrop-blur-sm border border-theme-input"
                         onclick="qk()"
                     >
-                        Clear All
+                        <span data-translate="clearBtn">Clear All</span>
                     </button>
                 </div>
 
@@ -279,7 +294,7 @@
                                         <svg class="w-5 h-5 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                         </svg>
-                                        Code
+                                        <span data-translate="codeHeader">Code</span>
                                     </div>
                                 </th>
                                 <th class="px-4 py-3 text-left font-bold text-base hidden sm:table-cell">
@@ -287,7 +302,7 @@
                                         <svg class="w-5 h-5 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-3.586l6.257-6.257A6 6 0 0121 9z"></path>
                                         </svg>
-                                        Secret Key
+                                        <span data-translate="secretKeyHeader">Secret Key</span>
                                     </div>
                                 </th>
                                 <th class="px-4 py-3 text-left font-bold text-base hidden md:table-cell">
@@ -295,7 +310,7 @@
                                         <svg class="w-5 h-5 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                         </svg>
-                                        Generated
+                                        <span data-translate="generatedHeader">Generated</span>
                                     </div>
                                 </th>
                             </tr>
@@ -309,8 +324,8 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                                             </svg>
                                         </div>
-                                        <p class="text-lg font-medium text-theme-secondary">Your 2FA codes will appear here</p>
-                                        <p class="text-sm text-theme-muted">Enter your secret keys and click Generate</p>
+                            <p class="text-lg font-medium text-theme-secondary">${translations[currentLanguage].placeholderText}</p>
+                            <p class="text-sm text-theme-muted">${translations[currentLanguage].placeholderSubtext}</p>
                                     </div>
                                 </td>
                             </tr>
@@ -327,7 +342,7 @@
                             </svg>
                         </div>
                         <div class="text-theme-secondary text-sm leading-relaxed">
-                            <span class="font-semibold text-blue-300">ℹ️ Information:</span> Verification codes will be automatically updated every 30 seconds. Make sure your secret key is valid and from a trusted source.
+                            <span class="font-semibold text-blue-300" data-translate="infoLabel">ℹ️ Information:</span> <span data-translate="infoText">Verification codes will be automatically updated every 30 seconds. Make sure your secret key is valid and from a trusted source.</span>
                         </div>
                     </div>
 
@@ -338,7 +353,7 @@
                             </svg>
                         </div>
                         <div class="text-theme-secondary text-sm leading-relaxed">
-                            <span class="font-semibold text-yellow-300">⚠️ Security:</span> Do not share your secret key or verification codes with anyone. This application runs entirely in your browser for maximum security.
+                            <span class="font-semibold text-yellow-300" data-translate="securityLabel">⚠️ Security:</span> <span data-translate="securityText">Do not share your secret key or verification codes with anyone. This application runs entirely in your browser for maximum security.</span>
                         </div>
                     </div>
                 </div>
@@ -359,6 +374,101 @@
     </div>
 
     <script>
+        // Translation System
+        const translations = {
+            en: {
+                title: "2FA Code Generator",
+                subtitle: "Generate secure two-factor authentication codes instantly",
+                features: "✨ Modern • Secure • Fast",
+                placeholder: "Enter your secret keys (one per line)...",
+                generateBtn: "Generate Codes",
+                clearBtn: "Clear All",
+                codeHeader: "Code",
+                secretKeyHeader: "Secret Key",
+                generatedHeader: "Generated",
+                placeholderText: "Your 2FA codes will appear here",
+                placeholderSubtext: "Enter your secret keys and click Generate",
+                infoLabel: "ℹ️ Information:",
+                infoText: "Verification codes will be automatically updated every 30 seconds. Make sure your secret key is valid and from a trusted source.",
+                securityLabel: "⚠️ Security:",
+                securityText: "Do not share your secret key or verification codes with anyone. This application runs entirely in your browser for maximum security.",
+                copySuccess: "2FA code copied successfully:",
+                copyError: "Failed to copy code:",
+                showMore: "Show More",
+                copyBtn: "Copy"
+            },
+            id: {
+                title: "Generator Kode 2FA",
+                subtitle: "Buat kode autentikasi dua faktor yang aman dengan mudah",
+                features: "✨ Modern • Aman • Cepat",
+                placeholder: "Masukkan secret key Anda (satu per baris)...",
+                generateBtn: "Buat Kode",
+                clearBtn: "Hapus Semua",
+                codeHeader: "Kode",
+                secretKeyHeader: "Secret Key",
+                generatedHeader: "Dibuat",
+                placeholderText: "Kode 2FA Anda akan muncul di sini",
+                placeholderSubtext: "Masukkan secret key dan klik Buat Kode",
+                infoLabel: "ℹ️ Informasi:",
+                infoText: "Kode verifikasi akan diperbarui otomatis setiap 30 detik. Pastikan secret key Anda valid dan berasal dari sumber terpercaya.",
+                securityLabel: "⚠️ Keamanan:",
+                securityText: "Jangan bagikan secret key atau kode verifikasi kepada siapa pun. Aplikasi ini berjalan sepenuhnya di browser Anda untuk keamanan maksimal.",
+                copySuccess: "Kode 2FA berhasil disalin:",
+                copyError: "Gagal menyalin kode:",
+                showMore: "Tampilkan Lainnya",
+                copyBtn: "Salin"
+            }
+        };
+
+        let currentLanguage = 'en';
+
+        // Language Management
+        function initializeLanguage() {
+            const savedLanguage = localStorage.getItem('language') || 'en';
+            currentLanguage = savedLanguage;
+            updateLanguage();
+            updateLanguageButton();
+        }
+
+        function toggleLanguage() {
+            currentLanguage = currentLanguage === 'en' ? 'id' : 'en';
+            localStorage.setItem('language', currentLanguage);
+            updateLanguage();
+            updateLanguageButton();
+        }
+
+        function updateLanguage() {
+            const elements = document.querySelectorAll('[data-translate]');
+            elements.forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[currentLanguage][key]) {
+                    element.textContent = translations[currentLanguage][key];
+                }
+            });
+
+            // Update placeholders
+            const placeholderElements = document.querySelectorAll('[data-translate-placeholder]');
+            placeholderElements.forEach(element => {
+                const key = element.getAttribute('data-translate-placeholder');
+                if (translations[currentLanguage][key]) {
+                    element.placeholder = translations[currentLanguage][key];
+                }
+            });
+        }
+
+        function updateLanguageButton() {
+            const currentLangSpan = document.getElementById('current-lang');
+            const otherLangSpan = document.getElementById('other-lang');
+            
+            if (currentLanguage === 'en') {
+                currentLangSpan.textContent = 'EN';
+                otherLangSpan.textContent = 'ID';
+            } else {
+                currentLangSpan.textContent = 'ID';
+                otherLangSpan.textContent = 'EN';
+            }
+        }
+
         // Theme Management
         function initializeTheme() {
             const savedTheme = localStorage.getItem('theme') || 'dark';
@@ -388,8 +498,11 @@
             }
         }
 
-        // Initialize theme on page load
-        document.addEventListener('DOMContentLoaded', initializeTheme);
+        // Initialize theme and language on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTheme();
+            initializeLanguage();
+        });
 
         // Base32 decode function
         function base32Decode(encoded) {
@@ -492,7 +605,7 @@
                                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                                         </svg>
-                                        Copy
+                                        ${translations[currentLanguage].copyBtn}
                                     </button>
                                 </div>
                                 <div class='sm:hidden mt-3 pt-3 border-t border-theme-table'>
@@ -549,7 +662,7 @@
                     showMoreRow.innerHTML = `
                         <td colspan="3" class="px-4 py-4 text-center">
                             <button id="show-more-btn" class="bg-theme-input hover:bg-theme-card text-theme-primary px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 backdrop-blur-sm border border-theme-input hover:scale-105">
-                                Show More (${rows.length - 3})
+                                ${translations[currentLanguage].showMore} (${rows.length - 3})
                             </button>
                         </td>
                     `;
@@ -558,7 +671,7 @@
                     // Update button count if it already exists
                     const btn = document.getElementById("show-more-btn");
                     if (btn) {
-                        btn.textContent = `Show More (${rows.length - 3})`;
+                        btn.textContent = `${translations[currentLanguage].showMore} (${rows.length - 3})`;
                     }
                 }
             } else {
@@ -595,8 +708,8 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                                 </svg>
                             </div>
-                            <p class="text-lg font-medium text-theme-secondary">Your 2FA codes will appear here</p>
-                            <p class="text-sm text-theme-muted">Enter your secret keys and click Generate</p>
+                            <p class="text-lg font-medium text-theme-secondary" data-translate="placeholderText">Your 2FA codes will appear here</p>
+                            <p class="text-sm text-theme-muted" data-translate="placeholderSubtext">Enter your secret keys and click Generate</p>
                         </div>
                     </td>
                 </tr>
@@ -612,9 +725,9 @@
                 const code = copyBtn.getAttribute('data-code');
                 if (navigator.clipboard && window.isSecureContext) {
                     navigator.clipboard.writeText(code).then(function() {
-                        showCopyAlert(`2FA code copied successfully: ${code}`);
+                        showCopyAlert(`${translations[currentLanguage].copySuccess} ${code}`);
                     }, function(err) {
-                        showCopyAlert(`Failed to copy code: ${err}`, true);
+                        showCopyAlert(`${translations[currentLanguage].copyError} ${err}`, true);
                     });
                 } else {
                     // Fallback for non-HTTPS environments
@@ -626,9 +739,9 @@
                     textArea.select();
                     try {
                         document.execCommand('copy');
-                        showCopyAlert(`2FA code copied successfully: ${code}`);
+                        showCopyAlert(`${translations[currentLanguage].copySuccess} ${code}`);
                     } catch (err) {
-                        showCopyAlert(`Failed to copy code: ${err}`, true);
+                        showCopyAlert(`${translations[currentLanguage].copyError} ${err}`, true);
                     }
                     document.body.removeChild(textArea);
                 }
