@@ -690,13 +690,13 @@
                 copyError: "Failed to copy code:",
                 showMore: "Show More",
                 copyBtn: "Copy",
-                errorInvalidKey: "Invalid secret key format",
-                errorEmptyInput: "Please enter at least one secret key",
-                errorKeyTooShort: "Secret key must be at least 16 characters long",
+                errorInvalidKey: "The code format is invalid",
+                errorEmptyInput: "Enter at least one code",
+                errorKeyTooShort: "The code must be at least 16 characters",
                 errorDecodeFailed: "Unable to decode base32 format",
-                successGenerated: "Successfully generated",
-                successCodes: "2FA code",
-                errorFound: "invalid secret key found"
+                successGenerated: "Generated",
+                successCodes: "2FA code(s) successfully",
+                errorFound: "Found X invalid code(s)"
             },
             id: {
                 title: "Generator Kode 2FA",
@@ -718,13 +718,13 @@
                 copyError: "Gagal menyalin kode:",
                 showMore: "Tampilkan Lainnya",
                 copyBtn: "Salin",
-                errorInvalidKey: "Format secret key tidak valid",
-                errorEmptyInput: "Silakan masukkan minimal satu secret key",
-                errorKeyTooShort: "Secret key harus minimal 16 karakter",
+                errorInvalidKey: "Format kode tidak benar",
+                errorEmptyInput: "Masukkan minimal satu kode",
+                errorKeyTooShort: "Kode harus berisi minimal 16 karakter",
                 errorDecodeFailed: "Tidak dapat mendekode format base32",
-                successGenerated: "Berhasil dibuat",
+                successGenerated: "Berhasil menghasilkan",
                 successCodes: "kode 2FA",
-                errorFound: "secret key tidak valid ditemukan"
+                errorFound: "Ditemukan X kode tidak valid"
             }
         };
 
@@ -1057,11 +1057,11 @@
                     
                     // Show results summary
                     if (successCount > 0) {
-                        const successMessage = `${translations[currentLanguage].successGenerated} ${successCount} ${translations[currentLanguage].successCodes}${successCount > 1 ? 's' : ''}`;
+                        const successMessage = `${translations[currentLanguage].successGenerated} ${successCount} ${translations[currentLanguage].successCodes}`;
                         showCopyAlert(successMessage, false);
                     }
                     if (errorCount > 0) {
-                        const errorMessage = `${errorCount} ${translations[currentLanguage].errorFound}`;
+                        const errorMessage = translations[currentLanguage].errorFound.replace('X', errorCount);
                         showUserFriendlyError('errorFound', errorMessage);
                     }
                     
