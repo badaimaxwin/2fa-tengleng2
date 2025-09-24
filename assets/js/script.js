@@ -529,7 +529,6 @@ async function run() {
     generateBtn.disabled = true;
 
     try {
-        activeEntries.length = 0;
 
         const lines = con.split('\n');
         let successCount = 0;
@@ -585,6 +584,13 @@ async function run() {
         }
 
         limitRowsTo(10);
+        // Remove entries whose rows were removed from DOM (e.g., limit to 10)
+        for (let i = activeEntries.length - 1; i >= 0; i--) {
+            const r = activeEntries[i].rowElement;
+            if (!r || !r.isConnected) {
+                activeEntries.splice(i, 1);
+            }
+        }
         updateTableVisibility();
 
         if (successCount > 0) {
