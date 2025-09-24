@@ -465,6 +465,22 @@
             color: #475569 !important;
             font-weight: 500;
         }
+        
+        /* Table column widths */
+        .table-custom th:nth-child(1),
+        .table-custom td:nth-child(1) {
+            width: 30%;
+        }
+        
+        .table-custom th:nth-child(2),
+        .table-custom td:nth-child(2) {
+            width: 55%;
+        }
+        
+        .table-custom th:nth-child(3),
+        .table-custom td:nth-child(3) {
+            width: 15%;
+        }
     </style>
 </head>
 <body class="min-h-screen neumorphism-bg flex flex-col" data-theme="dark">
@@ -571,7 +587,7 @@
 
                 <!-- Results Table -->
                 <div class="overflow-hidden">
-                    <table class="w-full" id="tb" role="table" aria-label="Generated 2FA codes">
+                    <table class="w-full table-custom" id="tb" role="table" aria-label="Generated 2FA codes">
                         <caption class="sr-only">Table showing generated 2FA codes with their secret keys and generation time</caption>
                         <thead>
                             <tr class="bg-gray-700/50 text-gray-300" role="row">
