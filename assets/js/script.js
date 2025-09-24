@@ -230,6 +230,8 @@ function parseOtpAuthUri(uri) {
         const algorithm = mapAlgorithm(params.get('algorithm') || 'SHA1');
         const digits = parseInt(params.get('digits') || '6', 10) || 6;
         const period = parseInt(params.get('period') || '30', 10) || 30;
+        const t0Param = params.get('t0');
+        const t0Ms = Number.isFinite(Number(t0Param)) ? (parseInt(t0Param || '0', 10) * 1000) : 0;
         let label = decodeURIComponent(url.pathname.replace(/^\//, ''));
         let issuer = params.get('issuer') || '';
         if (label && label.includes(':')) {
@@ -244,7 +246,8 @@ function parseOtpAuthUri(uri) {
             issuer,
             algorithm,
             digits,
-            period
+            period,
+            t0Ms
         };
     } catch (_) {
         return null;
@@ -270,7 +273,8 @@ function parseInputLine(line) {
         issuer: '',
         algorithm: mapAlgorithm('SHA1'),
         digits: 6,
-        period: 30
+        period: 30,
+        t0Ms: 0
     };
 }
 
@@ -410,7 +414,9 @@ function computeNextRefreshDelayMs() {
     let minDelay = Infinity;
     for (const e of activeEntries) {
         const periodMs = (e.period || 30) * 1000;
-        const delay = periodMs - (now % periodMs);
+        const t0 = e.t0Ms || 0;
+        const elapsed = (now - t0) % periodMs;
+        const delay = periodMs - elapsed;
         if (delay < minDelay) minDelay = delay;
     }
     return Math.max(250, Math.min(minDelay + 10, 30000));
@@ -420,7 +426,8 @@ async function refreshAllOtps() {
     const now = new Date();
     for (const e of activeEntries) {
         const period = e.period || 30;
-        const timeStep = Math.floor(now.getTime() / (period * 1000));
+        const t0 = e.t0Ms || 0;
+        const timeStep = Math.floor((now.getTime() - t0) / (period * 1000));
         const code = await generateTOTPForEntry(e, timeStep);
         if (code) {
             e.codeSpan.textContent = code;
@@ -447,7 +454,8 @@ function updateCountdownDisplays() {
     const now = Date.now();
     for (const e of activeEntries) {
         const periodMs = (e.period || 30) * 1000;
-        const remainingMs = periodMs - (now % periodMs);
+        const t0 = e.t0Ms || 0;
+        const remainingMs = periodMs - ((now - t0) % periodMs);
         const frac = Math.max(0, Math.min(1, remainingMs / periodMs));
         if (e.countdownText) {
             const secs = Math.ceil(remainingMs / 1000);
