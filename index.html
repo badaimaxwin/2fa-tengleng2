@@ -525,11 +525,50 @@
             padding-left: 1rem;
         }
         
-        /* Logo styling - transparent background */
+        /* Logo styling with enhanced shadows */
         .logo-container {
             background: transparent;
             border: none;
-            box-shadow: none;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.2),
+                0 4px 16px rgba(0, 0, 0, 0.15),
+                0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Enhanced logo shadows for light theme */
+        [data-theme="light"] .logo-container {
+            box-shadow: 
+                0 12px 48px rgba(0, 0, 0, 0.25),
+                0 6px 24px rgba(0, 0, 0, 0.2),
+                0 3px 12px rgba(0, 0, 0, 0.15) !important;
+        }
+        
+        /* Enhanced logo shadows for dark theme */
+        [data-theme="dark"] .logo-container {
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                0 4px 16px rgba(0, 0, 0, 0.3),
+                0 2px 8px rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        /* Logo hover effect */
+        .logo-container:hover {
+            transform: translateY(-2px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        [data-theme="light"] .logo-container:hover {
+            box-shadow: 
+                0 16px 64px rgba(0, 0, 0, 0.3),
+                0 8px 32px rgba(0, 0, 0, 0.25),
+                0 4px 16px rgba(0, 0, 0, 0.2) !important;
+        }
+        
+        [data-theme="dark"] .logo-container:hover {
+            box-shadow: 
+                0 12px 48px rgba(0, 0, 0, 0.5),
+                0 6px 24px rgba(0, 0, 0, 0.4),
+                0 3px 12px rgba(0, 0, 0, 0.3) !important;
         }
     </style>
 </head>
