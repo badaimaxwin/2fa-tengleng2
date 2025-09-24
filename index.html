@@ -307,6 +307,17 @@
             color: var(--text-secondary);
         }
         
+        /* Placeholder styling */
+        .neumorphism-input::placeholder {
+            opacity: 0.6;
+            font-size: 0.875rem;
+        }
+        
+        [data-theme="light"] .neumorphism-input::placeholder {
+            opacity: 0.5;
+            color: #64748b;
+        }
+        
         .text-theme-muted {
             color: var(--text-muted);
         }
@@ -394,7 +405,7 @@
                 <div class="mb-4">
                     <textarea
                         id="skey"
-                        class="w-full p-6 neumorphism-input transition-all duration-300 resize-vertical text-theme-primary placeholder-theme-muted text-lg"
+                        class="w-full p-6 neumorphism-input transition-all duration-300 resize-vertical text-theme-primary placeholder-theme-muted text-sm"
                         rows="3"
                         placeholder="Enter your secret keys (one per line)..."
                         data-translate-placeholder="placeholder"
