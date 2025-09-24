@@ -551,11 +551,8 @@ footer {
 
 /* Logo styling with enhanced shadows */
 .logo-container {
-    background: rgba(255, 255, 255, 0.12);
-    padding: 6px;
-    clip-path: polygon(50% 0%, 93% 25%, 93% 65%, 50% 100%, 7% 65%, 7% 25%);
-    -webkit-clip-path: polygon(50% 0%, 93% 25%, 93% 65%, 50% 100%, 7% 65%, 7% 25%);
-    overflow: hidden;
+    background: transparent;
+    border: none;
     box-shadow: 
         0 8px 32px rgba(0, 0, 0, 0.2),
         0 4px 16px rgba(0, 0, 0, 0.15),
@@ -564,7 +561,6 @@ footer {
 
 /* Enhanced logo shadows for light theme */
 [data-theme="light"] .logo-container {
-    background: rgba(0, 0, 0, 0.08);
     box-shadow: 
         0 12px 48px rgba(0, 0, 0, 0.25),
         0 6px 24px rgba(0, 0, 0, 0.2),
@@ -573,7 +569,6 @@ footer {
 
 /* Enhanced logo shadows for dark theme */
 [data-theme="dark"] .logo-container {
-    background: rgba(255, 255, 255, 0.12);
     box-shadow: 
         0 8px 32px rgba(0, 0, 0, 0.4),
         0 4px 16px rgba(0, 0, 0, 0.3),
