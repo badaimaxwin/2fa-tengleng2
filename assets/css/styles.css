@@ -421,6 +421,23 @@ footer {
     -webkit-backdrop-filter: blur(20px);
 }
 
+/* Subtle 3D shadow under the 2FA logo */
+.logo-3d {
+    position: relative;
+}
+.logo-3d::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: -6px;
+    width: 70%;
+    height: 12px;
+    background: radial-gradient(ellipse at center, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.12) 40%, rgba(0,0,0,0.04) 75%, rgba(0,0,0,0) 100%);
+    filter: blur(2px);
+    pointer-events: none;
+}
+
 /* Light theme footer */
 [data-theme="light"] footer {
     background: rgba(255, 255, 255, 0.8);
