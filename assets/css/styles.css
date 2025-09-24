@@ -507,6 +507,7 @@ footer {
 .table-custom td:nth-child(3) {
     width: 15%;
     padding-left: 1rem;
+    white-space: nowrap;
 }
 
 /* Logo styling with enhanced shadows */
