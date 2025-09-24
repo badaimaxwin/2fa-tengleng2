@@ -63,14 +63,6 @@
             background: var(--bg-gradient);
         }
         
-        .card-hover {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-        }
         
         .pulse-border {
             animation: pulse-border 2s infinite;
@@ -232,7 +224,7 @@
     </div>
 
     <div class="container mx-auto px-4 py-5 flex-grow max-w-4xl">
-        <div class="glass-effect rounded-2xl shadow-2xl overflow-hidden card-hover border border-theme-input">
+        <div class="glass-effect rounded-2xl shadow-2xl overflow-hidden border border-theme-input">
             <!-- Header -->
             <div class="text-center py-6 px-6 relative">
                 <div class="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-cyan-400/10"></div>
