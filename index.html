@@ -145,49 +145,6 @@
             transform: translateY(-2px);
         }
         
-        /* Theme Switch Styles */
-        .theme-switch {
-            position: relative;
-            width: 50px;
-            height: 24px;
-            background: var(--glass-bg);
-            border-radius: 20px;
-            border: 2px solid var(--glass-border);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-        
-        .theme-switch:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-        }
-        
-        .theme-switch-handle {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 18px;
-            height: 18px;
-            background: var(--button-gradient);
-            border-radius: 50%;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-        }
-        
-        [data-theme="light"] .theme-switch-handle {
-            transform: translateX(24px);
-        }
-        
-        .theme-switch-icon {
-            width: 10px;
-            height: 10px;
-            color: white;
-            transition: all 0.3s ease;
-        }
         
         /* Custom text colors for theme switching */
         .text-theme-primary {
@@ -239,23 +196,15 @@
 <body class="min-h-screen neumorphism-bg flex flex-col" data-theme="dark">
     <!-- Theme Switch Button - Fixed Position -->
     <div class="fixed top-6 left-6 z-50">
-        <div class="flex items-center gap-3 neumorphism-card px-4 py-2">
-            <svg class="w-4 h-4 text-theme-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
-            </svg>
-            <div class="theme-switch" onclick="toggleTheme()">
-                <div class="theme-switch-handle">
-                    <svg class="theme-switch-icon moon-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-                    </svg>
-                    <svg class="theme-switch-icon sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="display: none;">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
-                    </svg>
-                </div>
-            </div>
-            <svg class="w-4 h-4 text-theme-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
-            </svg>
+        <div class="neumorphism-card px-4 py-2">
+            <button id="theme-switch" onclick="toggleTheme()" class="flex items-center gap-2 text-theme-primary font-semibold text-sm transition-all duration-300 hover:scale-105">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                </svg>
+                <span id="current-theme">🌙</span>
+                <span class="text-theme-muted">|</span>
+                <span id="other-theme">☀️</span>
+            </button>
         </div>
     </div>
 
@@ -522,7 +471,7 @@
         function initializeTheme() {
             const savedTheme = localStorage.getItem('theme') || 'dark';
             document.body.setAttribute('data-theme', savedTheme);
-            updateThemeIcons(savedTheme);
+            updateThemeButton(savedTheme);
         }
 
         function toggleTheme() {
@@ -531,19 +480,19 @@
             
             document.body.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-            updateThemeIcons(newTheme);
+            updateThemeButton(newTheme);
         }
 
-        function updateThemeIcons(theme) {
-            const moonIcon = document.querySelector('.moon-icon');
-            const sunIcon = document.querySelector('.sun-icon');
+        function updateThemeButton(theme) {
+            const currentThemeSpan = document.getElementById('current-theme');
+            const otherThemeSpan = document.getElementById('other-theme');
             
             if (theme === 'light') {
-                moonIcon.style.display = 'none';
-                sunIcon.style.display = 'block';
+                currentThemeSpan.textContent = '☀️';
+                otherThemeSpan.textContent = '🌙';
             } else {
-                moonIcon.style.display = 'block';
-                sunIcon.style.display = 'none';
+                currentThemeSpan.textContent = '🌙';
+                otherThemeSpan.textContent = '☀️';
             }
         }
 
