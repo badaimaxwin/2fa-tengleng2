@@ -454,6 +454,17 @@
                 0 8px 32px rgba(0, 0, 0, 0.3),
                 0 2px 8px rgba(0, 0, 0, 0.2);
         }
+        
+        /* Light theme subtitle visibility */
+        [data-theme="light"] .text-gray-400 {
+            color: #64748b !important;
+        }
+        
+        /* Ensure subtitle is visible in light theme */
+        [data-theme="light"] p[data-translate="subtitle"] {
+            color: #475569 !important;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body class="min-h-screen neumorphism-bg flex flex-col" data-theme="dark">
