@@ -323,7 +323,7 @@ function createRow(entry, initialCode, waktuGenerate) {
     const codeSpan = createCell('span', 'font-mono text-2xl font-bold text-theme-primary otp-code', initialCode || '------');
 
     // Countdown container (ring + text)
-    const countdownWrap = createCell('div', 'otp-countdown flex items-center gap-1');
+    const countdownWrap = createCell('div', 'otp-countdown flex items-center justify-center gap-1');
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('class', 'otp-ring');
     svg.setAttribute('viewBox', '0 0 36 36');
