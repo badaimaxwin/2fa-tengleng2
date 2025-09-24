@@ -274,26 +274,27 @@
     </div>
 
     <div class="container mx-auto px-4 py-5 flex-grow max-w-4xl">
-        <div class="neumorphism-card overflow-hidden">
+        <div class="neumorphism-card overflow-hidden border-0">
             <!-- Header -->
             <div class="text-center py-6 px-6">
-                    <div class="w-24 h-24 mx-auto mb-6 neumorphism-card rounded-full flex items-center justify-center">
+                <div class="flex items-center justify-center mb-4">
+                    <div class="w-14 h-14 bg-gray-700/80 rounded-xl flex items-center justify-center">
                         <img 
                             src="https://i.postimg.cc/brQ4kr65/favicon.png"
                             alt="2FA Logo showing a security shield with two-factor authentication symbol"
-                            class="w-12 h-12 object-contain"
+                            class="w-8 h-8 object-contain"
                         />
                     </div>
-                    <h1 class="text-5xl font-bold text-theme-primary mb-3" data-translate="title">2FA Code Generator</h1>
-                    <p class="text-theme-secondary text-xl font-medium" data-translate="subtitle">Generate secure two-factor authentication codes instantly</p>
-                    <div class="mt-4 inline-block px-4 py-2 neumorphism-card rounded-full">
-                        <span class="text-theme-secondary text-sm font-bold" data-translate="features">✨ Modern • Secure • Fast</span>
-                    </div>
+                </div>
+                <h1 class="text-3xl font-bold text-white mb-2" data-translate="title">2FA Code Generator</h1>
+                <p class="text-gray-400 text-base mb-3" data-translate="subtitle">Generate secure two-factor authentication codes instantly</p>
+                <div class="inline-flex items-center gap-1 px-2 py-1 bg-gray-800/40 rounded-md">
+                    <span class="text-gray-400 text-xs" data-translate="features">✨ Modern • Secure • Fast</span>
                 </div>
             </div>
 
             <!-- Main Content -->
-            <div class="neumorphism-card p-4 mx-6 mb-6">
+            <div class="p-4 mx-6 mb-6">
                 <div class="mb-4">
                     <textarea
                         id="skey"
@@ -325,7 +326,7 @@
                 </div>
 
                 <!-- Results Table -->
-                <div class="neumorphism-card overflow-hidden">
+                <div class="overflow-hidden">
                     <table class="w-full" id="tb">
                         <thead>
                             <tr class="bg-gray-800 text-white">
