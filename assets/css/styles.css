@@ -554,9 +554,10 @@ footer {
     transition: stroke-dashoffset 0.25s linear;
 }
 .otp-countdown-text {
-    font-size: 10px;
-    dominant-baseline: middle;
+    font-size: 12px;
     fill: #cbd5e1; /* slate-300 */
+    font-family: 'Orbitron', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    letter-spacing: 0.5px;
 }
 
 /* Logo styling with enhanced shadows */

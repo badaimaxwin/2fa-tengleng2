@@ -346,8 +346,9 @@ function createRow(entry, initialCode, waktuGenerate) {
     const countdownText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
     countdownText.setAttribute('class', 'otp-countdown-text');
     countdownText.setAttribute('x', '18');
-    countdownText.setAttribute('y', '22');
+    countdownText.setAttribute('y', '18');
     countdownText.setAttribute('text-anchor', 'middle');
+    countdownText.setAttribute('dominant-baseline', 'middle');
     countdownText.textContent = '';
     countdownWrap.appendChild(svg);
     svg.appendChild(countdownText);
