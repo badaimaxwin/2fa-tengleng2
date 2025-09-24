@@ -519,6 +519,23 @@ footer {
     justify-content: center;
     margin-top: 0.25rem;
 }
+
+/* Three-column inline layout inside Code cell: code | countdown | copy */
+.otp-row {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 0.5rem;
+}
+.otp-row .otp-code {
+    justify-self: start;
+}
+.otp-row .otp-countdown {
+    justify-self: center;
+}
+.otp-row .copy-button {
+    justify-self: end;
+}
 .otp-countdown .otp-ring {
     width: 30px;
     height: 30px;
