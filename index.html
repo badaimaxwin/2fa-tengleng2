@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <title>2FA - Two Factor Authenticator</title>
     <meta name="keywords" content="2FA, Google Authenticator, Two Factor Authentication" />
-    <meta name="description" content="Buat kode rahasia autentikasi dua faktor (2FA) dengan mudah menggunakan 2FA Generator. Setiap secret key yang dihasilkan bersifat unik dan dapat digunakan untuk mengamankan akun Anda dengan lapisan verifikasi tambahan." />
+    <meta name="description" content="Generate secure two-factor authentication (2FA) codes easily using 2FA Generator. Each generated secret key is unique and can be used to secure your accounts with an additional verification layer." />
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <link rel="icon" href="https://i.postimg.cc/brQ4kr65/favicon.png" type="image/png" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -327,7 +327,7 @@
                             </svg>
                         </div>
                         <div class="text-theme-secondary text-sm leading-relaxed">
-                            <span class="font-semibold text-blue-300">ℹ️ Informasi:</span> Kode verifikasi akan diperbarui otomatis setiap 30 detik. Pastikan secret key Anda valid dan berasal dari sumber terpercaya.
+                            <span class="font-semibold text-blue-300">ℹ️ Information:</span> Verification codes will be automatically updated every 30 seconds. Make sure your secret key is valid and from a trusted source.
                         </div>
                     </div>
 
@@ -338,7 +338,7 @@
                             </svg>
                         </div>
                         <div class="text-theme-secondary text-sm leading-relaxed">
-                            <span class="font-semibold text-yellow-300">⚠️ Keamanan:</span> Jangan bagikan secret key atau kode verifikasi kepada siapa pun. Aplikasi ini berjalan sepenuhnya di browser Anda untuk keamanan maksimal.
+                            <span class="font-semibold text-yellow-300">⚠️ Security:</span> Do not share your secret key or verification codes with anyone. This application runs entirely in your browser for maximum security.
                         </div>
                     </div>
                 </div>
@@ -549,7 +549,7 @@
                     showMoreRow.innerHTML = `
                         <td colspan="3" class="px-4 py-4 text-center">
                             <button id="show-more-btn" class="bg-theme-input hover:bg-theme-card text-theme-primary px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 backdrop-blur-sm border border-theme-input hover:scale-105">
-                                Tampilkan Lainnya (${rows.length - 3})
+                                Show More (${rows.length - 3})
                             </button>
                         </td>
                     `;
@@ -558,7 +558,7 @@
                     // Update button count if it already exists
                     const btn = document.getElementById("show-more-btn");
                     if (btn) {
-                        btn.textContent = `Tampilkan Lainnya (${rows.length - 3})`;
+                        btn.textContent = `Show More (${rows.length - 3})`;
                     }
                 }
             } else {
@@ -612,9 +612,9 @@
                 const code = copyBtn.getAttribute('data-code');
                 if (navigator.clipboard && window.isSecureContext) {
                     navigator.clipboard.writeText(code).then(function() {
-                        showCopyAlert(`Kode 2FA berhasil disalin: ${code}`);
+                        showCopyAlert(`2FA code copied successfully: ${code}`);
                     }, function(err) {
-                        showCopyAlert(`Gagal menyalin kode: ${err}`, true);
+                        showCopyAlert(`Failed to copy code: ${err}`, true);
                     });
                 } else {
                     // Fallback for non-HTTPS environments
@@ -626,9 +626,9 @@
                     textArea.select();
                     try {
                         document.execCommand('copy');
-                        showCopyAlert(`Kode 2FA berhasil disalin: ${code}`);
+                        showCopyAlert(`2FA code copied successfully: ${code}`);
                     } catch (err) {
-                        showCopyAlert(`Gagal menyalin kode: ${err}`, true);
+                        showCopyAlert(`Failed to copy code: ${err}`, true);
                     }
                     document.body.removeChild(textArea);
                 }
