@@ -659,3 +659,28 @@ img {
 button, a, input, textarea {
     pointer-events: auto;
 }
+
+/* Light theme icon visibility improvements */
+[data-theme="light"] .bg-blue-500\/20 svg {
+    color: #1d4ed8 !important; /* blue-700 for better contrast */
+}
+
+[data-theme="light"] .bg-blue-500\/30 {
+    background-color: rgba(59, 130, 246, 0.6) !important; /* blue-500 with higher opacity */
+}
+
+[data-theme="light"] .text-blue-300 {
+    color: #1e40af !important; /* blue-800 for better contrast */
+}
+
+[data-theme="light"] .bg-yellow-500\/20 svg {
+    color: #b45309 !important; /* amber-700 for better contrast */
+}
+
+[data-theme="light"] .bg-yellow-500\/30 {
+    background-color: rgba(245, 158, 11, 0.6) !important; /* amber-500 with higher opacity */
+}
+
+[data-theme="light"] .text-yellow-300 {
+    color: #92400e !important; /* amber-800 for better contrast */
+}
