@@ -39,3 +39,6 @@ Disallow: /.*
 Allow: /favicon.ico
 Allow: /manifest.json
 Allow: /assets/images/favicon.ico
+
+# Allow Google verification file
+Allow: /google7919546ff480eca3.html
