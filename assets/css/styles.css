@@ -741,6 +741,7 @@ button, a, input, textarea, label {
     transition: all 0.3s ease;
     min-width: auto;
     height: auto;
+    padding: 0.125rem 0.375rem; /* More compact padding */
 }
 
 #theme-switch:hover {
@@ -749,6 +750,11 @@ button, a, input, textarea, label {
 
 #theme-switch:active {
     transform: scale(0.95);
+}
+
+/* Ensure theme button container is compact */
+#theme-switch .neumorphism-card {
+    padding: 0.25rem 0.125rem;
 }
 
 #theme-icon {
