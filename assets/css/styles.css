@@ -887,4 +887,10 @@ button, a, input, textarea, label {
     .hidden-mobile {
         display: none;
     }
+    
+    /* Mobile placeholder styling */
+    #skey::placeholder {
+        white-space: pre-line;
+        line-height: 1.4;
+    }
 }
