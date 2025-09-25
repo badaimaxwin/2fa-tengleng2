@@ -333,9 +333,20 @@
             }
         });
         
-        // Disable text selection
-        document.onselectstart = () => false;
-        document.onmousedown = () => false;
+        // Disable text selection (except for input fields)
+        document.onselectstart = function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                return true;
+            }
+            return false;
+        };
+        document.onmousedown = function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || 
+                e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+                return true;
+            }
+            return false;
+        };
         
         // Protection alert
         function showProtectionAlert() {

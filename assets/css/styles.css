@@ -686,8 +686,29 @@ img {
 }
 
 /* Re-enable pointer events for interactive elements */
-button, a, input, textarea {
-    pointer-events: auto;
+button, a, input, textarea, label {
+    pointer-events: auto !important;
+}
+
+/* Ensure textarea is fully functional */
+#skey {
+    pointer-events: auto !important;
+    -webkit-user-select: text !important;
+    -moz-user-select: text !important;
+    -ms-user-select: text !important;
+    user-select: text !important;
+    cursor: text !important;
+}
+
+/* Ensure all form elements work properly */
+.neumorphism-input {
+    pointer-events: auto !important;
+}
+
+/* Ensure buttons are clickable */
+.neumorphism-button, .copy-button {
+    pointer-events: auto !important;
+    cursor: pointer !important;
 }
 
 /* Light theme icon visibility improvements */
