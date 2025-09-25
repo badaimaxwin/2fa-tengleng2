@@ -807,25 +807,28 @@ button, a, input, textarea, label {
     justify-content: center;
 }
 
-/* Footer with Bottom Shading */
-.footer-with-shading {
+/* Footer Half Shape - Dome/Semi-circle */
+.footer-half-shape {
+    border-radius: 20px 20px 0 0;
     position: relative;
+    padding-bottom: 2rem;
+    margin-bottom: 0 !important;
 }
 
-/* Bottom shading effect */
-.footer-with-shading::after {
+/* Extend footer to bottom of page */
+.footer-half-shape::after {
     content: '';
     position: absolute;
-    bottom: 0;
+    bottom: -2rem;
     left: 0;
     right: 0;
-    height: 20px;
-    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.3));
-    border-radius: 0 0 20px 20px;
-    pointer-events: none;
+    height: 2rem;
+    background: var(--surface-color);
+    z-index: -1;
 }
 
-/* Light theme shading */
-[data-theme="light"] .footer-with-shading::after {
-    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.15));
+/* Light theme extension */
+[data-theme="light"] .footer-half-shape::after {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(20px);
 }
