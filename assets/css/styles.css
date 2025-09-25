@@ -813,7 +813,7 @@ button, a, input, textarea, label {
     position: relative;
     padding-bottom: 1rem;
     margin-bottom: 0 !important;
-    min-height: 80px;
+    min-height: 90px;
 }
 
 
@@ -837,7 +837,7 @@ button, a, input, textarea, label {
     .footer-half-shape {
         margin-left: 1rem;
         margin-right: 1rem;
-        min-height: 70px;
+        min-height: 75px;
     }
     
     .footer-half-shape .text-center {
@@ -861,7 +861,7 @@ button, a, input, textarea, label {
     .footer-half-shape {
         margin-left: 0.5rem;
         margin-right: 0.5rem;
-        min-height: 65px;
+        min-height: 70px;
     }
     
     .footer-half-shape .text-center {
