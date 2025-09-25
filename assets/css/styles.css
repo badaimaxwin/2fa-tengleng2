@@ -807,165 +807,151 @@ button, a, input, textarea, label {
     justify-content: center;
 }
 
-/* Creative Footer Styling */
-footer {
+/* Compact Footer Styling */
+.compact-footer {
     background: var(--surface-color);
-    border-radius: 2rem 2rem 0.5rem 0.5rem;
-    box-shadow: 
-        0 -8px 32px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
     position: relative;
     overflow: hidden;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* Wave animations */
-.footer-wave-1 {
-    fill: rgba(59, 130, 246, 0.1);
-    animation: waveMove1 8s ease-in-out infinite;
+.footer-content {
+    position: relative;
+    padding: 1rem 1.5rem;
 }
 
-.footer-wave-2 {
-    fill: rgba(147, 51, 234, 0.15);
-    animation: waveMove2 10s ease-in-out infinite reverse;
-}
-
-.footer-wave-3 {
-    fill: rgba(236, 72, 153, 0.1);
-    animation: waveMove3 12s ease-in-out infinite;
-}
-
-@keyframes waveMove1 {
-    0%, 100% { transform: translateX(0) scaleY(1); }
-    50% { transform: translateX(-10px) scaleY(1.1); }
-}
-
-@keyframes waveMove2 {
-    0%, 100% { transform: translateX(0) scaleY(1); }
-    50% { transform: translateX(15px) scaleY(0.9); }
-}
-
-@keyframes waveMove3 {
-    0%, 100% { transform: translateX(0) scaleY(1); }
-    50% { transform: translateX(-5px) scaleY(1.05); }
-}
-
-/* Floating elements */
-.floating-elements {
+/* Subtle accent line at top */
+.footer-accent {
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(147, 51, 234, 0.5), transparent);
+    border-radius: 0 0 2px 2px;
 }
 
-.floating-dot {
-    position: absolute;
-    width: 4px;
-    height: 4px;
-    background: rgba(147, 51, 234, 0.4);
-    border-radius: 50%;
-    animation: float 6s ease-in-out infinite;
+/* Main content layout */
+.footer-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
 }
 
-.floating-dot-1 {
-    top: 20%;
-    left: 15%;
-    animation-delay: 0s;
-    animation-duration: 8s;
+.footer-text {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.2;
 }
 
-.floating-dot-2 {
-    top: 40%;
-    right: 20%;
-    animation-delay: 2s;
-    animation-duration: 10s;
+.copyright {
+    opacity: 0.8;
 }
 
-.floating-dot-3 {
-    bottom: 30%;
-    left: 70%;
-    animation-delay: 4s;
-    animation-duration: 12s;
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
 }
 
-.floating-star {
-    position: absolute;
-    font-size: 12px;
-    opacity: 0.6;
-    animation: twinkle 4s ease-in-out infinite;
+.brand-name {
+    font-weight: 600;
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-.floating-star-1 {
-    top: 15%;
-    right: 30%;
-    animation-delay: 1s;
+.brand-product {
+    font-size: 0.6rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    background: rgba(147, 51, 234, 0.2);
+    padding: 0.125rem 0.25rem;
+    border-radius: 0.25rem;
+    border: 1px solid rgba(147, 51, 234, 0.3);
 }
 
-.floating-star-2 {
-    bottom: 40%;
-    left: 25%;
-    animation-delay: 3s;
+.divider {
+    opacity: 0.5;
+    font-weight: 300;
 }
 
-.floating-lock {
-    position: absolute;
-    top: 30%;
-    right: 15%;
-    font-size: 14px;
-    opacity: 0.3;
-    animation: pulse 3s ease-in-out infinite;
+.credits {
+    font-size: 0.7rem;
+    opacity: 0.9;
 }
 
-@keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-10px) rotate(180deg); }
+.heart {
+    color: #ef4444;
+    font-size: 0.7rem;
+    animation: heartbeat 2s ease-in-out infinite;
 }
 
-@keyframes twinkle {
-    0%, 100% { opacity: 0.3; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.2); }
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
 }
 
-@keyframes pulse {
-    0%, 100% { opacity: 0.2; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.1); }
+/* Minimal features */
+.footer-features {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    font-size: 0.65rem;
+    opacity: 0.7;
 }
 
-/* Light theme footer adjustments */
-[data-theme="light"] footer {
-    background: rgba(255, 255, 255, 0.95);
+.feature {
+    color: var(--text-muted);
+    padding: 0.125rem 0.5rem;
+    background: rgba(147, 51, 234, 0.1);
+    border-radius: 1rem;
+    border: 1px solid rgba(147, 51, 234, 0.2);
+    transition: all 0.3s ease;
+}
+
+.feature:hover {
+    background: rgba(147, 51, 234, 0.2);
+    transform: translateY(-1px);
+}
+
+/* Light theme adjustments */
+[data-theme="light"] .compact-footer {
+    background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 
-        0 -12px 48px rgba(0, 0, 0, 0.15),
         0 -4px 16px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        0 -1px 4px rgba(0, 0, 0, 0.05);
 }
 
-[data-theme="light"] .footer-wave-1 {
-    fill: rgba(59, 130, 246, 0.2);
+[data-theme="light"] .footer-accent {
+    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.6), transparent);
 }
 
-[data-theme="light"] .footer-wave-2 {
-    fill: rgba(147, 51, 234, 0.25);
+[data-theme="light"] .brand-product {
+    background: rgba(59, 130, 246, 0.2);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    color: #1e40af;
 }
 
-[data-theme="light"] .footer-wave-3 {
-    fill: rgba(236, 72, 153, 0.2);
+[data-theme="light"] .feature {
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    color: #475569;
 }
 
-[data-theme="light"] .floating-dot {
-    background: rgba(59, 130, 246, 0.4);
-    box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
-}
-
-/* Brand logo animation */
-footer .w-8.h-8 {
-    animation: brandPulse 4s ease-in-out infinite;
-}
-
-@keyframes brandPulse {
-    0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
-    50% { transform: scale(1.05); box-shadow: 0 0 0 8px rgba(59, 130, 246, 0); }
+[data-theme="light"] .feature:hover {
+    background: rgba(59, 130, 246, 0.2);
 }
