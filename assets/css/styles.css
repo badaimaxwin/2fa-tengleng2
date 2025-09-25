@@ -739,10 +739,12 @@ button, a, input, textarea, label {
 /* Theme switch button enhancement */
 #theme-switch {
     transition: all 0.3s ease;
+    min-width: auto;
+    height: auto;
 }
 
 #theme-switch:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
 #theme-switch:active {
