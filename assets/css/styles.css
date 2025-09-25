@@ -287,6 +287,16 @@ body[data-theme="light"] {
         0 1px 4px rgba(0, 0, 0, 0.05);
 }
 
+/* Dark Theme Switch Buttons - remove light highlight shadow */
+[data-theme="dark"] .fixed .neumorphism-card {
+    background: rgba(30, 30, 30, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    /* Only keep subtle drop shadow; eliminate inverted light shadow */
+    box-shadow: 6px 6px 12px rgba(0, 0, 0, 0.6);
+}
+
 .text-theme-secondary {
     color: var(--text-secondary);
 }
