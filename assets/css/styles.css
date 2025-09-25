@@ -855,6 +855,11 @@ button, a, input, textarea, label {
     .footer-half-shape .space-y-1 {
         gap: 0.25rem;
     }
+    
+    /* Show full text on tablet */
+    .hidden-mobile {
+        display: inline;
+    }
 }
 
 @media (max-width: 480px) {
@@ -876,5 +881,10 @@ button, a, input, textarea, label {
     /* Break long text more aggressively on small screens */
     .footer-half-shape span {
         word-break: break-word;
+    }
+    
+    /* Hide unauthorized copying text on mobile */
+    .hidden-mobile {
+        display: none;
     }
 }
