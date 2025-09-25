@@ -578,6 +578,36 @@ footer {
 
 /* Logo container styles removed as requested */
 
+/* Desktop notification styling */
+@media (min-width: 769px) {
+    #copy-alert {
+        padding: 0.5rem 0.875rem !important;
+        font-size: 0.8rem !important;
+        line-height: 1.1rem !important;
+        font-family: 'Poppins', sans-serif !important;
+        font-weight: 400 !important;
+        max-width: 320px !important;
+        border-radius: 0.75rem !important;
+    }
+    
+    #copy-alert .flex {
+        gap: 0.5rem !important;
+    }
+    
+    #copy-alert svg {
+        width: 0.875rem !important;
+        height: 0.875rem !important;
+        flex-shrink: 0 !important;
+    }
+    
+    #copy-alert span {
+        font-size: 0.8rem !important;
+        line-height: 1.1rem !important;
+        font-family: 'Poppins', sans-serif !important;
+        font-weight: 400 !important;
+    }
+}
+
 /* Mobile notification sizing */
 @media (max-width: 768px) {
     #copy-alert {

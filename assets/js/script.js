@@ -771,12 +771,12 @@ function showCopyAlert(message, isError = false) {
     }
 
     alertBox.className = `fixed top-20 right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border ${
-        isError ? 'bg-red-500/90 border-red-400/50' : 'bg-green-500/90 border-green-400/50'
+        isError ? 'bg-red-600/95 border-red-500/60' : 'bg-green-600/95 border-green-500/60'
     } opacity-100 transform translate-y-0 scale-100`;
 
     setTimeout(() => {
         alertBox.className = `fixed top-20 right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border ${
-            isError ? 'bg-red-500/90 border-red-400/50' : 'bg-green-500/90 border-green-400/50'
+            isError ? 'bg-red-600/95 border-red-500/60' : 'bg-green-600/95 border-green-500/60'
         } opacity-0 transform translate-y-2 scale-95 pointer-events-none`;
     }, 5000);
 }
