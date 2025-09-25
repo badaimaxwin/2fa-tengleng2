@@ -31,14 +31,12 @@ Disallow: /assets/js/
 Disallow: /assets/css/
 Allow: /assets/images/
 
-# Security
-Disallow: /*.json$
-Disallow: /.*
-
-# Allow favicon and manifest
+# Allow important files
 Allow: /favicon.ico
 Allow: /manifest.json
 Allow: /assets/images/favicon.ico
-
-# Allow Google verification file
 Allow: /google7919546ff480eca3.html
+
+# Security - block sensitive files
+Disallow: /sw.js
+Disallow: /*.md$
