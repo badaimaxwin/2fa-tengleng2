@@ -831,3 +831,50 @@ button, a, input, textarea, label {
 [data-theme="light"] .neumorphism-button.text-theme-primary {
     color: #64748b !important;
 }
+
+/* Footer responsive design */
+@media (max-width: 768px) {
+    .footer-half-shape {
+        margin-left: 1rem;
+        margin-right: 1rem;
+        min-height: 70px;
+    }
+    
+    .footer-half-shape .text-center {
+        padding: 0.75rem 1rem;
+    }
+    
+    .footer-half-shape p {
+        font-size: 0.7rem;
+        line-height: 1.4;
+        word-wrap: break-word;
+        hyphens: auto;
+    }
+    
+    /* Stack content vertically on mobile */
+    .footer-half-shape .space-y-1 {
+        gap: 0.25rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-half-shape {
+        margin-left: 0.5rem;
+        margin-right: 0.5rem;
+        min-height: 65px;
+    }
+    
+    .footer-half-shape .text-center {
+        padding: 0.5rem 0.75rem;
+    }
+    
+    .footer-half-shape p {
+        font-size: 0.65rem;
+        line-height: 1.3;
+    }
+    
+    /* Break long text more aggressively on small screens */
+    .footer-half-shape span {
+        word-break: break-word;
+    }
+}
