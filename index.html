@@ -10,23 +10,17 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
     <meta name="theme-color" content="#1a1a1a" />
     <meta name="msapplication-TileColor" content="#1a1a1a" />
-    
-    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://2fa-tengleng.com/" />
     <meta property="og:title" content="2FA Code Generator - Free Online Two-Factor Authentication Tool" />
     <meta property="og:description" content="Generate secure 2FA codes instantly with our free online tool. Support for Google Authenticator, Authy, and all TOTP-based apps. 100% browser-based security." />
     <meta property="og:image" content="https://2fa-tengleng.com/assets/images/logo.png" />
     <meta property="og:site_name" content="2FA TengLeng" />
-    
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:url" content="https://2fa-tengleng.com/" />
     <meta name="twitter:title" content="2FA Code Generator - Free Online Two-Factor Authentication Tool" />
     <meta name="twitter:description" content="Generate secure 2FA codes instantly. Support for Google Authenticator, Authy, and all TOTP apps. 100% browser-based security." />
     <meta name="twitter:image" content="https://2fa-tengleng.com/assets/images/logo.png" />
-    
-    <!-- Google Site Verification -->
     <meta name="google-site-verification" content="google7919546ff480eca3" />
     
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self';" />
@@ -37,15 +31,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet" />
     <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
-    
-    <!-- Preload critical resources -->
     <link rel="preload" href="assets/css/styles.css" as="style">
     <link rel="preload" href="assets/js/script.js" as="script">
     <link rel="preload" href="assets/images/logo.png" as="image" type="image/png">
     <link href="assets/css/styles.css" rel="stylesheet" />
     <link rel="canonical" href="https://2fa-tengleng.com/" />
-    
-    <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -102,8 +92,6 @@
         "license": "https://2fa-tengleng.com/license"
     }
     </script>
-    
-    <!-- FAQ Structured Data -->
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -146,9 +134,7 @@
     </script>
 </head>
 <body class="min-h-screen neumorphism-bg flex flex-col" data-theme="dark">
-    <!-- Switch Buttons - Fixed Position -->
     <div class="fixed top-6 right-6 z-50 flex gap-2">
-        <!-- Theme Switch Button -->
         <div class="neumorphism-card px-2 py-1">
             <button 
                 id="theme-switch" 
@@ -163,8 +149,6 @@
                 <span id="other-theme" aria-hidden="true">☀️</span>
             </button>
         </div>
-
-        <!-- Language Switch Button -->
         <div class="neumorphism-card px-2 py-1">
             <button 
                 id="language-switch" 
@@ -186,7 +170,6 @@
 
     <main class="container mx-auto px-4 py-5 flex-grow max-w-4xl">
         <article class="neumorphism-card overflow-hidden border-0">
-            <!-- Header -->
             <header class="text-center py-6 px-6">
                 <div class="flex items-center justify-center mb-1">
                     <div class="logo-3d inline-block">
@@ -199,8 +182,6 @@
                     <span class="text-gray-400 text-xs" data-translate="features">✨ Modern • Secure • Fast</span>
                 </div>
             </header>
-
-            <!-- Main Content -->
             <section class="p-4 mx-6 mb-6">
                 <div class="mb-4">
                     <label for="skey" class="sr-only">Secret Keys Input</label>
@@ -244,8 +225,6 @@
                     <div id="generate-help">Generate 2FA codes from the entered secret keys</div>
                     <div id="clear-help">Clear all entered secret keys and generated codes</div>
                 </div>
-
-                <!-- Results Table -->
                 <div class="overflow-hidden">
                     <table class="w-full table-custom" id="tb" role="table" aria-label="Generated 2FA codes">
                         <caption class="sr-only">Table showing generated 2FA codes with their secret keys and generation time</caption>
@@ -294,8 +273,6 @@
                         </tbody>
                     </table>
                 </div>
-
-                <!-- Information Notes -->
                 <div class="mt-8 space-y-4">
                     <div class="bg-blue-500/20 backdrop-blur-sm border border-blue-400/30 rounded-xl p-4 flex items-start gap-3">
                         <div class="w-6 h-6 bg-blue-500/30 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -322,11 +299,8 @@
             </div>
         </div>
     </main>
-
-    <!-- Footer -->
     <footer class="neumorphism-card mx-6 mb-6 mt-8">
         <div class="text-center py-6">
-            <!-- Copyright -->
             <p class="text-theme-muted text-sm">
                 © 2025 2FA Code Generator • Built with ❤️ by 
                 <span class="font-semibold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
@@ -338,14 +312,10 @@
             </p>
         </div>
     </footer>
-
-    <!-- Floating Alert -->
     <div id="copy-alert" class="fixed top-20 right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border bg-green-500/90 border-green-400/50 opacity-0 transform translate-y-2 scale-95 pointer-events-none">
     </div>
 
     <script src="assets/js/script.js" defer></script>
-    
-    <!-- Service Worker for PWA and Caching -->
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
@@ -359,7 +329,5 @@
             });
         }
     </script>
-    
-    <!-- Analytics: Add your Google Analytics or other tracking code here when ready -->
 </body>
 </html>
