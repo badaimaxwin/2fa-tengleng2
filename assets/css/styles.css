@@ -807,151 +807,29 @@ button, a, input, textarea, label {
     justify-content: center;
 }
 
-/* Compact Footer Styling */
-.compact-footer {
+/* Creative Shape Footer - BENTUK SAJA, KONTEN TETAP */
+.creative-shape-footer {
     background: var(--surface-color);
-    border-radius: 1rem;
     position: relative;
     overflow: hidden;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    
+    /* Bentuk tidak biasa - hexagon-like dengan cut corners */
+    clip-path: polygon(0 15px, 15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 15px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 15px));
+    
+    /* Neumorphism shadow dengan bentuk yang unik */
+    box-shadow: 
+        8px 8px 16px var(--shadow-dark),
+        -8px -8px 16px var(--shadow-light),
+        inset 2px 2px 4px rgba(255, 255, 255, 0.1);
 }
 
-.footer-content {
-    position: relative;
-    padding: 1rem 1.5rem;
-}
-
-/* Subtle accent line at top */
-.footer-accent {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60px;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(147, 51, 234, 0.5), transparent);
-    border-radius: 0 0 2px 2px;
-}
-
-/* Main content layout */
-.footer-main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.footer-text {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    line-height: 1.2;
-}
-
-.copyright {
-    opacity: 0.8;
-}
-
-.brand {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-}
-
-.brand-name {
-    font-weight: 600;
-    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.brand-product {
-    font-size: 0.6rem;
-    font-weight: 700;
-    color: var(--text-primary);
-    background: rgba(147, 51, 234, 0.2);
-    padding: 0.125rem 0.25rem;
-    border-radius: 0.25rem;
-    border: 1px solid rgba(147, 51, 234, 0.3);
-}
-
-.divider {
-    opacity: 0.5;
-    font-weight: 300;
-}
-
-.credits {
-    font-size: 0.7rem;
-    opacity: 0.9;
-}
-
-.heart {
-    color: #ef4444;
-    font-size: 0.7rem;
-    animation: heartbeat 2s ease-in-out infinite;
-}
-
-@keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-}
-
-/* Minimal features */
-.footer-features {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.75rem;
-    font-size: 0.65rem;
-    opacity: 0.7;
-}
-
-.feature {
-    color: var(--text-muted);
-    padding: 0.125rem 0.5rem;
-    background: rgba(147, 51, 234, 0.1);
-    border-radius: 1rem;
-    border: 1px solid rgba(147, 51, 234, 0.2);
-    transition: all 0.3s ease;
-}
-
-.feature:hover {
-    background: rgba(147, 51, 234, 0.2);
-    transform: translateY(-1px);
-}
-
-/* Light theme adjustments */
-[data-theme="light"] .compact-footer {
+/* Light theme untuk footer shape */
+[data-theme="light"] .creative-shape-footer {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 
-        0 -4px 16px rgba(0, 0, 0, 0.1),
-        0 -1px 4px rgba(0, 0, 0, 0.05);
-}
-
-[data-theme="light"] .footer-accent {
-    background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.6), transparent);
-}
-
-[data-theme="light"] .brand-product {
-    background: rgba(59, 130, 246, 0.2);
-    border: 1px solid rgba(59, 130, 246, 0.3);
-    color: #1e40af;
-}
-
-[data-theme="light"] .feature {
-    background: rgba(59, 130, 246, 0.1);
-    border: 1px solid rgba(59, 130, 246, 0.2);
-    color: #475569;
-}
-
-[data-theme="light"] .feature:hover {
-    background: rgba(59, 130, 246, 0.2);
+        0 8px 32px rgba(0, 0, 0, 0.1),
+        0 2px 8px rgba(0, 0, 0, 0.05),
+        inset 2px 2px 4px rgba(255, 255, 255, 0.2);
 }
