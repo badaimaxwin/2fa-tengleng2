@@ -807,29 +807,25 @@ button, a, input, textarea, label {
     justify-content: center;
 }
 
-/* Creative Shape Footer - BENTUK SAJA, KONTEN TETAP */
-.creative-shape-footer {
-    background: var(--surface-color);
+/* Footer with Bottom Shading */
+.footer-with-shading {
     position: relative;
-    overflow: hidden;
-    
-    /* Bentuk tidak biasa - hexagon-like dengan cut corners */
-    clip-path: polygon(0 15px, 15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 15px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 15px));
-    
-    /* Neumorphism shadow dengan bentuk yang unik */
-    box-shadow: 
-        8px 8px 16px var(--shadow-dark),
-        -8px -8px 16px var(--shadow-light),
-        inset 2px 2px 4px rgba(255, 255, 255, 0.1);
 }
 
-/* Light theme untuk footer shape */
-[data-theme="light"] .creative-shape-footer {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.1),
-        0 2px 8px rgba(0, 0, 0, 0.05),
-        inset 2px 2px 4px rgba(255, 255, 255, 0.2);
+/* Bottom shading effect */
+.footer-with-shading::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 20px;
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.3));
+    border-radius: 0 0 20px 20px;
+    pointer-events: none;
+}
+
+/* Light theme shading */
+[data-theme="light"] .footer-with-shading::after {
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.15));
 }
