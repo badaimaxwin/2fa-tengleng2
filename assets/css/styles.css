@@ -807,22 +807,23 @@ button, a, input, textarea, label {
     justify-content: center;
 }
 
-/* Footer Half Shape - Dome/Semi-circle */
+/* Footer Half Shape - Compact Dome */
 .footer-half-shape {
     border-radius: 20px 20px 0 0;
     position: relative;
-    padding-bottom: 2rem;
+    padding-bottom: 1rem;
     margin-bottom: 0 !important;
+    min-height: 80px;
 }
 
 /* Extend footer to bottom of page */
 .footer-half-shape::after {
     content: '';
     position: absolute;
-    bottom: -2rem;
+    bottom: -1rem;
     left: 0;
     right: 0;
-    height: 2rem;
+    height: 1rem;
     background: var(--surface-color);
     z-index: -1;
 }
@@ -831,4 +832,14 @@ button, a, input, textarea, label {
 [data-theme="light"] .footer-half-shape::after {
     background: rgba(255, 255, 255, 0.8);
     backdrop-filter: blur(20px);
+}
+
+/* Compact spacing for footer content */
+.footer-half-shape .space-y-1 > * + * {
+    margin-top: 0.125rem;
+}
+
+.footer-half-shape p {
+    line-height: 1.3;
+    margin: 0;
 }
