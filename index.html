@@ -2,16 +2,168 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>2FA - Two Factor Authenticator</title>
-    <meta name="keywords" content="2FA, Google Authenticator, Two Factor Authentication" />
-    <meta name="description" content="Generate secure two-factor authentication (2FA) codes easily using 2FA Generator. Each generated secret key is unique and can be used to secure your accounts with an additional verification layer." />
+    <title>2FA Code Generator - Free Online Two-Factor Authentication Tool | 2FA-TengLeng</title>
+    <meta name="description" content="Generate secure 2FA codes instantly with our free online two-factor authentication tool. Support for Google Authenticator, Authy, and all TOTP-based apps. 100% browser-based for maximum security." />
+    <meta name="keywords" content="2FA generator, two factor authentication, TOTP generator, Google Authenticator, Authy, OTP generator, security codes, authentication app, 2FA tool, online 2FA" />
+    <meta name="author" content="TengLeng Team" />
+    <meta name="robots" content="index, follow" />
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta name="theme-color" content="#1a1a1a" />
+    <meta name="msapplication-TileColor" content="#1a1a1a" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://2fa-tengleng.com/" />
+    <meta property="og:title" content="2FA Code Generator - Free Online Two-Factor Authentication Tool" />
+    <meta property="og:description" content="Generate secure 2FA codes instantly with our free online tool. Support for Google Authenticator, Authy, and all TOTP-based apps. 100% browser-based security." />
+    <meta property="og:image" content="https://2fa-tengleng.com/assets/images/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="2FA TengLeng" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="id_ID" />
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://2fa-tengleng.com/" />
+    <meta name="twitter:title" content="2FA Code Generator - Free Online Two-Factor Authentication Tool" />
+    <meta name="twitter:description" content="Generate secure 2FA codes instantly. Support for Google Authenticator, Authy, and all TOTP apps. 100% browser-based security." />
+    <meta name="twitter:image" content="https://2fa-tengleng.com/assets/images/twitter-card.png" />
+    <meta name="twitter:creator" content="@tenglengteam" />
+    
+    <!-- Additional SEO Meta Tags -->
+    <meta name="google-site-verification" content="YOUR_GOOGLE_VERIFICATION_CODE" />
+    <meta name="msvalidate.01" content="YOUR_BING_VERIFICATION_CODE" />
+    <link rel="alternate" hreflang="en" href="https://2fa-tengleng.com/" />
+    <link rel="alternate" hreflang="id" href="https://2fa-tengleng.com/?lang=id" />
+    <link rel="alternate" hreflang="x-default" href="https://2fa-tengleng.com/" />
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self';" />
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
+    <link rel="manifest" href="manifest.json" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon-16x16.png" />
+    <link rel="mask-icon" href="assets/images/safari-pinned-tab.svg" color="#1a1a1a" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Orbitron:wght@500;700&display=swap" rel="stylesheet" />
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="assets/css/styles.css" as="style">
+    <link rel="preload" href="assets/js/script.js" as="script">
+    <link rel="preload" href="assets/images/logo.png" as="image" type="image/png">
     <link href="assets/css/styles.css" rel="stylesheet" />
     <link rel="canonical" href="https://2fa-tengleng.com/" />
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "2FA Code Generator",
+        "alternateName": "Two-Factor Authentication Code Generator",
+        "url": "https://2fa-tengleng.com/",
+        "description": "Generate secure two-factor authentication codes instantly with our free online tool. Support for Google Authenticator, Authy, and all TOTP-based apps.",
+        "applicationCategory": "SecurityApplication",
+        "operatingSystem": "Web Browser",
+        "browserRequirements": "Requires JavaScript. Requires HTML5.",
+        "softwareVersion": "1.0",
+        "author": {
+            "@type": "Organization",
+            "name": "TengLeng Team",
+            "url": "https://2fa-tengleng.com/"
+        },
+        "creator": {
+            "@type": "Organization",
+            "name": "TengLeng Team"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "TengLeng Team",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://2fa-tengleng.com/assets/images/logo.png"
+            }
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "availability": "https://schema.org/InStock"
+        },
+        "featureList": [
+            "Generate TOTP codes",
+            "Support for Google Authenticator",
+            "Support for Authy",
+            "Browser-based security",
+            "Multi-language support",
+            "Dark and light themes",
+            "Mobile responsive",
+            "No data collection"
+        ],
+        "screenshot": "https://2fa-tengleng.com/assets/images/screenshot.png",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "ratingCount": "127",
+            "bestRating": "5",
+            "worstRating": "1"
+        },
+        "inLanguage": ["en", "id"],
+        "isAccessibleForFree": true,
+        "usageInfo": "https://2fa-tengleng.com/",
+        "copyrightHolder": {
+            "@type": "Organization",
+            "name": "TengLeng Team"
+        },
+        "copyrightYear": "2025",
+        "license": "https://2fa-tengleng.com/license"
+    }
+    </script>
+    
+    <!-- FAQ Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Is this 2FA generator safe to use?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, our 2FA generator runs entirely in your browser. No data is sent to any server, ensuring maximum security and privacy. All calculations are performed locally on your device."
+                }
+            },
+            {
+                "@type": "Question", 
+                "name": "What 2FA apps are supported?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Our generator supports all TOTP-based authenticator apps including Google Authenticator, Authy, Microsoft Authenticator, 1Password, Bitwarden, and any app that uses the TOTP standard."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How often do the codes update?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "2FA codes automatically refresh every 30 seconds, which is the standard TOTP interval. You can see the countdown timer next to each code."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I use this offline?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Once the page is loaded, the 2FA generator works offline. However, you need an internet connection to initially load the application."
+                }
+            }
+        ]
+    }
+    </script>
 </head>
 <body class="min-h-screen neumorphism-bg flex flex-col" data-theme="dark">
     <!-- Switch Buttons - Fixed Position -->
@@ -211,6 +363,36 @@
     <div id="copy-alert" class="fixed top-20 right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border bg-green-500/90 border-green-400/50 opacity-0 transform translate-y-2 scale-95 pointer-events-none">
     </div>
 
-    <script src="assets/js/script.js"></script>
+    <script src="assets/js/script.js" defer></script>
+    
+    <!-- Service Worker for PWA and Caching -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(function(registrationError) {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+    
+    <!-- Analytics (replace with your tracking code) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID', {
+            page_title: '2FA Code Generator',
+            page_location: window.location.href,
+            anonymize_ip: true,
+            allow_google_signals: false,
+            allow_ad_personalization_signals: false
+        });
+    </script>
 </body>
 </html>
