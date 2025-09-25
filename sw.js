@@ -89,8 +89,8 @@ function doBackgroundSync() {
 self.addEventListener('push', function(event) {
     const options = {
         body: event.data ? event.data.text() : 'New 2FA notification',
-        icon: '/assets/images/icon-192x192.png',
-        badge: '/assets/images/badge-72x72.png',
+        icon: '/assets/images/logo.png',
+        badge: '/assets/images/favicon.ico',
         vibrate: [100, 50, 100],
         data: {
             dateOfArrival: Date.now(),
@@ -99,13 +99,11 @@ self.addEventListener('push', function(event) {
         actions: [
             {
                 action: 'explore',
-                title: 'Open 2FA Generator',
-                icon: '/assets/images/checkmark.png'
+                title: 'Open 2FA Generator'
             },
             {
                 action: 'close',
-                title: 'Close notification',
-                icon: '/assets/images/xmark.png'
+                title: 'Close notification'
             }
         ]
     };
