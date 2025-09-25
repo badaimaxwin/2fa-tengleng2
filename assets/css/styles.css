@@ -816,23 +816,6 @@ button, a, input, textarea, label {
     min-height: 80px;
 }
 
-/* Extend footer to bottom of page */
-.footer-half-shape::after {
-    content: '';
-    position: absolute;
-    bottom: -1rem;
-    left: 0;
-    right: 0;
-    height: 1rem;
-    background: var(--surface-color);
-    z-index: -1;
-}
-
-/* Light theme extension */
-[data-theme="light"] .footer-half-shape::after {
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(20px);
-}
 
 /* Compact spacing for footer content */
 .footer-half-shape .space-y-1 > * + * {
