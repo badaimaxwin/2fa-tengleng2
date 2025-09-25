@@ -127,23 +127,31 @@ function initializeTheme() {
 function toggleTheme() {
     const currentTheme = document.body.getAttribute('data-theme');
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    const themeSwitch = document.getElementById('theme-switch');
     
-    document.body.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-    updateThemeButton(newTheme);
-    updateAriaStates();
+    // Add rotation animation class
+    themeSwitch.classList.add('changing');
+    
+    setTimeout(() => {
+        document.body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        updateThemeButton(newTheme);
+        updateAriaStates();
+        
+        // Remove animation class after change
+        setTimeout(() => {
+            themeSwitch.classList.remove('changing');
+        }, 150);
+    }, 150);
 }
 
 function updateThemeButton(theme) {
-    const currentThemeSpan = document.getElementById('current-theme');
-    const otherThemeSpan = document.getElementById('other-theme');
+    const themeIcon = document.getElementById('theme-icon');
     
     if (theme === 'light') {
-        currentThemeSpan.textContent = '☀️';
-        otherThemeSpan.textContent = '🌙';
+        themeIcon.textContent = '☀️';
     } else {
-        currentThemeSpan.textContent = '🌙';
-        otherThemeSpan.textContent = '☀️';
+        themeIcon.textContent = '🌙';
     }
 }
 
@@ -172,6 +180,10 @@ function updateAriaStates() {
     
     if (themeSwitch) {
         themeSwitch.setAttribute('aria-pressed', currentTheme === 'light');
+        // Update aria-label to reflect current state
+        const newLabel = currentTheme === 'dark' ? 
+            'Switch to light theme' : 'Switch to dark theme';
+        themeSwitch.setAttribute('aria-label', newLabel);
     }
     
     if (languageSwitch) {

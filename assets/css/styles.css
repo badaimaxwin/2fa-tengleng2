@@ -735,3 +735,31 @@ button, a, input, textarea, label {
 [data-theme="light"] .text-yellow-300 {
     color: #92400e !important; /* amber-800 for better contrast */
 }
+
+/* Theme switch button enhancement */
+#theme-switch {
+    transition: all 0.3s ease;
+}
+
+#theme-switch:hover {
+    transform: scale(1.1);
+}
+
+#theme-switch:active {
+    transform: scale(0.95);
+}
+
+#theme-icon {
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+/* Add subtle rotation animation on theme change */
+#theme-switch.changing #theme-icon {
+    transform: rotate(180deg);
+}
+
+/* Reset rotation after animation */
+#theme-icon {
+    transform: rotate(0deg);
+}
