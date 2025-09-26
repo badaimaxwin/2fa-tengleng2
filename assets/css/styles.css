@@ -890,11 +890,11 @@ button, a, input, textarea, label {
     
 }
 
-/* Minimal focus outline - compromise solution */
+/* Minimal focus outline - more transparent */
 button:focus,
 input:focus,
 textarea:focus {
-    outline: 1px solid rgba(147, 51, 234, 0.4);
+    outline: 1px solid rgba(147, 51, 234, 0.25);
     outline-offset: 1px;
 }
 
@@ -902,6 +902,6 @@ textarea:focus {
 [data-theme="light"] button:focus,
 [data-theme="light"] input:focus,
 [data-theme="light"] textarea:focus {
-    outline: 1px solid rgba(59, 130, 246, 0.4);
+    outline: 1px solid rgba(59, 130, 246, 0.25);
     outline-offset: 1px;
 }
