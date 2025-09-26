@@ -673,7 +673,10 @@ function updateTableVisibility() {
 }
 
 function qk() {
-    document.getElementById("skey").value = '';
+    const textarea = document.getElementById("skey");
+    textarea.value = '';
+    textarea.focus();
+    textarea.blur();
     document.querySelectorAll(".ttrr").forEach(row => row.remove());
     
     const showMoreRow = document.getElementById("show-more-row");
