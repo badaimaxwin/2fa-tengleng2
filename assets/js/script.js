@@ -673,10 +673,7 @@ function updateTableVisibility() {
 }
 
 function qk() {
-    const textarea = document.getElementById("skey");
-    textarea.value = '';
-    textarea.focus();
-    textarea.blur();
+    // HANYA hapus hasil generate, JANGAN hapus textarea
     document.querySelectorAll(".ttrr").forEach(row => row.remove());
     
     const showMoreRow = document.getElementById("show-more-row");
