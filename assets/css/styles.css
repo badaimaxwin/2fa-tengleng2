@@ -888,11 +888,6 @@ button, a, input, textarea, label {
         display: none;
     }
     
-    /* Mobile placeholder styling */
-    #skey::placeholder {
-        white-space: pre-line;
-        line-height: 1.4;
-    }
 }
 
 /* Minimal focus outline - compromise solution */
