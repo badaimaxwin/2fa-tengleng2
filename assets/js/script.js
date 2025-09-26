@@ -483,42 +483,8 @@ function startCountdownLoop() {
 }
 
 function showUserFriendlyError(messageKey, customMessage = null) {
-    const alertBox = document.getElementById('copy-alert');
     const message = customMessage || translations[currentLanguage][messageKey] || messageKey;
-    const currentTheme = document.body.getAttribute('data-theme');
-
-    alertBox.textContent = '';
-    const container = document.createElement('div');
-    container.className = 'flex items-center gap-3';
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('class', 'w-5 h-5');
-    svg.setAttribute('fill', 'none');
-    svg.setAttribute('stroke', 'currentColor');
-    svg.setAttribute('viewBox', '0 0 24 24');
-    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    path.setAttribute('stroke-linecap', 'round');
-    path.setAttribute('stroke-linejoin', 'round');
-    path.setAttribute('stroke-width', '2');
-    path.setAttribute('d', 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.99-.833-2.76 0L3.054 16.5C2.284 18.167 3.246 20 4.786 20z');
-    svg.appendChild(path);
-    const span = document.createElement('span');
-    span.textContent = message;
-    container.appendChild(svg);
-    container.appendChild(span);
-    alertBox.appendChild(container);
-
-    if (currentTheme === 'light') {
-        alertBox.style.position = 'fixed';
-        alertBox.style.top = '5rem';
-        alertBox.style.right = '1.5rem';
-        alertBox.style.zIndex = '9999';
-    }
-
-    alertBox.className = 'fixed top-20 right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border bg-red-500/90 border-red-400/50 opacity-100 transform translate-y-0 scale-100';
-
-    setTimeout(() => {
-        alertBox.className = 'fixed top-20 right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border bg-red-500/90 border-red-400/50 opacity-0 transform translate-y-2 scale-95 pointer-events-none';
-    }, 5000);
+    showCopyAlert(message, true); // Use the new stack system for errors too
 }
 
 // Format date time as DD-MM-YYYY HH:mm
@@ -751,11 +717,20 @@ document.addEventListener('click', function(e) {
     }
 });
 
-function showCopyAlert(message, isError = false) {
-    const alertBox = document.getElementById('copy-alert');
-    const currentTheme = document.body.getAttribute('data-theme');
+// Notification stack system
+let notificationStack = [];
+let notificationCounter = 0;
 
-    alertBox.textContent = '';
+function showCopyAlert(message, isError = false) {
+    const currentTheme = document.body.getAttribute('data-theme');
+    
+    // Create unique notification element
+    const notificationId = `notification-${++notificationCounter}`;
+    const notification = document.createElement('div');
+    notification.id = notificationId;
+    notification.className = 'notification-item';
+    
+    // Create content
     const container = document.createElement('div');
     container.className = 'flex items-center gap-3';
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -773,23 +748,65 @@ function showCopyAlert(message, isError = false) {
     span.textContent = message;
     container.appendChild(svg);
     container.appendChild(span);
-    alertBox.appendChild(container);
-
-    if (currentTheme === 'light') {
-        alertBox.style.position = 'fixed';
-        alertBox.style.top = '5rem';
-        alertBox.style.right = '1.5rem';
-        alertBox.style.zIndex = '9999';
-    }
-
-    alertBox.className = `fixed top-20 right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border ${
+    notification.appendChild(container);
+    
+    // Add to body
+    document.body.appendChild(notification);
+    
+    // Calculate position based on existing notifications
+    const topPosition = 5 + (notificationStack.length * 4.5); // 5rem base + 4.5rem per notification
+    
+    // Style notification
+    notification.className = `fixed right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border ${
         isError ? 'bg-red-600/95 border-red-500/60' : 'bg-green-600/95 border-green-500/60'
-    } opacity-100 transform translate-y-0 scale-100`;
-
+    } opacity-0 transform translate-x-full scale-95`;
+    
+    notification.style.top = `${topPosition}rem`;
+    
+    // Add to stack
+    notificationStack.push({
+        id: notificationId,
+        element: notification,
+        topPosition: topPosition
+    });
+    
+    // Show notification
     setTimeout(() => {
-        alertBox.className = `fixed top-20 right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border ${
+        notification.className = `fixed right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border ${
             isError ? 'bg-red-600/95 border-red-500/60' : 'bg-green-600/95 border-green-500/60'
-        } opacity-0 transform translate-y-2 scale-95 pointer-events-none`;
+        } opacity-100 transform translate-x-0 scale-100`;
+    }, 10);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        removeNotification(notificationId);
     }, 5000);
+}
+
+function removeNotification(notificationId) {
+    const notificationIndex = notificationStack.findIndex(n => n.id === notificationId);
+    if (notificationIndex === -1) return;
+    
+    const notification = notificationStack[notificationIndex];
+    
+    // Hide notification
+    notification.element.className = `fixed right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border opacity-0 transform translate-x-full scale-95 pointer-events-none`;
+    
+    // Remove from DOM after animation
+    setTimeout(() => {
+        if (notification.element.parentNode) {
+            notification.element.parentNode.removeChild(notification.element);
+        }
+    }, 500);
+    
+    // Remove from stack
+    notificationStack.splice(notificationIndex, 1);
+    
+    // Reposition remaining notifications
+    notificationStack.forEach((notif, index) => {
+        const newTopPosition = 5 + (index * 4.5);
+        notif.topPosition = newTopPosition;
+        notif.element.style.top = `${newTopPosition}rem`;
+    });
 }
 
