@@ -29,7 +29,8 @@ const translations = {
         successCodes: "2FA code(s) successfully",
         errorFound: "The code you entered is invalid",
         clearInputBtn: "Clear",
-        copyInputBtn: "Copy"
+        copyInputBtn: "Copy",
+        copySuccess: "Copied"
     },
     id: {
         title: "Generator Kode 2FA",
@@ -60,7 +61,8 @@ const translations = {
         successCodes: "kode 2FA",
         errorFound: "Kode yang Anda masukkan tidak valid",
         clearInputBtn: "Hapus",
-        copyInputBtn: "Salin"
+        copyInputBtn: "Salin",
+        copySuccess: "Berhasil disalin"
     }
 };
 
@@ -839,14 +841,14 @@ function copyTextarea() {
     const content = textarea.value.trim();
     
     if (!content) {
-        showCopyAlert(translations[currentLanguage].errorEmptyInput, true);
+        // Tidak ada alert saat kolom kosong, hanya blur button
         copyBtn.blur();
         return;
     }
     
     if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(content).then(function() {
-            showCopyAlert(`${translations[currentLanguage].copySuccess} ${content.split('\n').length} secret key(s)`);
+            showCopyAlert(translations[currentLanguage].copySuccess);
         }, function(err) {
             showCopyAlert(`${translations[currentLanguage].copyError} ${err}`, true);
         });
@@ -860,7 +862,7 @@ function copyTextarea() {
         textArea.select();
         try {
             document.execCommand('copy');
-            showCopyAlert(`${translations[currentLanguage].copySuccess} ${content.split('\n').length} secret key(s)`);
+            showCopyAlert(translations[currentLanguage].copySuccess);
         } catch (err) {
             showCopyAlert(`${translations[currentLanguage].copyError} ${err}`, true);
         }
