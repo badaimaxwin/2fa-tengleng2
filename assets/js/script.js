@@ -753,11 +753,11 @@ function showCopyAlert(message, isError = false) {
     // Add to body
     document.body.appendChild(notification);
     
-    // Calculate position based on existing notifications
-    const topPosition = 5 + (notificationStack.length * 4.5); // 5rem base + 4.5rem per notification
+    // Calculate position based on existing notifications (more compact)
+    const topPosition = 5 + (notificationStack.length * 3.5); // 5rem base + 3.5rem per notification
     
-    // Style notification
-    notification.className = `fixed right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border ${
+    // Style notification (more compact)
+    notification.className = `fixed right-6 px-4 py-2 rounded-lg shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border ${
         isError ? 'bg-red-600/95 border-red-500/60' : 'bg-green-600/95 border-green-500/60'
     } opacity-0 transform translate-x-full scale-95`;
     
@@ -772,15 +772,15 @@ function showCopyAlert(message, isError = false) {
     
     // Show notification
     setTimeout(() => {
-        notification.className = `fixed right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border ${
+        notification.className = `fixed right-6 px-4 py-2 rounded-lg shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border ${
             isError ? 'bg-red-600/95 border-red-500/60' : 'bg-green-600/95 border-green-500/60'
         } opacity-100 transform translate-x-0 scale-100`;
     }, 10);
     
-    // Auto remove after 5 seconds
+    // Auto remove after 3 seconds
     setTimeout(() => {
         removeNotification(notificationId);
-    }, 5000);
+    }, 3000);
 }
 
 function removeNotification(notificationId) {
@@ -790,7 +790,7 @@ function removeNotification(notificationId) {
     const notification = notificationStack[notificationIndex];
     
     // Hide notification
-    notification.element.className = `fixed right-6 px-6 py-4 rounded-xl shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border opacity-0 transform translate-x-full scale-95 pointer-events-none`;
+    notification.element.className = `fixed right-6 px-4 py-2 rounded-lg shadow-2xl text-white font-semibold z-40 transition-all duration-500 backdrop-blur-sm border opacity-0 transform translate-x-full scale-95 pointer-events-none`;
     
     // Remove from DOM after animation
     setTimeout(() => {
@@ -802,9 +802,9 @@ function removeNotification(notificationId) {
     // Remove from stack
     notificationStack.splice(notificationIndex, 1);
     
-    // Reposition remaining notifications
+    // Reposition remaining notifications (compact spacing)
     notificationStack.forEach((notif, index) => {
-        const newTopPosition = 5 + (index * 4.5);
+        const newTopPosition = 5 + (index * 3.5);
         notif.topPosition = newTopPosition;
         notif.element.style.top = `${newTopPosition}rem`;
     });
