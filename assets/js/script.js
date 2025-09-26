@@ -830,8 +830,8 @@ function clearTextarea() {
     const textarea = document.getElementById("skey");
     const clearBtn = document.getElementById("clearTextBtn");
     textarea.value = '';
-    textarea.focus();
-    clearBtn.blur(); // Remove focus ring after click
+    clearBtn.blur(); // Remove focus ring from button
+    // Tidak focus ke textarea agar tidak ada focus ring
 }
 
 // Copy textarea function
