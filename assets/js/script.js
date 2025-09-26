@@ -28,7 +28,8 @@ const translations = {
         successGenerated: "Generated",
         successCodes: "2FA code(s) successfully",
         errorFound: "The code you entered is invalid",
-        clearInputBtn: "Clear"
+        clearInputBtn: "Clear",
+        copyInputBtn: "Copy"
     },
     id: {
         title: "Generator Kode 2FA",
@@ -58,7 +59,8 @@ const translations = {
         successGenerated: "Berhasil menghasilkan",
         successCodes: "kode 2FA",
         errorFound: "Kode yang Anda masukkan tidak valid",
-        clearInputBtn: "Hapus"
+        clearInputBtn: "Hapus",
+        copyInputBtn: "Salin"
     }
 };
 
@@ -828,6 +830,44 @@ function clearTextarea() {
     textarea.value = '';
     textarea.focus();
     clearBtn.blur(); // Remove focus ring after click
+}
+
+// Copy textarea function
+function copyTextarea() {
+    const textarea = document.getElementById("skey");
+    const copyBtn = document.getElementById("copyTextBtn");
+    const content = textarea.value.trim();
+    
+    if (!content) {
+        showCopyAlert(translations[currentLanguage].errorEmptyInput, true);
+        copyBtn.blur();
+        return;
+    }
+    
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(content).then(function() {
+            showCopyAlert(`${translations[currentLanguage].copySuccess} ${content.split('\n').length} secret key(s)`);
+        }, function(err) {
+            showCopyAlert(`${translations[currentLanguage].copyError} ${err}`, true);
+        });
+    } else {
+        // Fallback untuk browser lama
+        const textArea = document.createElement('textarea');
+        textArea.value = content;
+        textArea.style.position = 'fixed';
+        textArea.style.opacity = '0';
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+            document.execCommand('copy');
+            showCopyAlert(`${translations[currentLanguage].copySuccess} ${content.split('\n').length} secret key(s)`);
+        } catch (err) {
+            showCopyAlert(`${translations[currentLanguage].copyError} ${err}`, true);
+        }
+        document.body.removeChild(textArea);
+    }
+    
+    copyBtn.blur(); // Remove focus ring after click
 }
 
 // Remove focus ring after button clicks
