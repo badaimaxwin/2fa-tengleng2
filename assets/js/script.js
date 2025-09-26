@@ -810,3 +810,10 @@ function removeNotification(notificationId) {
     });
 }
 
+// Clear textarea function
+function clearTextarea() {
+    const textarea = document.getElementById("skey");
+    textarea.value = '';
+    textarea.focus();
+}
+
