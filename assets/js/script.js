@@ -27,7 +27,8 @@ const translations = {
         errorDecodeFailed: "Unable to decode base32 format",
         successGenerated: "Generated",
         successCodes: "2FA code(s) successfully",
-        errorFound: "The code you entered is invalid"
+        errorFound: "The code you entered is invalid",
+        clearInputBtn: "Clear input"
     },
     id: {
         title: "Generator Kode 2FA",
@@ -56,7 +57,8 @@ const translations = {
         errorDecodeFailed: "Tidak dapat mendekode format base32",
         successGenerated: "Berhasil menghasilkan",
         successCodes: "kode 2FA",
-        errorFound: "Kode yang Anda masukkan tidak valid"
+        errorFound: "Kode yang Anda masukkan tidak valid",
+        clearInputBtn: "Hapus input"
     }
 };
 
@@ -93,6 +95,15 @@ function updateLanguage() {
         const key = element.getAttribute('data-translate-placeholder');
         if (translations[currentLanguage][key]) {
             element.placeholder = translations[currentLanguage][key];
+        }
+    });
+
+    // Update title attributes (tooltips)
+    const titleElements = document.querySelectorAll('[data-translate-title]');
+    titleElements.forEach(element => {
+        const key = element.getAttribute('data-translate-title');
+        if (translations[currentLanguage][key]) {
+            element.title = translations[currentLanguage][key];
         }
     });
 }
