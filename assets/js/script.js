@@ -824,7 +824,20 @@ function removeNotification(notificationId) {
 // Clear textarea function
 function clearTextarea() {
     const textarea = document.getElementById("skey");
+    const clearBtn = document.getElementById("clearTextBtn");
     textarea.value = '';
     textarea.focus();
+    clearBtn.blur(); // Remove focus ring after click
 }
+
+// Remove focus ring after button clicks
+document.addEventListener('click', function(e) {
+    if (e.target.tagName === 'BUTTON' || e.target.closest('button')) {
+        setTimeout(() => {
+            if (document.activeElement && document.activeElement.tagName === 'BUTTON') {
+                document.activeElement.blur();
+            }
+        }, 100);
+    }
+});
 
