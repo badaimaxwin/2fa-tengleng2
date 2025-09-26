@@ -950,18 +950,20 @@ textarea:focus {
     border: none;
     border-radius: 50%;
     box-shadow: 
-        3px 3px 6px var(--shadow-dark),
-        -3px -3px 6px var(--shadow-light);
+        4px 4px 8px var(--shadow-dark),
+        -4px -4px 8px var(--shadow-light),
+        0 2px 4px rgba(0, 0, 0, 0.2);
     transition: all 0.2s ease;
-    opacity: 0.6;
+    opacity: 0.7;
 }
 
 .neumorphism-button-small:hover {
     opacity: 1;
     transform: scale(1.1);
     box-shadow: 
-        2px 2px 4px var(--shadow-dark),
-        -2px -2px 4px var(--shadow-light);
+        3px 3px 6px var(--shadow-dark),
+        -3px -3px 6px var(--shadow-light),
+        0 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 .neumorphism-button-small:active {
@@ -973,19 +975,21 @@ textarea:focus {
 
 /* Light theme small button */
 [data-theme="light"] .neumorphism-button-small {
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     box-shadow: 
-        0 2px 8px rgba(0, 0, 0, 0.1),
-        0 1px 2px rgba(0, 0, 0, 0.05);
+        0 3px 12px rgba(0, 0, 0, 0.15),
+        0 1px 4px rgba(0, 0, 0, 0.1),
+        0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
 [data-theme="light"] .neumorphism-button-small:hover {
     background: rgba(255, 255, 255, 0.95);
     box-shadow: 
-        0 3px 12px rgba(0, 0, 0, 0.15),
-        0 1px 3px rgba(0, 0, 0, 0.08);
+        0 4px 16px rgba(0, 0, 0, 0.2),
+        0 2px 6px rgba(0, 0, 0, 0.12),
+        0 3px 6px rgba(0, 0, 0, 0.1);
 }
 
 [data-theme="light"] .neumorphism-button-small:active {
