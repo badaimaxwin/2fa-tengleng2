@@ -1009,3 +1009,12 @@ textarea:focus {
     opacity: 0.6;
     pointer-events: auto;
 }
+
+/* Light theme icon color for clear button */
+[data-theme="light"] #clearTextBtn {
+    color: #64748b !important;
+}
+
+[data-theme="light"] #clearTextBtn:hover {
+    color: #475569 !important;
+}
