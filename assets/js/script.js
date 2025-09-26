@@ -28,7 +28,7 @@ const translations = {
         successGenerated: "Generated",
         successCodes: "2FA code(s) successfully",
         errorFound: "The code you entered is invalid",
-        clearInputBtn: "Clear input"
+        clearInputBtn: "Clear"
     },
     id: {
         title: "Generator Kode 2FA",
@@ -58,7 +58,7 @@ const translations = {
         successGenerated: "Berhasil menghasilkan",
         successCodes: "kode 2FA",
         errorFound: "Kode yang Anda masukkan tidak valid",
-        clearInputBtn: "Hapus input"
+        clearInputBtn: "Hapus"
     }
 };
 
