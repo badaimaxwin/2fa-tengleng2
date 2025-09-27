@@ -547,12 +547,15 @@ footer {
     margin-top: 0.25rem;
 }
 
-/* Three-column inline layout inside Code cell: code | countdown | copy */
+/* Four-column inline layout inside Code cell: delete | code | copy | countdown */
 .otp-row {
     display: grid;
-    grid-template-columns: 1fr auto 1fr;
+    grid-template-columns: auto 1fr auto auto;
     align-items: center;
     gap: 0.5rem;
+}
+.otp-row .delete-row-btn {
+    justify-self: start;
 }
 .otp-row .otp-code {
     justify-self: start;
@@ -1021,4 +1024,36 @@ textarea:focus {
 [data-theme="light"] #copyTextBtn:hover,
 [data-theme="light"] #clearTextBtn:hover {
     color: #475569 !important;
+}
+
+/* Delete row button styling */
+.delete-row-btn {
+    border: none;
+    background: none;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0.6;
+}
+
+.delete-row-btn:hover {
+    opacity: 1;
+    transform: scale(1.1);
+    background: rgba(239, 68, 68, 0.1);
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2);
+}
+
+.delete-row-btn:active {
+    transform: scale(0.95);
+}
+
+/* Light theme delete button */
+[data-theme="light"] .delete-row-btn {
+    color: #64748b;
+}
+
+[data-theme="light"] .delete-row-btn:hover {
+    color: #dc2626;
+    background: rgba(220, 38, 38, 0.1);
+    box-shadow: 0 2px 4px rgba(220, 38, 38, 0.2);
 }

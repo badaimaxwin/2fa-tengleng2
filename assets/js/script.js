@@ -351,6 +351,26 @@ function createRow(entry, initialCode, waktuGenerate) {
     const tdCode = createCell('td', 'px-2 py-3 align-top');
     const codeWrap = createCell('div', 'flex flex-col gap-2');
     const codeHeader = createCell('div', 'otp-row');
+    
+    // Delete button for individual row
+    const deleteBtn = createCell('button', 'delete-row-btn text-gray-400 hover:text-red-400 transition-all duration-200 flex items-center justify-center w-5 h-5');
+    deleteBtn.setAttribute('type', 'button');
+    deleteBtn.setAttribute('aria-label', 'Delete this OTP entry');
+    deleteBtn.setAttribute('title', 'Delete');
+    deleteBtn.setAttribute('data-entry-id', entry.id);
+    const deleteIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    deleteIcon.setAttribute('class', 'w-3 h-3');
+    deleteIcon.setAttribute('fill', 'none');
+    deleteIcon.setAttribute('stroke', 'currentColor');
+    deleteIcon.setAttribute('viewBox', '0 0 24 24');
+    const deletePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    deletePath.setAttribute('stroke-linecap', 'round');
+    deletePath.setAttribute('stroke-linejoin', 'round');
+    deletePath.setAttribute('stroke-width', '2');
+    deletePath.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+    deleteIcon.appendChild(deletePath);
+    deleteBtn.appendChild(deleteIcon);
+    
     const codeSpan = createCell('span', 'font-mono text-2xl font-bold text-theme-primary otp-code', initialCode || '------');
 
     // Countdown number only (no ring)
@@ -358,6 +378,7 @@ function createRow(entry, initialCode, waktuGenerate) {
     const countdownText = createCell('span', 'otp-countdown-text', '');
     countdownWrap.appendChild(countdownText);
 
+    codeHeader.appendChild(deleteBtn);
     codeHeader.appendChild(codeSpan);
     const copyBtn = createCell('button', 'copy-button text-theme-primary px-3 py-1 text-xs font-bold copy-btn flex items-center gap-1');
     copyBtn.setAttribute('type', 'button');
@@ -552,6 +573,7 @@ async function run() {
             }
 
             const entry = {
+                id: Date.now() + Math.random(), // Unique ID
                 secretBytes,
                 secretDisplay: parsed.secret,
                 algorithm: parsed.algorithm,
@@ -687,8 +709,46 @@ function qk() {
     }
 }
 
-// Copy to clipboard functionality and show more button
+// Copy to clipboard functionality, show more button, and delete row
 document.addEventListener('click', function(e) {
+    // Handle delete row button
+    const deleteBtn = e.target.closest('.delete-row-btn');
+    if (deleteBtn) {
+        e.preventDefault();
+        const entryId = deleteBtn.getAttribute('data-entry-id');
+        const row = deleteBtn.closest('tr');
+        
+        if (row && entryId) {
+            // Remove from activeEntries array by ID
+            const entryIndex = activeEntries.findIndex(entry => entry.id == entryId);
+            if (entryIndex >= 0) {
+                activeEntries.splice(entryIndex, 1);
+            }
+            
+            // Remove row with animation
+            row.style.opacity = '0';
+            row.style.transform = 'translateX(-100%)';
+            setTimeout(() => {
+                row.remove();
+                updateTableVisibility();
+                
+                // Stop refresh if no entries left
+                if (activeEntries.length === 0) {
+                    if (refreshTimeout) {
+                        clearTimeout(refreshTimeout);
+                        refreshTimeout = null;
+                    }
+                    if (countdownInterval) {
+                        clearInterval(countdownInterval);
+                        countdownInterval = null;
+                    }
+                }
+            }, 300);
+        }
+        deleteBtn.blur();
+        return;
+    }
+    
     const copyBtn = e.target.closest('.copy-btn');
     if (copyBtn) {
         e.preventDefault();
