@@ -30,7 +30,8 @@ const translations = {
         errorFound: "The code you entered is invalid",
         clearInputBtn: "Clear",
         copyInputBtn: "Copy",
-        copySuccess: "Copied"
+        copySuccess: "Copied",
+        deleteRowBtn: "Delete"
     },
     id: {
         title: "Generator Kode 2FA",
@@ -62,7 +63,8 @@ const translations = {
         errorFound: "Kode yang Anda masukkan tidak valid",
         clearInputBtn: "Hapus",
         copyInputBtn: "Salin",
-        copySuccess: "Berhasil disalin"
+        copySuccess: "Berhasil disalin",
+        deleteRowBtn: "Hapus"
     }
 };
 
@@ -353,10 +355,11 @@ function createRow(entry, initialCode, waktuGenerate) {
     const codeHeader = createCell('div', 'otp-row');
     
     // Delete button for individual row
-    const deleteBtn = createCell('button', 'delete-row-btn text-gray-400 hover:text-red-400 transition-all duration-200 flex items-center justify-center w-5 h-5');
+    const deleteBtn = createCell('button', 'delete-row-btn neumorphism-button-small text-gray-400 hover:text-red-400 transition-all duration-200 flex items-center justify-center w-5 h-5');
     deleteBtn.setAttribute('type', 'button');
     deleteBtn.setAttribute('aria-label', 'Delete this OTP entry');
-    deleteBtn.setAttribute('title', 'Delete');
+    deleteBtn.setAttribute('title', translations[currentLanguage].deleteRowBtn);
+    deleteBtn.setAttribute('data-translate-title', 'deleteRowBtn');
     deleteBtn.setAttribute('data-entry-id', entry.id);
     const deleteIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     deleteIcon.setAttribute('class', 'w-3 h-3');
