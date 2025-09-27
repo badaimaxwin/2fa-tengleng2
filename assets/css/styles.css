@@ -516,24 +516,39 @@ footer {
     font-weight: 500;
 }
 
-/* Modern table header */
-.table-custom thead {
+/* Modern card-style header */
+.table-header {
+    margin-bottom: 1rem;
+}
+
+.header-card {
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
     border-radius: 0.75rem;
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.75rem 1rem;
 }
 
-.table-custom th {
-    padding: 1rem;
+.header-grid {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.header-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     font-size: 0.75rem;
+    color: var(--text-secondary);
 }
 
-/* Light theme table header */
-[data-theme="light"] .table-custom thead {
+/* Light theme header */
+[data-theme="light"] .header-card {
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.95));
     border: 1px solid rgba(59, 130, 246, 0.1);
     box-shadow: 
@@ -541,8 +556,15 @@ footer {
         0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
-[data-theme="light"] .table-custom th {
+[data-theme="light"] .header-item {
     color: #475569;
+}
+
+/* Cards container */
+.cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 /* OTP countdown ring styles */
@@ -553,21 +575,18 @@ footer {
     margin-top: 0.25rem;
 }
 
-/* Modern transaction-style table design */
-.otp-row {
-    display: grid;
-    grid-template-columns: auto 1fr auto auto;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem;
+/* Modern transaction-style card design */
+.otp-card {
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), rgba(147, 51, 234, 0.05));
     border-radius: 0.75rem;
     border: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
 }
 
-.otp-row:hover {
+.otp-card:hover {
     transform: translateY(-2px);
     background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(147, 51, 234, 0.1));
     border-color: rgba(255, 255, 255, 0.2);
@@ -576,18 +595,45 @@ footer {
         0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* OTP row grid inside card */
+.otp-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: 0.75rem;
+}
+
 .otp-row .delete-row-btn {
     justify-self: start;
 }
 .otp-row .otp-code {
     justify-self: start;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    font-size: 1.5rem;
 }
 .otp-row .copy-button {
     justify-self: center;
 }
 .otp-row .otp-countdown {
     justify-self: end;
+}
+
+/* Light theme cards */
+[data-theme="light"] .otp-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(248, 250, 252, 0.9));
+    border: 1px solid rgba(59, 130, 246, 0.1);
+    backdrop-filter: blur(20px);
+    box-shadow: 
+        0 4px 16px rgba(0, 0, 0, 0.05),
+        0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="light"] .otp-card:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 1));
+    border-color: rgba(59, 130, 246, 0.2);
+    box-shadow: 
+        0 12px 32px rgba(0, 0, 0, 0.1),
+        0 6px 16px rgba(0, 0, 0, 0.05);
 }
 .otp-countdown .otp-ring {
     width: 30px;
@@ -1105,28 +1151,51 @@ textarea:focus {
         inset 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-/* Modern table container */
+/* Modern table container - Fixed alignment */
 .table-custom {
-    border-spacing: 0.5rem;
+    width: 100%;
+    border-spacing: 0;
     border-collapse: separate;
 }
 
+.table-custom thead tr {
+    display: table-row;
+}
+
 .table-custom tbody {
-    display: block;
-    max-height: 600px;
-    overflow-y: auto;
-    gap: 0.5rem;
+    display: table-row-group;
 }
 
 .table-custom tbody tr {
-    display: block;
+    display: table-row;
     margin-bottom: 0.5rem;
 }
 
-.table-custom tbody td {
-    display: block;
-    border: none;
+.table-custom td {
+    display: table-cell;
+    vertical-align: middle;
     padding: 0;
+}
+
+/* Column width alignment */
+.table-custom th:nth-child(1),
+.table-custom td:nth-child(1) {
+    width: 100%;
+    padding: 0;
+}
+
+.table-custom th:nth-child(2),
+.table-custom td:nth-child(2) {
+    width: 0;
+    padding: 0;
+    display: none;
+}
+
+.table-custom th:nth-child(3),
+.table-custom td:nth-child(3) {
+    width: 0;
+    padding: 0;
+    display: none;
 }
 
 /* Light theme modern table */

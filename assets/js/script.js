@@ -347,11 +347,9 @@ function createCell(tag, className, text) {
 }
 
 function createRow(entry, initialCode, waktuGenerate) {
-    const tr = document.createElement('tr');
-    tr.className = 'ttrr bg-gray-800 hover:bg-gray-700 transition-all duration-300 border-b border-gray-600';
-
-    const tdCode = createCell('td', 'px-2 py-3 align-top');
-    const codeWrap = createCell('div', 'flex flex-col gap-2');
+    const cardDiv = document.createElement('div');
+    cardDiv.className = 'ttrr otp-card';
+    
     const codeHeader = createCell('div', 'otp-row');
     
     // Delete button for individual row
@@ -400,41 +398,39 @@ function createRow(entry, initialCode, waktuGenerate) {
     copyText.textContent = translations[currentLanguage].copyBtn;
     copyBtn.appendChild(copyIcon);
     copyBtn.appendChild(copyText);
-    // Order: [OTP code] [copy centered] [countdown right]
+    // Order: [Delete] [OTP code] [copy] [countdown]
     codeHeader.appendChild(copyBtn);
     codeHeader.appendChild(countdownWrap);
-    codeWrap.appendChild(codeHeader);
-    tdCode.appendChild(codeWrap);
-
-    // Mobile details
-    const mobileDetails = createCell('div', 'sm:hidden mt-3 pt-3 border-t border-theme-table');
-    const secretMobile = createCell('div', 'text-xs text-theme-muted mb-1');
-    secretMobile.append('Secret: ');
-    const secretMobileSpan = createCell('span', 'font-mono text-theme-secondary', (entry.secretDisplay || '').substring(0, 20) + ((entry.secretDisplay || '').length > 20 ? '...' : ''));
-    secretMobile.appendChild(secretMobileSpan);
+    
+    // Add secret key and time info for desktop (hidden columns)
+    const secretInfo = createCell('div', 'secret-info hidden sm:block text-xs text-theme-muted');
+    secretInfo.textContent = `Secret: ${(entry.secretDisplay || '').substring(0, 20)}${(entry.secretDisplay || '').length > 20 ? '...' : ''}`;
+    
+    const timeInfo = createCell('div', 'time-info hidden md:block text-xs text-theme-muted');
+    timeInfo.textContent = `Time: ${waktuGenerate}`;
+    
+    // Add mobile details
+    const mobileDetails = createCell('div', 'sm:hidden mt-2 pt-2 border-t border-theme-table space-y-1');
+    const secretMobile = createCell('div', 'text-xs text-theme-muted');
+    secretMobile.innerHTML = `Secret: <span class="text-theme-secondary font-mono">${(entry.secretDisplay || '').substring(0, 20)}${(entry.secretDisplay || '').length > 20 ? '...' : ''}</span>`;
     const timeMobile = createCell('div', 'text-xs text-theme-muted');
-    timeMobile.append('Time: ');
-    const timeMobileSpan = createCell('span', 'text-theme-secondary', waktuGenerate);
-    timeMobile.appendChild(timeMobileSpan);
+    timeMobile.innerHTML = `Time: <span class="text-theme-secondary">${waktuGenerate}</span>`;
     mobileDetails.appendChild(secretMobile);
     mobileDetails.appendChild(timeMobile);
-    tdCode.appendChild(mobileDetails);
-
-    const tdSecret = createCell('td', 'px-2 py-3 font-mono text-sm text-theme-secondary break-all hidden sm:table-cell align-middle text-center', entry.secretDisplay || '');
-    const tdTime = createCell('td', 'px-2 py-3 text-sm text-theme-muted hidden md:table-cell align-middle text-center', waktuGenerate);
-
-    tr.appendChild(tdCode);
-    tr.appendChild(tdSecret);
-    tr.appendChild(tdTime);
+    
+    cardDiv.appendChild(codeHeader);
+    cardDiv.appendChild(secretInfo);
+    cardDiv.appendChild(timeInfo);
+    cardDiv.appendChild(mobileDetails);
 
     // Save refs for updates
-    entry.rowElement = tr;
+    entry.rowElement = cardDiv;
     entry.codeSpan = codeSpan;
-    entry.timeCell = tdTime;
-    entry.timeMobileSpan = timeMobileSpan;
+    entry.timeCell = timeInfo;
+    entry.timeMobileSpan = timeMobile.querySelector('span');
     entry.countdownText = countdownText;
 
-    return tr;
+    return cardDiv;
 }
 
 function removePlaceholderIfPresent() {
