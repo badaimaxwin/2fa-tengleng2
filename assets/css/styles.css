@@ -1026,74 +1026,75 @@ textarea:focus {
     color: #475569 !important;
 }
 
-/* Custom Card Layout - Based on User's Design */
-.otp-card-custom {
+/* OTP Container - Following HTML Structure */
+.otp-container {
+    border: 1px solid var(--shadow-light);
+    width: 100%;
+    max-width: 600px;
+    border-collapse: collapse;
+    display: grid;
+    grid-template-rows: auto auto;
     background: var(--surface-color);
-    border-radius: 16px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 1rem;
     box-shadow: 
         6px 6px 12px var(--shadow-dark),
         -6px -6px 12px var(--shadow-light);
-    border: none;
     transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 1rem;
 }
 
-.otp-card-custom:hover {
+.otp-container:hover {
     transform: translateY(-2px);
     box-shadow: 
         8px 8px 16px var(--shadow-dark),
         -8px -8px 16px var(--shadow-light);
 }
 
-/* Header Row: CODE | SECRET KEY */
-.otp-header-row {
+.otp-row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    border-bottom: 1px solid var(--shadow-light);
+}
+
+.otp-row:last-child {
+    border-bottom: none;
+}
+
+.otp-row.top {
+    grid-template-columns: 1fr 2fr;
     background: var(--bg-color);
-    border-bottom: 2px solid var(--shadow-light);
-    padding: 0.75rem 1rem;
-    font-weight: 700;
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
 }
 
-.otp-header-left {
-    color: var(--text-primary);
-    text-align: left;
+.otp-row.bottom {
+    grid-template-columns: 1fr 0.7fr 3fr 0.4fr;
 }
 
-.otp-header-right {
-    color: var(--text-primary);
-    text-align: right;
-}
-
-/* Content Row: 4 sections */
-.otp-content-row {
-    display: grid;
-    grid-template-columns: 2fr 0.8fr 3fr 0.6fr;
-    gap: 1rem;
-    padding: 1rem;
-    align-items: start;
-}
-
-/* Section 1: CODE OTP + COPY */
-.otp-code-section {
+.otp-cell {
+    border-right: 1px solid var(--shadow-light);
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    justify-content: center;
     align-items: center;
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    position: relative;
 }
 
-.otp-section-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    text-align: center;
+.otp-cell:last-child {
+    border-right: none;
+}
+
+/* Left Column: CODE OTP + COPY */
+.otp-col-left {
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+
+.otp-col-left .otp-cell {
+    flex-direction: column;
+    gap: 8px;
 }
 
 .otp-code-display {
@@ -1101,56 +1102,51 @@ textarea:focus {
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--text-primary);
-    text-align: center;
-    padding: 0.5rem;
     background: var(--bg-color);
-    border-radius: 8px;
+    padding: 8px 12px;
+    border-radius: 6px;
     border: 1px solid var(--shadow-light);
-    min-width: 120px;
+    margin-top: 4px;
 }
 
-.otp-copy-btn {
-    padding: 0.375rem 0.75rem;
-    font-size: 0.75rem;
+.otp-col-left .copy {
+    border-top: 1px solid var(--shadow-light);
+    background: var(--bg-color);
+    cursor: pointer;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-radius: 8px;
-    min-width: 60px;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
 }
 
-/* Section 2: COUNT DOWN */
-.otp-countdown-section {
-    display: flex;
+.otp-col-left .copy:hover {
+    background: var(--accent-color);
+    color: white;
+    transform: scale(1.02);
+}
+
+/* Countdown Column */
+.otp-cell.countdown {
     flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
+    gap: 8px;
 }
 
-.otp-countdown-label {
-    font-size: 0.65rem;
+.countdown-label {
+    font-size: 10px;
     font-weight: 600;
     color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    text-align: center;
+    letter-spacing: 0.5px;
     writing-mode: vertical-rl;
     text-orientation: mixed;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    line-height: 1;
 }
 
-.otp-countdown-display {
+.countdown-display {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.otp-countdown-circle {
-    display: block;
 }
 
 .otp-countdown-text {
@@ -1159,80 +1155,67 @@ textarea:focus {
     left: 50%;
     transform: translate(-50%, -50%);
     font-family: 'Orbitron', monospace;
-    font-size: 0.875rem;
+    font-size: 12px;
     font-weight: 700;
     color: var(--text-primary);
 }
 
-/* Section 3: KEY */
-.otp-key-section {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
+/* Center Column: KEY + Time */
+.otp-col-center {
+    display: grid;
+    grid-template-rows: 1fr auto;
 }
 
-.otp-key-content {
-    display: flex;
+.otp-col-center .otp-cell {
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 8px;
+    align-items: flex-start;
+    text-align: left;
 }
 
 .otp-secret-display {
     font-family: 'Courier New', monospace;
-    font-size: 0.875rem;
+    font-size: 12px;
     color: var(--text-secondary);
     background: var(--bg-color);
-    padding: 0.75rem;
-    border-radius: 8px;
+    padding: 8px;
+    border-radius: 4px;
     border: 1px solid var(--shadow-light);
     word-break: break-all;
-    line-height: 1.4;
+    line-height: 1.3;
+    width: 100%;
+    margin-top: 4px;
 }
 
-.otp-time-section {
+.otp-col-center-bottom {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    align-items: center;
+    border-top: 1px solid var(--shadow-light);
 }
 
-.otp-time-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
+.otp-col-center-bottom .otp-cell {
+    border-right: 1px solid var(--shadow-light);
+    font-size: 11px;
+    padding: 8px;
+    background: var(--bg-color);
 }
 
-.otp-time-value {
-    font-size: 0.875rem;
-    color: var(--text-secondary);
-    font-weight: 500;
-    text-align: right;
+.otp-col-center-bottom .otp-cell:last-child {
+    border-right: none;
 }
 
-/* Section 4: Delete Button */
-.otp-delete-section {
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-}
-
-.otp-delete-btn {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.25rem;
+/* Close Button */
+.otp-cell.close {
+    font-size: 18px;
     font-weight: 700;
     color: var(--text-muted);
+    cursor: pointer;
     transition: all 0.2s ease;
 }
 
-.otp-delete-btn:hover {
+.otp-cell.close:hover {
     color: #ef4444;
+    background: rgba(239, 68, 68, 0.1);
     transform: scale(1.1);
 }
 
@@ -1373,32 +1356,49 @@ textarea:focus {
     color: var(--text-primary);
 }
 
-/* Light theme custom card styles */
-[data-theme="light"] .otp-card-custom {
+/* Light theme OTP container styles */
+[data-theme="light"] .otp-container {
     background: rgba(255, 255, 255, 0.9);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     box-shadow: 
         0 8px 32px rgba(0, 0, 0, 0.12),
         0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
-[data-theme="light"] .otp-card-custom:hover {
+[data-theme="light"] .otp-container:hover {
     box-shadow: 
         0 12px 48px rgba(0, 0, 0, 0.18),
         0 4px 16px rgba(0, 0, 0, 0.1);
 }
 
-[data-theme="light"] .otp-header-row {
+[data-theme="light"] .otp-row.top {
     background: rgba(248, 250, 252, 0.8);
-    border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .otp-cell {
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .otp-row {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 [data-theme="light"] .otp-code-display,
 [data-theme="light"] .otp-secret-display {
     background: rgba(248, 250, 252, 0.8);
     border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .otp-col-left .copy,
+[data-theme="light"] .otp-col-center-bottom .otp-cell {
+    background: rgba(248, 250, 252, 0.8);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="light"] .otp-col-center-bottom .otp-cell {
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 [data-theme="light"] .otp-countdown-bg {
@@ -1447,82 +1447,97 @@ textarea:focus {
     stroke: var(--accent-color);
 }
 
-/* Custom Card Mobile Responsive */
+/* OTP Container Mobile Responsive */
 @media (max-width: 768px) {
-    .otp-content-row {
+    .otp-container {
+        max-width: 100%;
+        margin: 0 0 1rem 0;
+    }
+    
+    .otp-row.bottom {
         grid-template-columns: 1fr;
-        gap: 1rem;
-        padding: 0.75rem;
+        grid-template-rows: auto auto auto auto;
     }
     
-    .otp-code-section {
+    .otp-col-left {
         order: 1;
-        padding: 1rem;
-        background: var(--bg-color);
-        border-radius: 12px;
-        border: 1px solid var(--shadow-light);
+        grid-template-rows: auto auto;
+        border-bottom: 1px solid var(--shadow-light);
     }
     
-    .otp-key-section {
+    .otp-col-center {
         order: 2;
+        border-bottom: 1px solid var(--shadow-light);
     }
     
-    .otp-countdown-section {
+    .otp-cell.countdown {
         order: 3;
         flex-direction: row;
-        justify-content: center;
         gap: 1rem;
+        border-bottom: 1px solid var(--shadow-light);
     }
     
-    .otp-countdown-label {
+    .countdown-label {
         writing-mode: initial;
         text-orientation: initial;
-        height: auto;
-        width: auto;
+        font-size: 12px;
     }
     
-    .otp-delete-section {
+    .otp-cell.close {
         order: 4;
         position: absolute;
-        top: 0.5rem;
-        right: 0.5rem;
+        top: 8px;
+        right: 8px;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: var(--surface-color);
+        border: 1px solid var(--shadow-light);
+        box-shadow: 2px 2px 4px var(--shadow-dark);
     }
     
-    .otp-time-section {
+    .otp-col-center-bottom {
         grid-template-columns: 1fr;
-        gap: 0.5rem;
-        text-align: left;
     }
     
-    .otp-time-value {
-        text-align: left;
+    .otp-col-center-bottom .otp-cell {
+        border-right: none;
+        border-bottom: 1px solid var(--shadow-light);
+    }
+    
+    .otp-col-center-bottom .otp-cell:last-child {
+        border-bottom: none;
     }
 }
 
 @media (max-width: 480px) {
-    .otp-header-row {
-        padding: 0.5rem 0.75rem;
-        font-size: 0.75rem;
-    }
-    
-    .otp-content-row {
-        padding: 0.5rem;
+    .otp-cell {
+        padding: 8px;
+        font-size: 12px;
     }
     
     .otp-code-display {
         font-size: 1.25rem;
-        min-width: 100px;
+        padding: 6px 10px;
     }
     
     .otp-secret-display {
-        font-size: 0.75rem;
-        padding: 0.5rem;
+        font-size: 10px;
+        padding: 6px;
     }
     
-    .otp-copy-btn {
-        padding: 0.25rem 0.5rem;
-        font-size: 0.65rem;
-        min-width: 50px;
+    .otp-col-center-bottom .otp-cell {
+        font-size: 10px;
+        padding: 6px;
+    }
+    
+    .countdown-display svg {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .otp-countdown-text {
+        font-size: 10px;
     }
 }
 
