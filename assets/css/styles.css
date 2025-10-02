@@ -1061,10 +1061,10 @@ textarea:focus {
     background: var(--bg-color);
 }
 
-/* Row Bottom: CODE+COPY (20%) | COUNTDOWN (10%) | KEY (60%) | X (10%) */
+/* Row Bottom: Same as top - CODE (30%) | SECRET KEY (70%) */
 .otp-row.bottom {
     display: grid;
-    grid-template-columns: 20% 10% 60% 10%;
+    grid-template-columns: 30% 70%;
 }
 
 .otp-cell {

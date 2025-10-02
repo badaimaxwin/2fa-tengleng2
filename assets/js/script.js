@@ -367,41 +367,64 @@ function createCard(entry, initialCode, waktuGenerate) {
     rowTop.appendChild(cellCode);
     rowTop.appendChild(cellSecretKey);
     
-    // Row Bottom: 4 columns
+    // Row Bottom: 2 columns same as top
     const rowBottom = document.createElement('div');
     rowBottom.className = 'otp-row bottom';
     
-    // Left Column: CODE OTP + COPY
-    const colLeft = document.createElement('div');
-    colLeft.className = 'otp-col-left';
+    // Left Column (30%): CODE + COPY
+    const leftCell = document.createElement('div');
+    leftCell.className = 'otp-cell';
     
-    const codeOtpCell = document.createElement('div');
-    codeOtpCell.className = 'otp-cell';
+    const leftContent = document.createElement('div');
+    leftContent.className = 'otp-col-left';
+    
+    const codeSection = document.createElement('div');
+    codeSection.className = 'otp-cell';
     
     const codeDisplay = document.createElement('div');
     codeDisplay.className = 'otp-code-display otp-code';
     codeDisplay.textContent = initialCode || '------';
-    codeOtpCell.appendChild(codeDisplay);
+    codeSection.appendChild(codeDisplay);
     
-    const copyCell = document.createElement('div');
-    copyCell.className = 'otp-cell copy copy-btn';
-    copyCell.setAttribute('role', 'button');
-    copyCell.setAttribute('tabindex', '0');
-    copyCell.setAttribute('aria-label', 'Copy OTP code');
-    copyCell.setAttribute('title', translations[currentLanguage].copyBtn);
-    copyCell.textContent = 'COPY';
+    const copySection = document.createElement('div');
+    copySection.className = 'otp-cell copy copy-btn';
+    copySection.setAttribute('role', 'button');
+    copySection.setAttribute('tabindex', '0');
+    copySection.setAttribute('aria-label', 'Copy OTP code');
+    copySection.setAttribute('title', translations[currentLanguage].copyBtn);
+    copySection.textContent = 'COPY';
     
-    colLeft.appendChild(codeOtpCell);
-    colLeft.appendChild(copyCell);
+    leftContent.appendChild(codeSection);
+    leftContent.appendChild(copySection);
+    leftCell.appendChild(leftContent);
     
-    // Countdown Column
-    const countdownCell = document.createElement('div');
-    countdownCell.className = 'otp-cell countdown';
+    // Right Column (70%): SECRET KEY + TIME + COUNTDOWN + DELETE
+    const rightCell = document.createElement('div');
+    rightCell.className = 'otp-cell';
     
-    const countdownDisplay = document.createElement('div');
-    countdownDisplay.className = 'countdown-display';
+    const rightContent = document.createElement('div');
+    rightContent.className = 'otp-right-content';
+    rightContent.style.cssText = 'display: grid; grid-template-columns: 1fr auto auto; gap: 1rem; width: 100%; align-items: center;';
     
-    // Simple countdown circle
+    // Secret key section
+    const secretSection = document.createElement('div');
+    secretSection.style.cssText = 'display: flex; flex-direction: column; gap: 0.5rem;';
+    
+    const secretDisplay = document.createElement('div');
+    secretDisplay.className = 'otp-secret-display';
+    secretDisplay.textContent = entry.secretDisplay || '';
+    
+    const timeDisplay = document.createElement('div');
+    timeDisplay.style.cssText = 'font-size: 11px; color: var(--text-muted);';
+    timeDisplay.textContent = `Time Generated: ${waktuGenerate}`;
+    
+    secretSection.appendChild(secretDisplay);
+    secretSection.appendChild(timeDisplay);
+    
+    // Countdown section
+    const countdownSection = document.createElement('div');
+    countdownSection.className = 'countdown-display';
+    
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('width', '40');
     svg.setAttribute('height', '40');
@@ -428,56 +451,28 @@ function createCard(entry, initialCode, waktuGenerate) {
     countdownText.className = 'otp-countdown-text';
     countdownText.textContent = '30';
     
-    countdownDisplay.appendChild(svg);
-    countdownDisplay.appendChild(countdownText);
+    countdownSection.appendChild(svg);
+    countdownSection.appendChild(countdownText);
     
-    countdownCell.appendChild(countdownDisplay);
+    // Delete button
+    const deleteSection = document.createElement('div');
+    deleteSection.className = 'otp-cell close delete-row-btn';
+    deleteSection.setAttribute('role', 'button');
+    deleteSection.setAttribute('tabindex', '0');
+    deleteSection.setAttribute('aria-label', 'Delete this OTP entry');
+    deleteSection.setAttribute('title', translations[currentLanguage].deleteRowBtn);
+    deleteSection.setAttribute('data-translate-title', 'deleteRowBtn');
+    deleteSection.setAttribute('data-entry-id', entry.id);
+    deleteSection.textContent = '×';
     
-    // Center Column: KEY + Time section
-    const colCenter = document.createElement('div');
-    colCenter.className = 'otp-col-center';
-    
-    const keyCell = document.createElement('div');
-    keyCell.className = 'otp-cell';
-    
-    const secretDisplay = document.createElement('div');
-    secretDisplay.className = 'otp-secret-display';
-    secretDisplay.textContent = entry.secretDisplay || '';
-    keyCell.appendChild(secretDisplay);
-    
-    const colCenterBottom = document.createElement('div');
-    colCenterBottom.className = 'otp-col-center-bottom';
-    
-    const timeGeneratedCell = document.createElement('div');
-    timeGeneratedCell.className = 'otp-cell';
-    timeGeneratedCell.textContent = 'Time Generated';
-    
-    const timeValueCell = document.createElement('div');
-    timeValueCell.className = 'otp-cell';
-    timeValueCell.textContent = waktuGenerate;
-    
-    colCenterBottom.appendChild(timeGeneratedCell);
-    colCenterBottom.appendChild(timeValueCell);
-    
-    colCenter.appendChild(keyCell);
-    colCenter.appendChild(colCenterBottom);
-    
-    // Right Close Button
-    const closeCell = document.createElement('div');
-    closeCell.className = 'otp-cell close delete-row-btn';
-    closeCell.setAttribute('role', 'button');
-    closeCell.setAttribute('tabindex', '0');
-    closeCell.setAttribute('aria-label', 'Delete this OTP entry');
-    closeCell.setAttribute('title', translations[currentLanguage].deleteRowBtn);
-    closeCell.setAttribute('data-translate-title', 'deleteRowBtn');
-    closeCell.setAttribute('data-entry-id', entry.id);
-    closeCell.textContent = '×';
+    rightContent.appendChild(secretSection);
+    rightContent.appendChild(countdownSection);
+    rightContent.appendChild(deleteSection);
+    rightCell.appendChild(rightContent);
     
     // Assemble bottom row
-    rowBottom.appendChild(colLeft);
-    rowBottom.appendChild(countdownCell);
-    rowBottom.appendChild(colCenter);
-    rowBottom.appendChild(closeCell);
+    rowBottom.appendChild(leftCell);
+    rowBottom.appendChild(rightCell);
     
     // Assemble container
     container.appendChild(rowTop);
