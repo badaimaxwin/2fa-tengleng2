@@ -377,7 +377,6 @@ function createCard(entry, initialCode, waktuGenerate) {
     
     const codeOtpCell = document.createElement('div');
     codeOtpCell.className = 'otp-cell';
-    codeOtpCell.textContent = 'CODE OTP';
     
     const codeDisplay = document.createElement('div');
     codeDisplay.className = 'otp-code-display otp-code';
@@ -398,10 +397,6 @@ function createCard(entry, initialCode, waktuGenerate) {
     // Countdown Column
     const countdownCell = document.createElement('div');
     countdownCell.className = 'otp-cell countdown';
-    
-    const countdownLabel = document.createElement('div');
-    countdownLabel.className = 'countdown-label';
-    countdownLabel.textContent = 'COUNT DOWN';
     
     const countdownDisplay = document.createElement('div');
     countdownDisplay.className = 'countdown-display';
@@ -436,7 +431,6 @@ function createCard(entry, initialCode, waktuGenerate) {
     countdownDisplay.appendChild(svg);
     countdownDisplay.appendChild(countdownText);
     
-    countdownCell.appendChild(countdownLabel);
     countdownCell.appendChild(countdownDisplay);
     
     // Center Column: KEY + Time section
@@ -445,7 +439,6 @@ function createCard(entry, initialCode, waktuGenerate) {
     
     const keyCell = document.createElement('div');
     keyCell.className = 'otp-cell';
-    keyCell.textContent = 'KEY';
     
     const secretDisplay = document.createElement('div');
     secretDisplay.className = 'otp-secret-display';
