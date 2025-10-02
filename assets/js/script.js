@@ -367,48 +367,37 @@ function createCard(entry, initialCode, waktuGenerate) {
     rowTop.appendChild(cellCode);
     rowTop.appendChild(cellSecretKey);
     
-    // Row Bottom: 2 columns same as top
+    // Row Bottom: Full width like textarea
     const rowBottom = document.createElement('div');
     rowBottom.className = 'otp-row bottom';
     
-    // Left Column (30%): CODE + COPY
-    const leftCell = document.createElement('div');
-    leftCell.className = 'otp-cell';
+    // Single cell full width
+    const fullCell = document.createElement('div');
+    fullCell.className = 'otp-cell';
+    fullCell.style.cssText = 'display: grid; grid-template-columns: auto 1fr auto auto; gap: 1rem; align-items: center; padding: 1rem;';
     
-    const leftContent = document.createElement('div');
-    leftContent.className = 'otp-col-left';
-    
+    // Code + Copy section
     const codeSection = document.createElement('div');
-    codeSection.className = 'otp-cell';
+    codeSection.style.cssText = 'display: flex; flex-direction: column; gap: 0.5rem; align-items: center;';
     
     const codeDisplay = document.createElement('div');
     codeDisplay.className = 'otp-code-display otp-code';
     codeDisplay.textContent = initialCode || '------';
+    
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'copy-btn';
+    copyBtn.style.cssText = 'background: var(--bg-color); border: 1px solid var(--shadow-light); padding: 0.25rem 0.75rem; border-radius: 6px; cursor: pointer; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;';
+    copyBtn.setAttribute('type', 'button');
+    copyBtn.setAttribute('aria-label', 'Copy OTP code');
+    copyBtn.setAttribute('title', translations[currentLanguage].copyBtn);
+    copyBtn.textContent = 'COPY';
+    
     codeSection.appendChild(codeDisplay);
+    codeSection.appendChild(copyBtn);
     
-    const copySection = document.createElement('div');
-    copySection.className = 'otp-cell copy copy-btn';
-    copySection.setAttribute('role', 'button');
-    copySection.setAttribute('tabindex', '0');
-    copySection.setAttribute('aria-label', 'Copy OTP code');
-    copySection.setAttribute('title', translations[currentLanguage].copyBtn);
-    copySection.textContent = 'COPY';
-    
-    leftContent.appendChild(codeSection);
-    leftContent.appendChild(copySection);
-    leftCell.appendChild(leftContent);
-    
-    // Right Column (70%): SECRET KEY + TIME + COUNTDOWN + DELETE
-    const rightCell = document.createElement('div');
-    rightCell.className = 'otp-cell';
-    
-    const rightContent = document.createElement('div');
-    rightContent.className = 'otp-right-content';
-    rightContent.style.cssText = 'display: grid; grid-template-columns: 1fr auto auto; gap: 1rem; width: 100%; align-items: center;';
-    
-    // Secret key section
+    // Secret key + time section
     const secretSection = document.createElement('div');
-    secretSection.style.cssText = 'display: flex; flex-direction: column; gap: 0.5rem;';
+    secretSection.style.cssText = 'display: flex; flex-direction: column; gap: 0.5rem; flex: 1;';
     
     const secretDisplay = document.createElement('div');
     secretDisplay.className = 'otp-secret-display';
@@ -455,24 +444,24 @@ function createCard(entry, initialCode, waktuGenerate) {
     countdownSection.appendChild(countdownText);
     
     // Delete button
-    const deleteSection = document.createElement('div');
-    deleteSection.className = 'otp-cell close delete-row-btn';
-    deleteSection.setAttribute('role', 'button');
-    deleteSection.setAttribute('tabindex', '0');
-    deleteSection.setAttribute('aria-label', 'Delete this OTP entry');
-    deleteSection.setAttribute('title', translations[currentLanguage].deleteRowBtn);
-    deleteSection.setAttribute('data-translate-title', 'deleteRowBtn');
-    deleteSection.setAttribute('data-entry-id', entry.id);
-    deleteSection.textContent = '×';
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'delete-row-btn';
+    deleteBtn.style.cssText = 'background: none; border: none; font-size: 18px; font-weight: 700; color: var(--text-muted); cursor: pointer; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center;';
+    deleteBtn.setAttribute('type', 'button');
+    deleteBtn.setAttribute('aria-label', 'Delete this OTP entry');
+    deleteBtn.setAttribute('title', translations[currentLanguage].deleteRowBtn);
+    deleteBtn.setAttribute('data-translate-title', 'deleteRowBtn');
+    deleteBtn.setAttribute('data-entry-id', entry.id);
+    deleteBtn.textContent = '×';
     
-    rightContent.appendChild(secretSection);
-    rightContent.appendChild(countdownSection);
-    rightContent.appendChild(deleteSection);
-    rightCell.appendChild(rightContent);
+    // Assemble full cell
+    fullCell.appendChild(codeSection);
+    fullCell.appendChild(secretSection);
+    fullCell.appendChild(countdownSection);
+    fullCell.appendChild(deleteBtn);
     
     // Assemble bottom row
-    rowBottom.appendChild(leftCell);
-    rowBottom.appendChild(rightCell);
+    rowBottom.appendChild(fullCell);
     
     // Assemble container
     container.appendChild(rowTop);
@@ -481,8 +470,8 @@ function createCard(entry, initialCode, waktuGenerate) {
     // Save refs for updates
     entry.cardElement = container;
     entry.codeSpan = codeDisplay;
-    entry.timeCell = timeValueCell;
-    entry.timeMobileSpan = timeValueCell; // Same element for consistency
+    entry.timeCell = timeDisplay;
+    entry.timeMobileSpan = timeDisplay; // Same element for consistency
     entry.countdownText = countdownText;
     entry.countdownProgress = progressCircle;
     

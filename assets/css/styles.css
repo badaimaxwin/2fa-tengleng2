@@ -1061,10 +1061,10 @@ textarea:focus {
     background: var(--bg-color);
 }
 
-/* Row Bottom: Same as top - CODE (30%) | SECRET KEY (70%) */
+/* Row Bottom: Full width like textarea */
 .otp-row.bottom {
     display: grid;
-    grid-template-columns: 30% 70%;
+    grid-template-columns: 1fr;
 }
 
 .otp-cell {
