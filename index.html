@@ -250,7 +250,24 @@
                     <div id="clear-help">Clear all entered secret keys and generated codes</div>
                 </div>
                 <div class="overflow-hidden">
-                    <table class="w-full table-custom" id="tb" role="table" aria-label="Generated 2FA codes">
+                    <!-- Card-based layout for better mobile experience -->
+                    <div id="results-container" class="space-y-4">
+                        <!-- Placeholder content -->
+                        <div id="placeholder-content" class="flex flex-col items-center gap-6 py-12">
+                            <div class="w-20 h-20 bg-theme-input rounded-full flex items-center justify-center neumorphism-card">
+                                <svg class="w-10 h-10 text-theme-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                </svg>
+                            </div>
+                            <div class="text-center space-y-2">
+                                <p class="text-xl font-semibold text-theme-secondary" data-translate="placeholderText">Your 2FA codes will appear here</p>
+                                <p class="text-sm text-theme-muted" data-translate="placeholderSubtext">Enter your secret keys and click Generate</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Hidden table for backward compatibility -->
+                    <table class="w-full table-custom hidden" id="tb" role="table" aria-label="Generated 2FA codes">
                         <caption class="sr-only">Table showing generated 2FA codes with their secret keys and generation time</caption>
                         <thead>
                             <tr class="bg-gray-700/50 text-gray-300" role="row">

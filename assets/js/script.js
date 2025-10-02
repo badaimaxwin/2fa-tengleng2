@@ -346,6 +346,169 @@ function createCell(tag, className, text) {
     return el;
 }
 
+function createCard(entry, initialCode, waktuGenerate) {
+    // Create main card container
+    const card = document.createElement('div');
+    card.className = 'otp-card';
+    card.setAttribute('data-entry-id', entry.id);
+    
+    // Card header with actions
+    const header = document.createElement('div');
+    header.className = 'otp-card-header';
+    
+    // Delete button
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'delete-row-btn neumorphism-button-small text-gray-400 hover:text-red-400 transition-all duration-200 flex items-center justify-center w-8 h-8';
+    deleteBtn.setAttribute('type', 'button');
+    deleteBtn.setAttribute('aria-label', 'Delete this OTP entry');
+    deleteBtn.setAttribute('title', translations[currentLanguage].deleteRowBtn);
+    deleteBtn.setAttribute('data-translate-title', 'deleteRowBtn');
+    deleteBtn.setAttribute('data-entry-id', entry.id);
+    
+    const deleteIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    deleteIcon.setAttribute('class', 'w-4 h-4');
+    deleteIcon.setAttribute('fill', 'none');
+    deleteIcon.setAttribute('stroke', 'currentColor');
+    deleteIcon.setAttribute('viewBox', '0 0 24 24');
+    const deletePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    deletePath.setAttribute('stroke-linecap', 'round');
+    deletePath.setAttribute('stroke-linejoin', 'round');
+    deletePath.setAttribute('stroke-width', '2');
+    deletePath.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+    deleteIcon.appendChild(deletePath);
+    deleteBtn.appendChild(deleteIcon);
+    
+    // Actions container (copy button + countdown)
+    const actions = document.createElement('div');
+    actions.className = 'otp-actions';
+    
+    // Copy button
+    const copyBtn = document.createElement('button');
+    copyBtn.className = 'copy-button text-theme-primary px-4 py-2 text-sm font-bold copy-btn flex items-center gap-2 neumorphism-button';
+    copyBtn.setAttribute('type', 'button');
+    copyBtn.setAttribute('aria-label', 'Copy OTP code');
+    copyBtn.setAttribute('title', translations[currentLanguage].copyBtn);
+    
+    const copyIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    copyIcon.setAttribute('class', 'w-4 h-4');
+    copyIcon.setAttribute('fill', 'none');
+    copyIcon.setAttribute('stroke', 'currentColor');
+    copyIcon.setAttribute('viewBox', '0 0 24 24');
+    const copyPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    copyPath.setAttribute('stroke-linecap', 'round');
+    copyPath.setAttribute('stroke-linejoin', 'round');
+    copyPath.setAttribute('stroke-width', '2');
+    copyPath.setAttribute('d', 'M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z');
+    copyIcon.appendChild(copyPath);
+    
+    const copyText = document.createElement('span');
+    copyText.textContent = translations[currentLanguage].copyBtn;
+    copyBtn.appendChild(copyIcon);
+    copyBtn.appendChild(copyText);
+    
+    // Countdown circle
+    const countdownContainer = document.createElement('div');
+    countdownContainer.className = 'otp-countdown-circle';
+    
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', '48');
+    svg.setAttribute('height', '48');
+    svg.setAttribute('viewBox', '0 0 48 48');
+    
+    const bgCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    bgCircle.setAttribute('cx', '24');
+    bgCircle.setAttribute('cy', '24');
+    bgCircle.setAttribute('r', '20');
+    bgCircle.setAttribute('class', 'otp-countdown-bg');
+    
+    const progressCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    progressCircle.setAttribute('cx', '24');
+    progressCircle.setAttribute('cy', '24');
+    progressCircle.setAttribute('r', '20');
+    progressCircle.setAttribute('class', 'otp-countdown-progress');
+    progressCircle.setAttribute('stroke-dasharray', '125.6');
+    progressCircle.setAttribute('stroke-dashoffset', '0');
+    
+    svg.appendChild(bgCircle);
+    svg.appendChild(progressCircle);
+    
+    const countdownText = document.createElement('div');
+    countdownText.className = 'otp-countdown-text';
+    countdownText.textContent = '30';
+    
+    countdownContainer.appendChild(svg);
+    countdownContainer.appendChild(countdownText);
+    
+    actions.appendChild(copyBtn);
+    actions.appendChild(countdownContainer);
+    
+    header.appendChild(deleteBtn);
+    header.appendChild(actions);
+    
+    // Card body
+    const body = document.createElement('div');
+    body.className = 'otp-card-body';
+    
+    // OTP Code display
+    const codeDisplay = document.createElement('div');
+    codeDisplay.className = 'otp-code-display otp-code';
+    codeDisplay.textContent = initialCode || '------';
+    
+    // Meta information
+    const metaInfo = document.createElement('div');
+    metaInfo.className = 'otp-meta-info';
+    
+    // Secret key info
+    const secretInfo = document.createElement('div');
+    secretInfo.className = 'otp-secret-info';
+    
+    const secretLabel = document.createElement('div');
+    secretLabel.className = 'otp-secret-label';
+    secretLabel.textContent = translations[currentLanguage].secretKeyHeader || 'Secret Key';
+    
+    const secretValue = document.createElement('div');
+    secretValue.className = 'otp-secret-value';
+    secretValue.textContent = entry.secretDisplay || '';
+    
+    secretInfo.appendChild(secretLabel);
+    secretInfo.appendChild(secretValue);
+    
+    // Time info
+    const timeInfo = document.createElement('div');
+    timeInfo.className = 'otp-time-info';
+    
+    const timeLabel = document.createElement('div');
+    timeLabel.className = 'otp-time-label';
+    timeLabel.textContent = translations[currentLanguage].timeHeader || 'Generated';
+    
+    const timeValue = document.createElement('div');
+    timeValue.className = 'otp-time-value';
+    timeValue.textContent = waktuGenerate;
+    
+    timeInfo.appendChild(timeLabel);
+    timeInfo.appendChild(timeValue);
+    
+    metaInfo.appendChild(secretInfo);
+    metaInfo.appendChild(timeInfo);
+    
+    body.appendChild(codeDisplay);
+    body.appendChild(metaInfo);
+    
+    card.appendChild(header);
+    card.appendChild(body);
+    
+    // Save refs for updates
+    entry.cardElement = card;
+    entry.codeSpan = codeDisplay;
+    entry.timeCell = timeValue;
+    entry.timeMobileSpan = timeValue; // Same element for consistency
+    entry.countdownText = countdownText;
+    entry.countdownProgress = progressCircle;
+    
+    return card;
+}
+
+// Keep the old createRow function for backward compatibility
 function createRow(entry, initialCode, waktuGenerate) {
     const tr = document.createElement('tr');
     tr.className = 'ttrr bg-gray-800 hover:bg-gray-700 transition-all duration-300 border-b border-gray-600';
@@ -438,15 +601,36 @@ function createRow(entry, initialCode, waktuGenerate) {
 }
 
 function removePlaceholderIfPresent() {
+    const placeholderContent = document.getElementById('placeholder-content');
+    if (placeholderContent) {
+        placeholderContent.remove();
+    }
+    
+    // Also remove old table placeholder for backward compatibility
     const placeholderRow = document.querySelector('#tb tbody tr td[colspan="3"]');
     if (placeholderRow) {
         placeholderRow.parentElement.remove();
     }
 }
 
+function insertCardAtTop(card) {
+    const container = document.getElementById('results-container');
+    container.insertAdjacentElement('afterbegin', card);
+}
+
 function insertRowAtTop(tr) {
     const tbody = document.querySelector('#tb tbody');
     tbody.insertAdjacentElement('afterbegin', tr);
+}
+
+function limitCardsTo(max) {
+    const cards = document.querySelectorAll('#results-container .otp-card');
+    if (cards.length > max) {
+        for (let i = max; i < cards.length; i++) {
+            const card = cards[i];
+            card.remove();
+        }
+    }
 }
 
 function limitRowsTo(max) {
@@ -511,6 +695,13 @@ function updateCountdownDisplays() {
         if (e.countdownText) {
             const secs = Math.ceil(remainingMs / 1000);
             e.countdownText.textContent = `${secs}`;
+        }
+        
+        // Update circular progress for card layout
+        if (e.countdownProgress) {
+            const circumference = 125.6; // 2 * π * 20
+            const offset = circumference * (1 - frac);
+            e.countdownProgress.setAttribute('stroke-dashoffset', offset);
         }
     }
 }
@@ -602,20 +793,20 @@ async function run() {
             }
 
             const waktuGenerate = formatDateTime(now);
-            const row = createRow(entry, code, waktuGenerate);
+            const card = createCard(entry, code, waktuGenerate);
 
             removePlaceholderIfPresent();
-            insertRowAtTop(row);
+            insertCardAtTop(card);
             successCount++;
 
             activeEntries.push(entry);
         }
 
-        limitRowsTo(10);
-        // Remove entries whose rows were removed from DOM (e.g., limit to 10)
+        limitCardsTo(10);
+        // Remove entries whose cards were removed from DOM (e.g., limit to 10)
         for (let i = activeEntries.length - 1; i >= 0; i--) {
-            const r = activeEntries[i].rowElement;
-            if (!r || !r.isConnected) {
+            const c = activeEntries[i].cardElement;
+            if (!c || !c.isConnected) {
                 activeEntries.splice(i, 1);
             }
         }
@@ -679,7 +870,10 @@ function updateTableVisibility() {
 }
 
 function qk() {
-    // HANYA hapus hasil generate, JANGAN hapus textarea
+    // Clear all cards
+    document.querySelectorAll(".otp-card").forEach(card => card.remove());
+    
+    // Clear old table rows for backward compatibility
     document.querySelectorAll(".ttrr").forEach(row => row.remove());
     
     const showMoreRow = document.getElementById("show-more-row");
@@ -687,6 +881,23 @@ function qk() {
         showMoreRow.remove();
     }
     
+    // Restore placeholder content
+    const container = document.getElementById('results-container');
+    container.innerHTML = `
+        <div id="placeholder-content" class="flex flex-col items-center gap-6 py-12">
+            <div class="w-20 h-20 bg-theme-input rounded-full flex items-center justify-center neumorphism-card">
+                <svg class="w-10 h-10 text-theme-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+            </div>
+            <div class="text-center space-y-2">
+                <p class="text-xl font-semibold text-theme-secondary" data-translate="placeholderText">${translations[currentLanguage].placeholderText}</p>
+                <p class="text-sm text-theme-muted" data-translate="placeholderSubtext">${translations[currentLanguage].placeholderSubtext}</p>
+            </div>
+        </div>
+    `;
+    
+    // Also restore table placeholder for backward compatibility
     document.querySelector("#tb tbody").innerHTML = `
         <tr>
             <td colspan="3" class="px-4 py-8 text-center text-theme-muted">
@@ -710,41 +921,40 @@ function qk() {
         clearTimeout(refreshTimeout);
         refreshTimeout = null;
     }
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null;
+    }
 }
 
 // Copy to clipboard functionality, show more button, and delete row
 document.addEventListener('click', function(e) {
-    // Handle delete row button
+    // Handle delete button (works for both card and row)
     const deleteBtn = e.target.closest('.delete-row-btn');
     if (deleteBtn) {
         e.preventDefault();
         const entryId = deleteBtn.getAttribute('data-entry-id');
+        const card = deleteBtn.closest('.otp-card');
         const row = deleteBtn.closest('tr');
         
-        if (row && entryId) {
+        if ((card || row) && entryId) {
             // Remove from activeEntries array by ID
             const entryIndex = activeEntries.findIndex(entry => entry.id == entryId);
             if (entryIndex >= 0) {
                 activeEntries.splice(entryIndex, 1);
             }
             
-            // Remove row with animation
-            row.style.opacity = '0';
-            row.style.transform = 'translateX(-100%)';
+            // Remove card or row with animation
+            const element = card || row;
+            element.style.opacity = '0';
+            element.style.transform = 'translateX(-100%)';
             setTimeout(() => {
-                row.remove();
+                element.remove();
                 updateTableVisibility();
                 
-                // Stop refresh if no entries left
+                // Restore placeholder if no entries left
                 if (activeEntries.length === 0) {
-                    if (refreshTimeout) {
-                        clearTimeout(refreshTimeout);
-                        refreshTimeout = null;
-                    }
-                    if (countdownInterval) {
-                        clearInterval(countdownInterval);
-                        countdownInterval = null;
-                    }
+                    qk(); // This will restore placeholder and stop timers
                 }
             }, 300);
         }
@@ -755,8 +965,9 @@ document.addEventListener('click', function(e) {
     const copyBtn = e.target.closest('.copy-btn');
     if (copyBtn) {
         e.preventDefault();
+        const card = copyBtn.closest('.otp-card');
         const row = copyBtn.closest('tr');
-        const codeEl = row ? row.querySelector('.otp-code') : null;
+        const codeEl = (card || row) ? (card || row).querySelector('.otp-code') : null;
         const code = codeEl ? codeEl.textContent : copyBtn.getAttribute('data-code');
         if (navigator.clipboard && window.isSecureContext) {
             navigator.clipboard.writeText(code).then(function() {
