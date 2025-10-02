@@ -347,83 +347,80 @@ function createCell(tag, className, text) {
 }
 
 function createCard(entry, initialCode, waktuGenerate) {
-    // Create main card container
+    // Create main card container with new custom layout
     const card = document.createElement('div');
-    card.className = 'otp-card';
+    card.className = 'otp-card-custom';
     card.setAttribute('data-entry-id', entry.id);
     
-    // Card header with actions
-    const header = document.createElement('div');
-    header.className = 'otp-card-header';
+    // Header row: CODE | SECRET KEY
+    const headerRow = document.createElement('div');
+    headerRow.className = 'otp-header-row';
     
-    // Delete button
-    const deleteBtn = document.createElement('button');
-    deleteBtn.className = 'delete-row-btn neumorphism-button-small text-gray-400 hover:text-red-400 transition-all duration-200 flex items-center justify-center w-8 h-8';
-    deleteBtn.setAttribute('type', 'button');
-    deleteBtn.setAttribute('aria-label', 'Delete this OTP entry');
-    deleteBtn.setAttribute('title', translations[currentLanguage].deleteRowBtn);
-    deleteBtn.setAttribute('data-translate-title', 'deleteRowBtn');
-    deleteBtn.setAttribute('data-entry-id', entry.id);
+    const codeHeader = document.createElement('div');
+    codeHeader.className = 'otp-header-left';
+    codeHeader.textContent = translations[currentLanguage].codeHeader || 'CODE';
     
-    const deleteIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    deleteIcon.setAttribute('class', 'w-4 h-4');
-    deleteIcon.setAttribute('fill', 'none');
-    deleteIcon.setAttribute('stroke', 'currentColor');
-    deleteIcon.setAttribute('viewBox', '0 0 24 24');
-    const deletePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    deletePath.setAttribute('stroke-linecap', 'round');
-    deletePath.setAttribute('stroke-linejoin', 'round');
-    deletePath.setAttribute('stroke-width', '2');
-    deletePath.setAttribute('d', 'M6 18L18 6M6 6l12 12');
-    deleteIcon.appendChild(deletePath);
-    deleteBtn.appendChild(deleteIcon);
+    const secretHeader = document.createElement('div');
+    secretHeader.className = 'otp-header-right';
+    secretHeader.textContent = translations[currentLanguage].secretKeyHeader || 'SECRET KEY';
     
-    // Actions container (copy button + countdown)
-    const actions = document.createElement('div');
-    actions.className = 'otp-actions';
+    headerRow.appendChild(codeHeader);
+    headerRow.appendChild(secretHeader);
     
-    // Copy button
+    // Content row with 4 sections
+    const contentRow = document.createElement('div');
+    contentRow.className = 'otp-content-row';
+    
+    // Section 1: CODE OTP + COPY (left)
+    const codeSection = document.createElement('div');
+    codeSection.className = 'otp-code-section';
+    
+    const codeLabel = document.createElement('div');
+    codeLabel.className = 'otp-section-label';
+    codeLabel.textContent = 'CODE OTP';
+    
+    const codeDisplay = document.createElement('div');
+    codeDisplay.className = 'otp-code-display otp-code';
+    codeDisplay.textContent = initialCode || '------';
+    
     const copyBtn = document.createElement('button');
-    copyBtn.className = 'copy-button text-theme-primary px-4 py-2 text-sm font-bold copy-btn flex items-center gap-2 neumorphism-button';
+    copyBtn.className = 'otp-copy-btn copy-btn neumorphism-button';
     copyBtn.setAttribute('type', 'button');
     copyBtn.setAttribute('aria-label', 'Copy OTP code');
     copyBtn.setAttribute('title', translations[currentLanguage].copyBtn);
+    copyBtn.textContent = 'COPY';
     
-    const copyIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    copyIcon.setAttribute('class', 'w-4 h-4');
-    copyIcon.setAttribute('fill', 'none');
-    copyIcon.setAttribute('stroke', 'currentColor');
-    copyIcon.setAttribute('viewBox', '0 0 24 24');
-    const copyPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-    copyPath.setAttribute('stroke-linecap', 'round');
-    copyPath.setAttribute('stroke-linejoin', 'round');
-    copyPath.setAttribute('stroke-width', '2');
-    copyPath.setAttribute('d', 'M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z');
-    copyIcon.appendChild(copyPath);
+    codeSection.appendChild(codeLabel);
+    codeSection.appendChild(codeDisplay);
+    codeSection.appendChild(copyBtn);
     
-    const copyText = document.createElement('span');
-    copyText.textContent = translations[currentLanguage].copyBtn;
-    copyBtn.appendChild(copyIcon);
-    copyBtn.appendChild(copyText);
+    // Section 2: COUNT DOWN (narrow vertical)
+    const countdownSection = document.createElement('div');
+    countdownSection.className = 'otp-countdown-section';
     
-    // Countdown circle
-    const countdownContainer = document.createElement('div');
-    countdownContainer.className = 'otp-countdown-circle';
+    const countdownLabel = document.createElement('div');
+    countdownLabel.className = 'otp-countdown-label';
+    countdownLabel.textContent = 'COUNT DOWN';
     
+    const countdownDisplay = document.createElement('div');
+    countdownDisplay.className = 'otp-countdown-display';
+    
+    // Circular countdown
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('width', '48');
-    svg.setAttribute('height', '48');
-    svg.setAttribute('viewBox', '0 0 48 48');
+    svg.setAttribute('width', '50');
+    svg.setAttribute('height', '50');
+    svg.setAttribute('viewBox', '0 0 50 50');
+    svg.className = 'otp-countdown-circle';
     
     const bgCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    bgCircle.setAttribute('cx', '24');
-    bgCircle.setAttribute('cy', '24');
+    bgCircle.setAttribute('cx', '25');
+    bgCircle.setAttribute('cy', '25');
     bgCircle.setAttribute('r', '20');
     bgCircle.setAttribute('class', 'otp-countdown-bg');
     
     const progressCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    progressCircle.setAttribute('cx', '24');
-    progressCircle.setAttribute('cy', '24');
+    progressCircle.setAttribute('cx', '25');
+    progressCircle.setAttribute('cy', '25');
     progressCircle.setAttribute('r', '20');
     progressCircle.setAttribute('class', 'otp-countdown-progress');
     progressCircle.setAttribute('stroke-dasharray', '125.6');
@@ -436,66 +433,73 @@ function createCard(entry, initialCode, waktuGenerate) {
     countdownText.className = 'otp-countdown-text';
     countdownText.textContent = '30';
     
-    countdownContainer.appendChild(svg);
-    countdownContainer.appendChild(countdownText);
+    countdownDisplay.appendChild(svg);
+    countdownDisplay.appendChild(countdownText);
     
-    actions.appendChild(copyBtn);
-    actions.appendChild(countdownContainer);
+    countdownSection.appendChild(countdownLabel);
+    countdownSection.appendChild(countdownDisplay);
     
-    header.appendChild(deleteBtn);
-    header.appendChild(actions);
+    // Section 3: KEY section (large middle)
+    const keySection = document.createElement('div');
+    keySection.className = 'otp-key-section';
     
-    // Card body
-    const body = document.createElement('div');
-    body.className = 'otp-card-body';
+    const keyLabel = document.createElement('div');
+    keyLabel.className = 'otp-section-label';
+    keyLabel.textContent = 'KEY';
     
-    // OTP Code display
-    const codeDisplay = document.createElement('div');
-    codeDisplay.className = 'otp-code-display otp-code';
-    codeDisplay.textContent = initialCode || '------';
+    const keyContent = document.createElement('div');
+    keyContent.className = 'otp-key-content';
     
-    // Meta information
-    const metaInfo = document.createElement('div');
-    metaInfo.className = 'otp-meta-info';
-    
-    // Secret key info
-    const secretInfo = document.createElement('div');
-    secretInfo.className = 'otp-secret-info';
-    
-    const secretLabel = document.createElement('div');
-    secretLabel.className = 'otp-secret-label';
-    secretLabel.textContent = translations[currentLanguage].secretKeyHeader || 'Secret Key';
-    
+    // Secret key display
     const secretValue = document.createElement('div');
-    secretValue.className = 'otp-secret-value';
+    secretValue.className = 'otp-secret-display';
     secretValue.textContent = entry.secretDisplay || '';
     
-    secretInfo.appendChild(secretLabel);
-    secretInfo.appendChild(secretValue);
-    
-    // Time info
-    const timeInfo = document.createElement('div');
-    timeInfo.className = 'otp-time-info';
+    // Time section (bottom of key section)
+    const timeSection = document.createElement('div');
+    timeSection.className = 'otp-time-section';
     
     const timeLabel = document.createElement('div');
     timeLabel.className = 'otp-time-label';
-    timeLabel.textContent = translations[currentLanguage].timeHeader || 'Generated';
+    timeLabel.textContent = 'Time Generated';
     
     const timeValue = document.createElement('div');
     timeValue.className = 'otp-time-value';
     timeValue.textContent = waktuGenerate;
     
-    timeInfo.appendChild(timeLabel);
-    timeInfo.appendChild(timeValue);
+    timeSection.appendChild(timeLabel);
+    timeSection.appendChild(timeValue);
     
-    metaInfo.appendChild(secretInfo);
-    metaInfo.appendChild(timeInfo);
+    keyContent.appendChild(secretValue);
+    keyContent.appendChild(timeSection);
     
-    body.appendChild(codeDisplay);
-    body.appendChild(metaInfo);
+    keySection.appendChild(keyLabel);
+    keySection.appendChild(keyContent);
     
-    card.appendChild(header);
-    card.appendChild(body);
+    // Section 4: Delete button (right)
+    const deleteSection = document.createElement('div');
+    deleteSection.className = 'otp-delete-section';
+    
+    const deleteBtn = document.createElement('button');
+    deleteBtn.className = 'otp-delete-btn delete-row-btn neumorphism-button-small';
+    deleteBtn.setAttribute('type', 'button');
+    deleteBtn.setAttribute('aria-label', 'Delete this OTP entry');
+    deleteBtn.setAttribute('title', translations[currentLanguage].deleteRowBtn);
+    deleteBtn.setAttribute('data-translate-title', 'deleteRowBtn');
+    deleteBtn.setAttribute('data-entry-id', entry.id);
+    deleteBtn.textContent = '×';
+    
+    deleteSection.appendChild(deleteBtn);
+    
+    // Assemble content row
+    contentRow.appendChild(codeSection);
+    contentRow.appendChild(countdownSection);
+    contentRow.appendChild(keySection);
+    contentRow.appendChild(deleteSection);
+    
+    // Assemble card
+    card.appendChild(headerRow);
+    card.appendChild(contentRow);
     
     // Save refs for updates
     entry.cardElement = card;
@@ -624,7 +628,7 @@ function insertRowAtTop(tr) {
 }
 
 function limitCardsTo(max) {
-    const cards = document.querySelectorAll('#results-container .otp-card');
+    const cards = document.querySelectorAll('#results-container .otp-card-custom, #results-container .otp-card');
     if (cards.length > max) {
         for (let i = max; i < cards.length; i++) {
             const card = cards[i];
@@ -870,8 +874,8 @@ function updateTableVisibility() {
 }
 
 function qk() {
-    // Clear all cards
-    document.querySelectorAll(".otp-card").forEach(card => card.remove());
+    // Clear all cards (both old and new)
+    document.querySelectorAll(".otp-card, .otp-card-custom").forEach(card => card.remove());
     
     // Clear old table rows for backward compatibility
     document.querySelectorAll(".ttrr").forEach(row => row.remove());
@@ -934,7 +938,7 @@ document.addEventListener('click', function(e) {
     if (deleteBtn) {
         e.preventDefault();
         const entryId = deleteBtn.getAttribute('data-entry-id');
-        const card = deleteBtn.closest('.otp-card');
+        const card = deleteBtn.closest('.otp-card-custom') || deleteBtn.closest('.otp-card');
         const row = deleteBtn.closest('tr');
         
         if ((card || row) && entryId) {
@@ -965,7 +969,7 @@ document.addEventListener('click', function(e) {
     const copyBtn = e.target.closest('.copy-btn');
     if (copyBtn) {
         e.preventDefault();
-        const card = copyBtn.closest('.otp-card');
+        const card = copyBtn.closest('.otp-card-custom') || copyBtn.closest('.otp-card');
         const row = copyBtn.closest('tr');
         const codeEl = (card || row) ? (card || row).querySelector('.otp-code') : null;
         const code = codeEl ? codeEl.textContent : copyBtn.getAttribute('data-code');
