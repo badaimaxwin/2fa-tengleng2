@@ -1028,10 +1028,8 @@ textarea:focus {
 
 /* OTP Container - Following HTML Structure */
 .otp-container {
-    border: 1px solid var(--shadow-light);
     width: 100%;
     max-width: 600px;
-    border-collapse: collapse;
     display: grid;
     grid-template-rows: auto auto;
     background: var(--surface-color);
@@ -1054,41 +1052,33 @@ textarea:focus {
 
 .otp-row {
     display: grid;
-    border-bottom: 1px solid var(--shadow-light);
-    box-sizing: border-box;
-}
-
-.otp-row:last-child {
-    border-bottom: none;
 }
 
 /* Row Top: CODE (30%) | SECRET KEY (70%) */
 .otp-row.top {
+    display: grid;
     grid-template-columns: 30% 70%;
     background: var(--bg-color);
 }
 
 /* Row Bottom: CODE+COPY (20%) | COUNTDOWN (10%) | KEY (60%) | X (10%) */
 .otp-row.bottom {
+    display: grid;
     grid-template-columns: 20% 10% 60% 10%;
 }
 
 .otp-cell {
-    border-right: 1px solid var(--shadow-light);
+    border: 1px solid var(--shadow-light);
+    box-sizing: border-box;
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     padding: 12px;
     text-align: center;
     font-size: 14px;
     font-weight: 600;
     color: var(--text-primary);
     position: relative;
-    box-sizing: border-box;
-}
-
-.otp-cell:last-child {
-    border-right: none;
 }
 
 /* Left Column: CODE + COPY */
@@ -1102,7 +1092,6 @@ textarea:focus {
     flex-direction: column;
     gap: 0;
     justify-content: center;
-    box-sizing: border-box;
 }
 
 .otp-code-display {
@@ -1118,14 +1107,12 @@ textarea:focus {
 }
 
 .otp-col-left .copy {
-    border-top: 1px solid var(--shadow-light);
     background: var(--bg-color);
     cursor: pointer;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     transition: all 0.2s ease;
-    box-sizing: border-box;
 }
 
 .otp-col-left .copy:hover {
@@ -1139,7 +1126,6 @@ textarea:focus {
     flex-direction: column;
     gap: 0;
     justify-content: center;
-    box-sizing: border-box;
 }
 
 .countdown-display {
@@ -1147,7 +1133,6 @@ textarea:focus {
     display: flex;
     align-items: center;
     justify-content: center;
-    box-sizing: border-box;
 }
 
 .otp-countdown-text {
@@ -1165,7 +1150,6 @@ textarea:focus {
 .otp-col-center {
     display: grid;
     grid-template-rows: 1fr auto;
-    box-sizing: border-box;
 }
 
 .otp-col-center .otp-cell {
@@ -1174,7 +1158,6 @@ textarea:focus {
     align-items: flex-start;
     text-align: left;
     justify-content: center;
-    box-sizing: border-box;
 }
 
 .otp-secret-display {
@@ -1194,20 +1177,12 @@ textarea:focus {
 .otp-col-center-bottom {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    border-top: 1px solid var(--shadow-light);
-    box-sizing: border-box;
 }
 
 .otp-col-center-bottom .otp-cell {
-    border-right: 1px solid var(--shadow-light);
     font-size: 11px;
     padding: 8px;
     background: var(--bg-color);
-    box-sizing: border-box;
-}
-
-.otp-col-center-bottom .otp-cell:last-child {
-    border-right: none;
 }
 
 /* Close Button */
@@ -1217,7 +1192,6 @@ textarea:focus {
     color: var(--text-muted);
     cursor: pointer;
     transition: all 0.2s ease;
-    box-sizing: border-box;
 }
 
 .otp-cell.close:hover {
@@ -1385,11 +1359,7 @@ textarea:focus {
 }
 
 [data-theme="light"] .otp-cell {
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-[data-theme="light"] .otp-row {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 [data-theme="light"] .otp-code-display,
@@ -1401,11 +1371,6 @@ textarea:focus {
 [data-theme="light"] .otp-col-left .copy,
 [data-theme="light"] .otp-col-center-bottom .otp-cell {
     background: rgba(248, 250, 252, 0.8);
-    border-top: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-[data-theme="light"] .otp-col-center-bottom .otp-cell {
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 [data-theme="light"] .otp-countdown-bg {
