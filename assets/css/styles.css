@@ -1042,6 +1042,7 @@ textarea:focus {
         6px 6px 12px var(--shadow-dark),
         -6px -6px 12px var(--shadow-light);
     transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
 .otp-container:hover {
@@ -1054,19 +1055,22 @@ textarea:focus {
 .otp-row {
     display: grid;
     border-bottom: 1px solid var(--shadow-light);
+    box-sizing: border-box;
 }
 
 .otp-row:last-child {
     border-bottom: none;
 }
 
+/* Row Top: CODE (30%) | SECRET KEY (70%) */
 .otp-row.top {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 30% 70%;
     background: var(--bg-color);
 }
 
+/* Row Bottom: CODE+COPY (20%) | COUNTDOWN (10%) | KEY (60%) | X (10%) */
 .otp-row.bottom {
-    grid-template-columns: 1fr 0.6fr 2fr 0.4fr;
+    grid-template-columns: 20% 10% 60% 10%;
 }
 
 .otp-cell {
@@ -1080,6 +1084,7 @@ textarea:focus {
     font-weight: 600;
     color: var(--text-primary);
     position: relative;
+    box-sizing: border-box;
 }
 
 .otp-cell:last-child {
@@ -1090,12 +1095,14 @@ textarea:focus {
 .otp-col-left {
     display: grid;
     grid-template-rows: 1fr auto;
+    box-sizing: border-box;
 }
 
 .otp-col-left .otp-cell {
     flex-direction: column;
     gap: 0;
     justify-content: center;
+    box-sizing: border-box;
 }
 
 .otp-code-display {
@@ -1107,6 +1114,7 @@ textarea:focus {
     padding: 8px 12px;
     border-radius: 6px;
     border: 1px solid var(--shadow-light);
+    box-sizing: border-box;
 }
 
 .otp-col-left .copy {
@@ -1117,6 +1125,7 @@ textarea:focus {
     text-transform: uppercase;
     letter-spacing: 0.5px;
     transition: all 0.2s ease;
+    box-sizing: border-box;
 }
 
 .otp-col-left .copy:hover {
@@ -1130,6 +1139,7 @@ textarea:focus {
     flex-direction: column;
     gap: 0;
     justify-content: center;
+    box-sizing: border-box;
 }
 
 .countdown-display {
@@ -1137,6 +1147,7 @@ textarea:focus {
     display: flex;
     align-items: center;
     justify-content: center;
+    box-sizing: border-box;
 }
 
 .otp-countdown-text {
@@ -1154,6 +1165,7 @@ textarea:focus {
 .otp-col-center {
     display: grid;
     grid-template-rows: 1fr auto;
+    box-sizing: border-box;
 }
 
 .otp-col-center .otp-cell {
@@ -1162,6 +1174,7 @@ textarea:focus {
     align-items: flex-start;
     text-align: left;
     justify-content: center;
+    box-sizing: border-box;
 }
 
 .otp-secret-display {
@@ -1175,12 +1188,14 @@ textarea:focus {
     word-break: break-all;
     line-height: 1.3;
     width: 100%;
+    box-sizing: border-box;
 }
 
 .otp-col-center-bottom {
     display: grid;
     grid-template-columns: 1fr 1fr;
     border-top: 1px solid var(--shadow-light);
+    box-sizing: border-box;
 }
 
 .otp-col-center-bottom .otp-cell {
@@ -1188,6 +1203,7 @@ textarea:focus {
     font-size: 11px;
     padding: 8px;
     background: var(--bg-color);
+    box-sizing: border-box;
 }
 
 .otp-col-center-bottom .otp-cell:last-child {
@@ -1201,6 +1217,7 @@ textarea:focus {
     color: var(--text-muted);
     cursor: pointer;
     transition: all 0.2s ease;
+    box-sizing: border-box;
 }
 
 .otp-cell.close:hover {
@@ -1442,6 +1459,11 @@ textarea:focus {
     .otp-container {
         max-width: 100%;
         margin: 0 0 1rem 0;
+    }
+    
+    /* Keep top row proportions on mobile */
+    .otp-row.top {
+        grid-template-columns: 30% 70%;
     }
     
     .otp-row.bottom {
